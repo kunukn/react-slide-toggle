@@ -8,10 +8,6 @@ import React from 'react';
 //import PropTypes from 'prop-types';
 import eases from 'eases';
 
-if (!window.eases) {
-  window.eases = eases;
-}
-
 const log = console.log.bind(console);
 const warn = console.warn.bind(console);
 
