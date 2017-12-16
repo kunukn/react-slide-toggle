@@ -1,9 +1,19 @@
+/*
+  _state_ is used to minimize expensive re-renderings.
+  We don't want to update the state for every requestAnimationFrame
+  this.state is updated on toggle state change, used easing and duration.
+*/
+
 import React from 'react';
 //import PropTypes from 'prop-types';
 import eases from 'eases';
 
+if (!window.eases) {
+  window.eases = eases;
+}
+
 const log = console.log.bind(console);
-//log(Object.keys(eases));
+const warn = console.warn.bind(console);
 
 const rAF = window.requestAnimationFrame
   ? window.requestAnimationFrame.bind(window)
@@ -37,18 +47,26 @@ class SlideToggle extends React.Component {
     }
 
     this.setDuration(this.props.duration);
-    this.setEaseFunction(this.props.ease);
+    const easeName = this.setEaseFunction(this.props.ease);
 
     this.state = {
       toggleState: this._state_.toggleState,
       duration: this._state_.duration,
+      easeName,
     };
   }
 
   setCollapsibleElement = element => {
+    if (!element) {
+      warn('no element in setCollapsibleElement');
+    }
     this._state_.collasibleElement = element || null;
-    if (element && this._state_.toggleState === TOGGLE.COLLAPSED) {
-      this.setCollapsedState();
+    if (element) {
+      if (this._state_.toggleState === TOGGLE.COLLAPSED) {
+        this.setCollapsedState();
+      } else if (this._state_.toggleState === TOGGLE.EXPANDED) {
+        this.setExpandedState();
+      }
     }
   };
 
@@ -88,8 +106,10 @@ class SlideToggle extends React.Component {
   setEaseFunction = ease => {
     if (typeof ease === 'string') {
       this._state_.ease = eases[ease];
+      return ease;
     } else if (typeof ease === 'function') {
       this._state_.ease = ease;
+      return 'custom function';
     }
   };
 
@@ -103,7 +123,7 @@ class SlideToggle extends React.Component {
 
   collapse = () => {
     if (!this._state_.collasibleElement) {
-      log('no collasibleElement');
+      warn('no collapsibleElement');
       return;
     }
 
@@ -134,7 +154,7 @@ class SlideToggle extends React.Component {
 
   expand = () => {
     if (!this._state_.collasibleElement) {
-      log('no boxElement');
+      warn('no collapsibleElement');
       return;
     }
 
@@ -162,7 +182,8 @@ class SlideToggle extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.ease !== this.props.ease) {
-      this.setEaseFunction(nextProps.ease);
+      const easeName = this.setEaseFunction(nextProps.ease);
+      this.setState({ easeName });
     }
     if (nextProps.duration !== this.props.duration) {
       this.setDuration(nextProps.duration);

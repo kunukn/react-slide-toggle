@@ -14,6 +14,11 @@ body {
   box-shadow: none;
   border-radius: 2px; }
 
+.ease-names span {
+  background: #eee;
+  display: inline-block;
+  margin-right: .5em; }
+
 .slide-toggle {
   outline: 1px solid black;
   max-width: 800px;

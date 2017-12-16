@@ -1,5 +1,16 @@
 import React from 'react';
-import { SlideToggle } from './ReactSlideToggle';
+import { SlideToggle } from 'library/ReactSlideToggle';
+import eases from 'eases';
+
+//const log = console.log.bind(console);
+//log(Object.keys(eases));
+
+const easeNames = Object.keys(eases);
+
+const getRandomEaseName = () => {
+  const index = Math.floor(Math.random() * easeNames.length);
+  return easeNames[index];
+};
 
 class App extends React.Component {
   state = { duration: 400 };
@@ -11,8 +22,8 @@ class App extends React.Component {
         <SlideToggle
           key={i}
           duration={this.state.duration}
-          ease="quartInOut"
-          toggleState={Math.random() > .5 ? "collapsed" : "expanded"}
+          ease={getRandomEaseName()}
+          toggleState={Math.random() > 0.5 ? 'collapsed' : 'expanded'}
           render={({ onToggle, setCollasibleElement, state }) => (
             <div className="slide-toggle">
               <div className="slide-toggle__header">
@@ -53,8 +64,12 @@ class App extends React.Component {
             this.setState({ duration: ~~(Math.random() * 800 + 200) });
           }}
         >
-          change
+          Randomize
         </button>
+        <div className="ease-names">
+          <div>Ease names ({easeNames.length}):</div>
+          {easeNames.map((name, index) => <span key={index}>{name} </span>)}
+        </div>
         {components}
       </div>
     );
