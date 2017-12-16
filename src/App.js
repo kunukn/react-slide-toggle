@@ -1,25 +1,27 @@
 import React from 'react';
-import {SlideToggle} from './ReactSlideToggle';
+import { SlideToggle } from './ReactSlideToggle';
 
 class App extends React.Component {
   state = { duration: 300 };
 
   render() {
-    const toggleBoxes = [];
+    const components = [];
     for (let i = 0; i < 10; i++) {
-      toggleBoxes.push(
+      components.push(
         <SlideToggle
           key={i}
           duration={this.state.duration}
           ease="quartInOut"
           toggleState="COLLAPSED"
           render={({ onToggle, setBoxElement, state }) => (
-            <div className="togglebox">
-              <div className="togglebox__toggle">
-                <button onClick={onToggle}>toggle</button>
+            <div className="slide-toggle">
+              <div className="slide-toggle__header">
+                <button className="slide-toggle__button" onClick={onToggle}>
+                  toggle
+                </button>
               </div>
-              <div className="togglebox__box" ref={setBoxElement}>
-                <div className="togglebox__box-inner">
+              <div className="slide-toggle__box" ref={setBoxElement}>
+                <div className="slide-toggle__box-inner">
                   Lorem Ipsum is simply dummy text of the printing and
                   typesetting industry. Lorem Ipsum has been the industry's
                   standard dummy text ever since the 1500s, when an unknown
@@ -46,13 +48,14 @@ class App extends React.Component {
     return (
       <div className="app">
         <button
+          className="app__button"
           onClick={() => {
             this.setState({ duration: ~~(Math.random() * 800 + 200) });
           }}
         >
           change
         </button>
-        {toggleBoxes}
+        {components}
       </div>
     );
   }
