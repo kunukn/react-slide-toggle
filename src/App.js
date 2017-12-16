@@ -2,7 +2,7 @@ import React from 'react';
 import { SlideToggle } from './ReactSlideToggle';
 
 class App extends React.Component {
-  state = { duration: 300 };
+  state = { duration: 400 };
 
   render() {
     const components = [];
@@ -12,15 +12,15 @@ class App extends React.Component {
           key={i}
           duration={this.state.duration}
           ease="quartInOut"
-          toggleState="COLLAPSED"
-          render={({ onToggle, setBoxElement, state }) => (
+          toggleState={Math.random() > .5 ? "collapsed" : "expanded"}
+          render={({ onToggle, setCollasibleElement, state }) => (
             <div className="slide-toggle">
               <div className="slide-toggle__header">
                 <button className="slide-toggle__button" onClick={onToggle}>
                   toggle
                 </button>
               </div>
-              <div className="slide-toggle__box" ref={setBoxElement}>
+              <div className="slide-toggle__box" ref={setCollasibleElement}>
                 <div className="slide-toggle__box-inner">
                   Lorem Ipsum is simply dummy text of the printing and
                   typesetting industry. Lorem Ipsum has been the industry's
