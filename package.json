@@ -1,9 +1,8 @@
 {
   "name": "react-slide-toggle",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "dependencies": {
-    "eases": "^1.0.8",
-    "prop-types": "^15.6.0"
+    "eases": "^1.0.8"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -24,7 +23,8 @@
     "node-sass-chokidar": "^0.0.3",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-scripts": "1.0.17"
+    "react-scripts": "1.0.17",
+    "prop-types": "^15.6.0"
   },
   "repository": {
     "type": "git",
