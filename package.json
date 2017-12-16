@@ -1,11 +1,8 @@
 {
   "name": "react-slide-toggle",
   "version": "0.0.1",
-  "private": true,
   "dependencies": {
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-scripts": "1.0.17"
+    "eases": "^1.0.8"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -13,9 +10,18 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "description": "This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).",
-  "main": "dist/main.js",
-  "devDependencies": {},
+  "description": "React component version of jQuery.slideToggle",
+  "main": "dist/ReactSlideToggle.cjs.js",
+  "module": "dist/ReactSlideToggle.esm.js",
+  "browser": "dist/ReactSlideToggle.umd.js",
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-scripts": "1.0.17"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kunukn/react-slide-toggle.git"
