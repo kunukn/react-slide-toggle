@@ -1,9 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+//import PropTypes from 'prop-types';
 import eases from 'eases';
 
 const log = console.log.bind(console);
 //log(Object.keys(eases));
+
+const rAF = window.requestAnimationFrame ? window.requestAnimationFrame.bind(window) : callback => window.setTimeout(callback, 16);
+const cAF = window.cancelAnimationFrame ? window.cancelAnimationFrame.bind(window) : window.clearInterval.bind(window);
 
 const TOGGLE = {
   EXPANDED: 'EXPANDED',
@@ -12,7 +15,7 @@ const TOGGLE = {
   COLLAPSING: 'COLLAPSING',
 };
 
-class ReactSlideToggle extends React.Component {
+class SlideToggle extends React.Component {
   constructor(props) {
     super(props);
 
@@ -136,14 +139,14 @@ class ReactSlideToggle extends React.Component {
 
     if (elapsedTime < duration) {
       this._state_.boxElement.style.height = `${currentHeightValue}px`;
-      this._state_.timeout = this.nextTick(this.expand);
+      this.nextTick(this.expand);
     } else {
       this.setExpandedState();
     }
   };
 
   nextTick = callback => {
-    return setTimeout(callback, 16);
+    this._state_.timeout = rAF(callback);
   };
 
   componentWillReceiveProps(nextProps) {
@@ -173,20 +176,20 @@ class ReactSlideToggle extends React.Component {
   }
 
   componentWillUnmount() {
-    clearTimeout(this.timeout);
+    cAF(this._state_.timeout);
   }
 }
 
-ReactSlideToggle.propTypes = {
-  duration: PropTypes.number,
-  ease: PropTypes.oneOf(Object.keys(eases)),
-  toggleState: PropTypes.oneOf([TOGGLE.COLLAPSED, TOGGLE.EXPANDED]),
-};
+// SlideToggle.propTypes = {
+//   duration: PropTypes.number,
+//   ease: PropTypes.oneOf(Object.keys(eases)),
+//   toggleState: PropTypes.oneOf([TOGGLE.COLLAPSED, TOGGLE.EXPANDED]),
+// };
 
-ReactSlideToggle.defaultProps = {
+SlideToggle.defaultProps = {
   duration: 500,
   ease: 'quartInOut',
   toggleState: TOGGLE.EXPANDED,
 };
 
-export default ReactSlideToggle;
+export default SlideToggle;

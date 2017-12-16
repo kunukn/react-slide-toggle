@@ -1,6 +1,5 @@
-import './App.css';
 import React from 'react';
-import ReactSlideToggle from './ReactSlideToggle';
+import {SlideToggle} from './ReactSlideToggle';
 
 class App extends React.Component {
   state = { duration: 300 };
@@ -9,7 +8,7 @@ class App extends React.Component {
     const toggleBoxes = [];
     for (let i = 0; i < 10; i++) {
       toggleBoxes.push(
-        <ReactSlideToggle
+        <SlideToggle
           key={i}
           duration={this.state.duration}
           ease="quartInOut"
