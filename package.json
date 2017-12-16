@@ -2,13 +2,16 @@
   "name": "react-slide-toggle",
   "version": "0.0.1",
   "dependencies": {
-    "eases": "^1.0.8"
+    "eases": "^1.0.8",
+    "prop-types": "^15.6.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build-css": "node-sass-chokidar src/ -o src/",
+    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive"
   },
   "description": "React component version of jQuery.slideToggle",
   "main": "dist/ReactSlideToggle.cjs.js",
@@ -18,6 +21,7 @@
     "dist"
   ],
   "devDependencies": {
+    "node-sass-chokidar": "^0.0.3",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-scripts": "1.0.17"
