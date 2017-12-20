@@ -6,11 +6,13 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "react-scripts-build": "react-scripts build",
+    "build": "rollup -c",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive"
+    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "minify": "uglifyjs dist/ReactSlideToggle.umd.js --config-file uglify.config.json --output dist/ReactSlideToggle.umd.min.js"
   },
   "description": "React component version of jQuery.slideToggle",
   "main": "dist/ReactSlideToggle.cjs.js",
@@ -20,11 +22,16 @@
     "dist"
   ],
   "devDependencies": {
+    "babel-preset-env": "^1.6.1",
     "node-sass-chokidar": "^0.0.3",
+    "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-scripts": "1.0.17",
-    "prop-types": "^15.6.0"
+    "rollup-plugin-babel": "^3.0.3",
+    "rollup-plugin-commonjs": "^8.2.6",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "uglify-js": "^3.2.2"
   },
   "repository": {
     "type": "git",
