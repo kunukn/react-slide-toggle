@@ -1,0 +1,16 @@
+{
+  "plugins": ["class-property"],
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "globals": {
+    "ENV": true
+  },
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "rules": {
+    //"class-property/rule-name": 2
+  }
+}

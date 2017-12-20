@@ -1,6 +1,7 @@
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import babel from 'rollup-plugin-babel';
+import eslint from 'rollup-plugin-eslint';
 import pkg from './package.json';
 
 var entry = './src/library/ReactSlideToggle/index.js';
@@ -9,11 +10,17 @@ export default [
 	// browser-friendly UMD build
 	{
         entry: entry,
-        external: ['eases','React'],
+        external: ['eases','react'],
 		dest: pkg.browser,
 		format: 'umd',
 		moduleName: 'ReactSlideToggle',
 		plugins: [
+            // eslint({
+            //     exclude: [
+            //       'src/index.*',
+            //       'src/demo/**',
+            //     ]
+            //   }),
             babel({
                 exclude: ['node_modules/**'],
                 runtimeHelpers: true,
