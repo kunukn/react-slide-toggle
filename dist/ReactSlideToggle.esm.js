@@ -1,10 +1,4 @@
-(function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('react')) :
-	typeof define === 'function' && define.amd ? define(['exports', 'react'], factory) :
-	(factory((global.ReactSlideToggle = {}),global.React));
-}(this, (function (exports,React) { 'use strict';
-
-React = React && React.hasOwnProperty('default') ? React['default'] : React;
+import React from 'react';
 
 function backInOut(t) {
   var s = 1.70158 * 1.525;
@@ -525,8 +519,4 @@ SlideToggle.defaultProps = {
   toggleState: TOGGLE.EXPANDED
 };
 
-exports.SlideToggle = SlideToggle;
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
-})));
+export { SlideToggle };

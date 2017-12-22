@@ -1,13 +1,18 @@
 {
   "presets": [
-    [
-      "env",
-      {
-        "modules": false
-      }
-    ]
+    ["es2015", { "modules": false }],
+    "react",
+    "stage-0"
   ],
-  "plugins": [
-    "external-helpers", "transform-class-properties", "transform-object-rest-spread"
-  ]
+  "env": {
+    "targets": {
+      "node": "current"
+    },
+    "test": {
+      "plugins": ["transform-es2015-modules-commonjs"]
+    },
+    "rollup": {
+      "plugins": ["external-helpers"]
+    }
+  }
 }

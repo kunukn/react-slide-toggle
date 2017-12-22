@@ -50,9 +50,20 @@ class SlideToggle extends React.Component {
       duration: this._state_.duration,
       easeName,
     };
+
+    this.setCollapsibleElement = this.setCollapsibleElement.bind(this);
+    this.onToggle = this.onToggle.bind(this);
+    this.setDuration = this.setDuration.bind(this);
+    this.setEaseFunction = this.setEaseFunction.bind(this);
+    this.setCollapsedState = this.setCollapsedState.bind(this);
+    this.collapse = this.collapse.bind(this);
+    this.setExpandedState = this.setExpandedState.bind(this);
+    this.expand = this.expand.bind(this);
+    this.nextTick = this.nextTick.bind(this);
+    
   }
 
-  setCollapsibleElement = element => {
+  setCollapsibleElement() {
     if (!element) {
       warn('no element in setCollapsibleElement');
     }
@@ -66,7 +77,7 @@ class SlideToggle extends React.Component {
     }
   };
 
-  onToggle = () => {
+  onToggle () {
     if (this._state_.isAnimating) {
       log('working.. please wait - isAnimating true');
       return;
@@ -95,11 +106,11 @@ class SlideToggle extends React.Component {
     }
   };
 
-  setDuration = duration => {
+  setDuration () {
     this._state_.duration = parseInt(duration, 10) || 0;
   };
 
-  setEaseFunction = ease => {
+  setEaseFunction (ease) {
     if (typeof ease === 'string') {
       this._state_.ease = eases[ease];
       return ease;
@@ -109,7 +120,7 @@ class SlideToggle extends React.Component {
     }
   };
 
-  setCollapsedState = () => {
+  setCollapsedState  () {
     this._state_.collasibleElement.style.display = 'none';
     this._state_.collasibleElement.style.height = '';
     this._state_.toggleState = TOGGLE.COLLAPSED;
@@ -117,7 +128,7 @@ class SlideToggle extends React.Component {
     this.setState({ toggleState: TOGGLE.COLLAPSED });
   };
 
-  collapse = () => {
+  collapse () {
     if (!this._state_.collasibleElement) {
       warn('no collapsibleElement');
       return;
@@ -141,14 +152,14 @@ class SlideToggle extends React.Component {
     }
   };
 
-  setExpandedState = () => {
+  setExpandedState () {
     this._state_.collasibleElement.style.height = '';
     this._state_.toggleState = TOGGLE.EXPANDED;
     this._state_.isAnimating = false;
     this.setState({ toggleState: TOGGLE.EXPANDED });
   };
 
-  expand = () => {
+  expand  () {
     if (!this._state_.collasibleElement) {
       warn('no collapsibleElement');
       return;
@@ -172,7 +183,7 @@ class SlideToggle extends React.Component {
     }
   };
 
-  nextTick = callback => {
+  nextTick ( callback ) {
     this._state_.timeout = rAF(callback);
   };
 

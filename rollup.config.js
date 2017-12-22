@@ -1,51 +1,75 @@
-import resolve from 'rollup-plugin-node-resolve';
-import commonjs from 'rollup-plugin-commonjs';
-import babel from 'rollup-plugin-babel';
-import eslint from 'rollup-plugin-eslint';
-import pkg from './package.json';
+import resolve from 'rollup-plugin-node-resolve'
+import replace from 'rollup-plugin-replace'
+import babel from 'rollup-plugin-babel'
+import commonjs from 'rollup-plugin-commonjs'
+import uglify from 'rollup-plugin-uglify'
+// import postcss from 'rollup-plugin-postcss'
+// import filesize from 'rollup-plugin-filesize'
+import { minify } from 'uglify-es'
+import pkg from './package.json'
 
-var entry = './src/library/ReactSlideToggle/index.js';
+const entry = './src/library/ReactSlideToggle/index.js';
+const name = 'ReactSlideToggle';
+const env = process.env.NODE_ENV
+
+const plugins = [
+  //postcss(),
+  babel({ exclude: '**/node_modules/**' }),
+  commonjs(),
+  resolve({ browser: true }),
+  //filesize(),
+];
 
 export default [
-	// browser-friendly UMD build
-	{
-        entry: entry,
-        external: ['eases','react'],
-		dest: pkg.browser,
-		format: 'umd',
-		moduleName: 'ReactSlideToggle',
-		plugins: [
-            // eslint({
-            //     exclude: [
-            //       'src/index.*',
-            //       'src/demo/**',
-            //     ]
-            //   }),
-            babel({
-                exclude: ['node_modules/**'],
-                runtimeHelpers: true,
-			}),
-            resolve(), // so Rollup can find `eases`
-			commonjs(), // so Rollup can convert `eases` to an ES module			
-		]
-	},
 
-	// CommonJS (for Node) and ES module (for bundlers) build.
-	// (We could have three entries in the configuration array
-	// instead of two, but it's quicker to generate multiple
-	// builds from a single configuration where possible, using
-	// the `targets` option which can specify `dest` and `format`)
-	// {
-	// 	entry: entry,
-	// 	external: ['eases','React'],
-	// 	targets: [
-	// 		{ dest: pkg.main, format: 'cjs' },
-	// 		{ dest: pkg.module, format: 'es' }
-	// 	],
-	// 	plugins: [
-	// 		babel({
-	// 			exclude: ['node_modules/**']
-	// 		})
-	// 	]
-	// }
+//   {
+// 	input: entry,
+// 	external: [ 'eases' ],
+//     output: { file: pkg.main, format: 'cjs' },
+//     name: 'ReactSlideToggle',
+//     plugins: [
+// 	  babel({ exclude: '**/node_modules/**' }),
+//       commonjs({
+//         exclude: 'node_modules/**',
+// 	  }),	  
+//       resolve(),
+//     ],
+//   },
+
+
+  // UMD and ES versions.
+  {
+    input: entry,
+    external: [ 'react' ],
+    globals: { 'react': 'React' },
+    output: [
+      { file: pkg.browser, format: 'umd', name: name},
+	  { file: pkg.module, format: 'es', name: name },
+    ],
+    plugins: plugins.concat([
+      replace({ 'process.env.NODE_ENV': JSON.stringify(env) })
+    ]),
+  },
+
+  //Browser minified version.
+  {
+    input: entry,
+    external: [ 'react' ],
+    globals: { 'react': 'React' },
+    output: { file: pkg.unpkg, format: 'umd' },
+    name: name,
+    plugins: plugins.concat([
+      replace({
+        'process.env.NODE_ENV': JSON.stringify('production')
+      }),
+      uglify({
+        compress: {
+          pure_getters: true,
+          unsafe: true,
+          unsafe_comps: true,
+          warnings: false
+        }
+      }, minify),
+    ]),
+  }
 ];
