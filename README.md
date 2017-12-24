@@ -7,7 +7,12 @@ This has buildin 30 easing options - https://codepen.io/kunukn/full/mpVJOm/
 * yarn
 * yarn start
 
+## cdn
+
+https://unpkg.com/react-slide-toggle/
+
 ## npm 
 
-TODO, work in progress
+https://www.npmjs.com/package/react-slide-toggle
+
 
