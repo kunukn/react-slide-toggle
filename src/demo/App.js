@@ -1,10 +1,6 @@
 import React from 'react';
-import { SlideToggle } from 'library/ReactSlideToggle';
+import { SlideToggle } from '../library/ReactSlideToggle';
 import eases from 'eases';
-
-if (!window.eases) {
-  window.eases = eases;
-}
 
 //const log = console.log.bind(console);
 //log(Object.keys(eases));
