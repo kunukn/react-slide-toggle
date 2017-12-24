@@ -1,6 +1,6 @@
 React version of jQuery.slideToggle. JavaScript animation where height is set on every requestAnimationFrame.
 
-This has buildin 30 easing options - https://codepen.io/kunukn/full/mpVJOm/
+This has buildin easing options - https://codepen.io/kunukn/full/mpVJOm/
 
 ## Demo
 
