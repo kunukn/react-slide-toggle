@@ -1,14 +1,5 @@
-(function webpackUniversalModuleDefinition(root, factory) {
-	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("React"));
-	else if(typeof define === 'function' && define.amd)
-		define(["React"], factory);
-	else if(typeof exports === 'object')
-		exports["ReactSlideToggle"] = factory(require("React"));
-	else
-		root["ReactSlideToggle"] = factory(root["React"]);
-})(typeof self !== 'undefined' ? self : this, function(__WEBPACK_EXTERNAL_MODULE_4__) {
-return /******/ (function(modules) { // webpackBootstrap
+module.exports =
+/******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
@@ -390,7 +381,7 @@ exports.default = SlideToggle;
 /* 4 */
 /***/ (function(module, exports) {
 
-module.exports = __WEBPACK_EXTERNAL_MODULE_4__;
+module.exports = require("React");
 
 /***/ }),
 /* 5 */
@@ -762,4 +753,3 @@ module.exports = sineOut
 
 /***/ })
 /******/ ]);
-});

@@ -1,16 +1,21 @@
 {
   "name": "react-slide-toggle",
-  "version": "0.0.3",
-  "main": "dist/ReactSlideToggle.commonjs2.js",
-  "repository": "git@github.com:kunukn/react-startpack.git",
-  "author": "kunukn",
+  "version": "0.0.2",
+  "dependencies": {
+    "eases": "^1.0.8"
+  },
   "scripts": {
     "start": "npm run dev",
     "dev": "webpack-dev-server --env.dev --progress --config webpack.config.js",
     "build": "webpack --config webpack.config.build.js",
     "clean": "rimraf dist/*",
-    "minify": "uglifyjs dist/MyComponent.umd.js --config-file uglify.config.json --output dist/MyComponent.umd.min.js"
+    "minify": "uglifyjs dist/ReactSlideToggle.umd.js --config-file uglify.config.json --output dist/ReactSlideToggle.umd.min.js"
   },
+  "description": "React component version of jQuery.slideToggle",
+  "main": "dist/ReactSlideToggle.commonjs2.js",
+  "umd": "dist/ReactSlideToggle.umd.js",
+  "unpkg": "dist/ReactSlideToggle.umd.min.js",
+  "author": "kunukn",
   "license": "MIT",
   "files": [
     "dist"
@@ -52,5 +57,16 @@
     "webpack": "*",
     "webpack-dev-server": "*"
   },
-  "dependencies": {}
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kunukn/react-slide-toggle.git"
+  },
+  "keywords": [
+    "slide",
+    "toggle"
+  ],
+  "bugs": {
+    "url": "https://github.com/kunukn/react-slide-toggle/issues"
+  },
+  "homepage": "https://github.com/kunukn/react-slide-toggle#readme"
 }
