@@ -1,6 +1,6 @@
 {
   "name": "react-slide-toggle",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "dependencies": {
     "eases": "^1.0.8"
   },
