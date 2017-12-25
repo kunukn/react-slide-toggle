@@ -54,14 +54,13 @@ class SlideToggle extends React.Component {
   setCollapsibleElement = element => {
     if (!element) {
       warn('no element in setCollapsibleElement');
+      return;
     }
-    this._state_.collasibleElement = element || null;
-    if (element) {
-      if (this._state_.toggleState === TOGGLE.COLLAPSED) {
-        this.setCollapsedState();
-      } else if (this._state_.toggleState === TOGGLE.EXPANDED) {
-        this.setExpandedState();
-      }
+    this._state_.collasibleElement = element;
+    if (this._state_.toggleState === TOGGLE.COLLAPSED) {
+      this.setCollapsedState();
+    } else if (this._state_.toggleState === TOGGLE.EXPANDED) {
+      this.setExpandedState();
     }
   };
 
@@ -96,6 +95,7 @@ class SlideToggle extends React.Component {
 
   setDuration = duration => {
     this._state_.duration = parseInt(duration, 10) || 0;
+    return this._state_.duration;
   };
 
   setEaseFunction = ease => {
@@ -181,8 +181,8 @@ class SlideToggle extends React.Component {
       this.setState({ easeName });
     }
     if (nextProps.duration !== this.props.duration) {
-      this.setDuration(nextProps.duration);
-      this.setState({ duration: this._state_.duration });
+      const duration = this.setDuration(nextProps.duration);
+      this.setState({ duration });
     }
   }
 
