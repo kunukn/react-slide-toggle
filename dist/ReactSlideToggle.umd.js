@@ -7,7 +7,7 @@
 		exports["ReactSlideToggle"] = factory(require("React"));
 	else
 		root["ReactSlideToggle"] = factory(root["React"]);
-})(typeof self !== 'undefined' ? self : this, function(__WEBPACK_EXTERNAL_MODULE_4__) {
+})(typeof self !== 'undefined' ? self : this, function(__WEBPACK_EXTERNAL_MODULE_3__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -70,44 +70,18 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-function bounceOut(t) {
-  var a = 4.0 / 11.0
-  var b = 8.0 / 11.0
-  var c = 9.0 / 10.0
+module.exports = __webpack_require__(1);
 
-  var ca = 4356.0 / 361.0
-  var cb = 35442.0 / 1805.0
-  var cc = 16061.0 / 1805.0
-
-  var t2 = t * t
-
-  return t < a
-    ? 7.5625 * t2
-    : t < b
-      ? 9.075 * t2 - 9.9 * t + 3.4
-      : t < c
-        ? ca * t2 - cb * t + cc
-        : 10.8 * t * t - 20.52 * t + 10.72
-}
-
-module.exports = bounceOut
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(2);
-
-
-/***/ }),
-/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -117,7 +91,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _SlideToggle = __webpack_require__(3);
+var _SlideToggle = __webpack_require__(2);
 
 Object.defineProperty(exports, 'SlideToggle', {
   enumerable: true,
@@ -129,7 +103,7 @@ Object.defineProperty(exports, 'SlideToggle', {
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 3 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -143,13 +117,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(4);
+var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
-
-var _eases = __webpack_require__(5);
-
-var _eases2 = _interopRequireDefault(_eases);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -179,17 +149,19 @@ var TOGGLE = {
   EXPANDING: 'EXPANDING',
   COLLAPSING: 'COLLAPSING'
 };
-var STRING = 'string';
 var FUNCTION = 'function';
-var CUSTOM_FUNCTION_NAME = 'custom function';
+
+var cubicInOut = function cubicInOut(t) {
+  return t < 0.5 ? 4.0 * t * t * t : 0.5 * Math.pow(2.0 * t - 2.0, 3.0) + 1.0;
+};
 
 var SlideToggle = function (_React$Component) {
   _inherits(SlideToggle, _React$Component);
 
   // static propTypes = {
   //   duration: PropTypes.number,
-  //   easeIn: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-  //   easeOut: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+  //   easeIn: PropTypes.oneOfType([PropTypes.func]),
+  //   easeOut: PropTypes.oneOfType([PropTypes.func]),
   //   collapsed: PropTypes.bool,
   // };
 
@@ -226,6 +198,12 @@ var SlideToggle = function (_React$Component) {
   }
 
   _createClass(SlideToggle, [{
+    key: 'getFunctionName',
+    value: function getFunctionName(fn) {
+      return (/function ([^(]*)/.exec(fn + '')[1]
+      );
+    }
+  }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       if (nextProps.easeIn !== this.props.easeIn) {
@@ -270,8 +248,8 @@ var SlideToggle = function (_React$Component) {
 
 SlideToggle.defaultProps = {
   duration: 300,
-  easeIn: 'quartInOut',
-  easeOut: 'quartInOut',
+  easeIn: cubicInOut,
+  easeOut: cubicInOut,
   collapsed: false
 };
 
@@ -332,21 +310,13 @@ var _initialiseProps = function _initialiseProps() {
         easeOut = _ref2.easeOut;
 
     var result = {};
-    if ((typeof easeIn === 'undefined' ? 'undefined' : _typeof(easeIn)) === STRING) {
-      _this2._state_.easeIn = _eases2.default[easeIn];
-      result.easeInName = easeIn;
-    }
-    if ((typeof easeOut === 'undefined' ? 'undefined' : _typeof(easeOut)) === STRING) {
-      _this2._state_.easeOut = _eases2.default[easeOut];
-      result.easeOutName = easeOut;
-    }
     if ((typeof easeIn === 'undefined' ? 'undefined' : _typeof(easeIn)) === FUNCTION) {
       _this2._state_.easeIn = easeIn;
-      result.easeInName = CUSTOM_FUNCTION_NAME;
+      result.easeInName = _this2.getFunctionName(easeIn);
     }
     if ((typeof easeOut === 'undefined' ? 'undefined' : _typeof(easeOut)) === FUNCTION) {
       _this2._state_.easeOut = easeOut;
-      result.easeOutName = CUSTOM_FUNCTION_NAME;
+      result.easeOutName = _this2.getFunctionName(easeOut);
     }
     return result;
   };
@@ -440,378 +410,10 @@ var _initialiseProps = function _initialiseProps() {
 exports.default = SlideToggle;
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, exports) {
 
-module.exports = __WEBPACK_EXTERNAL_MODULE_4__;
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = {
-	'backInOut': __webpack_require__(6),
-	'backIn': __webpack_require__(7),
-	'backOut': __webpack_require__(8),
-	'bounceInOut': __webpack_require__(9),
-	'bounceIn': __webpack_require__(10),
-	'bounceOut': __webpack_require__(0),
-	'circInOut': __webpack_require__(11),
-	'circIn': __webpack_require__(12),
-	'circOut': __webpack_require__(13),
-	'cubicInOut': __webpack_require__(14),
-	'cubicIn': __webpack_require__(15),
-	'cubicOut': __webpack_require__(16),
-	'elasticInOut': __webpack_require__(17),
-	'elasticIn': __webpack_require__(18),
-	'elasticOut': __webpack_require__(19),
-	'expoInOut': __webpack_require__(20),
-	'expoIn': __webpack_require__(21),
-	'expoOut': __webpack_require__(22),
-	'linear': __webpack_require__(23),
-	'quadInOut': __webpack_require__(24),
-	'quadIn': __webpack_require__(25),
-	'quadOut': __webpack_require__(26),
-	'quartInOut': __webpack_require__(27),
-	'quartIn': __webpack_require__(28),
-	'quartOut': __webpack_require__(29),
-	'quintInOut': __webpack_require__(30),
-	'quintIn': __webpack_require__(31),
-	'quintOut': __webpack_require__(32),
-	'sineInOut': __webpack_require__(33),
-	'sineIn': __webpack_require__(34),
-	'sineOut': __webpack_require__(35)
-}
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports) {
-
-function backInOut(t) {
-  var s = 1.70158 * 1.525
-  if ((t *= 2) < 1)
-    return 0.5 * (t * t * ((s + 1) * t - s))
-  return 0.5 * ((t -= 2) * t * ((s + 1) * t + s) + 2)
-}
-
-module.exports = backInOut
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports) {
-
-function backIn(t) {
-  var s = 1.70158
-  return t * t * ((s + 1) * t - s)
-}
-
-module.exports = backIn
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports) {
-
-function backOut(t) {
-  var s = 1.70158
-  return --t * t * ((s + 1) * t + s) + 1
-}
-
-module.exports = backOut
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var bounceOut = __webpack_require__(0)
-
-function bounceInOut(t) {
-  return t < 0.5
-    ? 0.5 * (1.0 - bounceOut(1.0 - t * 2.0))
-    : 0.5 * bounceOut(t * 2.0 - 1.0) + 0.5
-}
-
-module.exports = bounceInOut
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var bounceOut = __webpack_require__(0)
-
-function bounceIn(t) {
-  return 1.0 - bounceOut(1.0 - t)
-}
-
-module.exports = bounceIn
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports) {
-
-function circInOut(t) {
-  if ((t *= 2) < 1) return -0.5 * (Math.sqrt(1 - t * t) - 1)
-  return 0.5 * (Math.sqrt(1 - (t -= 2) * t) + 1)
-}
-
-module.exports = circInOut
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports) {
-
-function circIn(t) {
-  return 1.0 - Math.sqrt(1.0 - t * t)
-}
-
-module.exports = circIn
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports) {
-
-function circOut(t) {
-  return Math.sqrt(1 - ( --t * t ))
-}
-
-module.exports = circOut
-
-/***/ }),
-/* 14 */
-/***/ (function(module, exports) {
-
-function cubicInOut(t) {
-  return t < 0.5
-    ? 4.0 * t * t * t
-    : 0.5 * Math.pow(2.0 * t - 2.0, 3.0) + 1.0
-}
-
-module.exports = cubicInOut
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports) {
-
-function cubicIn(t) {
-  return t * t * t
-}
-
-module.exports = cubicIn
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports) {
-
-function cubicOut(t) {
-  var f = t - 1.0
-  return f * f * f + 1.0
-}
-
-module.exports = cubicOut
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports) {
-
-function elasticInOut(t) {
-  return t < 0.5
-    ? 0.5 * Math.sin(+13.0 * Math.PI/2 * 2.0 * t) * Math.pow(2.0, 10.0 * (2.0 * t - 1.0))
-    : 0.5 * Math.sin(-13.0 * Math.PI/2 * ((2.0 * t - 1.0) + 1.0)) * Math.pow(2.0, -10.0 * (2.0 * t - 1.0)) + 1.0
-}
-
-module.exports = elasticInOut
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports) {
-
-function elasticIn(t) {
-  return Math.sin(13.0 * t * Math.PI/2) * Math.pow(2.0, 10.0 * (t - 1.0))
-}
-
-module.exports = elasticIn
-
-/***/ }),
-/* 19 */
-/***/ (function(module, exports) {
-
-function elasticOut(t) {
-  return Math.sin(-13.0 * (t + 1.0) * Math.PI/2) * Math.pow(2.0, -10.0 * t) + 1.0
-}
-
-module.exports = elasticOut
-
-/***/ }),
-/* 20 */
-/***/ (function(module, exports) {
-
-function expoInOut(t) {
-  return (t === 0.0 || t === 1.0)
-    ? t
-    : t < 0.5
-      ? +0.5 * Math.pow(2.0, (20.0 * t) - 10.0)
-      : -0.5 * Math.pow(2.0, 10.0 - (t * 20.0)) + 1.0
-}
-
-module.exports = expoInOut
-
-/***/ }),
-/* 21 */
-/***/ (function(module, exports) {
-
-function expoIn(t) {
-  return t === 0.0 ? t : Math.pow(2.0, 10.0 * (t - 1.0))
-}
-
-module.exports = expoIn
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports) {
-
-function expoOut(t) {
-  return t === 1.0 ? t : 1.0 - Math.pow(2.0, -10.0 * t)
-}
-
-module.exports = expoOut
-
-/***/ }),
-/* 23 */
-/***/ (function(module, exports) {
-
-function linear(t) {
-  return t
-}
-
-module.exports = linear
-
-/***/ }),
-/* 24 */
-/***/ (function(module, exports) {
-
-function quadInOut(t) {
-    t /= 0.5
-    if (t < 1) return 0.5*t*t
-    t--
-    return -0.5 * (t*(t-2) - 1)
-}
-
-module.exports = quadInOut
-
-/***/ }),
-/* 25 */
-/***/ (function(module, exports) {
-
-function quadIn(t) {
-  return t * t
-}
-
-module.exports = quadIn
-
-/***/ }),
-/* 26 */
-/***/ (function(module, exports) {
-
-function quadOut(t) {
-  return -t * (t - 2.0)
-}
-
-module.exports = quadOut
-
-/***/ }),
-/* 27 */
-/***/ (function(module, exports) {
-
-function quarticInOut(t) {
-  return t < 0.5
-    ? +8.0 * Math.pow(t, 4.0)
-    : -8.0 * Math.pow(t - 1.0, 4.0) + 1.0
-}
-
-module.exports = quarticInOut
-
-/***/ }),
-/* 28 */
-/***/ (function(module, exports) {
-
-function quarticIn(t) {
-  return Math.pow(t, 4.0)
-}
-
-module.exports = quarticIn
-
-/***/ }),
-/* 29 */
-/***/ (function(module, exports) {
-
-function quarticOut(t) {
-  return Math.pow(t - 1.0, 3.0) * (1.0 - t) + 1.0
-}
-
-module.exports = quarticOut
-
-/***/ }),
-/* 30 */
-/***/ (function(module, exports) {
-
-function qinticInOut(t) {
-    if ( ( t *= 2 ) < 1 ) return 0.5 * t * t * t * t * t
-    return 0.5 * ( ( t -= 2 ) * t * t * t * t + 2 )
-}
-
-module.exports = qinticInOut
-
-/***/ }),
-/* 31 */
-/***/ (function(module, exports) {
-
-function qinticIn(t) {
-  return t * t * t * t * t
-}
-
-module.exports = qinticIn
-
-/***/ }),
-/* 32 */
-/***/ (function(module, exports) {
-
-function qinticOut(t) {
-  return --t * t * t * t * t + 1
-}
-
-module.exports = qinticOut
-
-/***/ }),
-/* 33 */
-/***/ (function(module, exports) {
-
-function sineInOut(t) {
-  return -0.5 * (Math.cos(Math.PI*t) - 1)
-}
-
-module.exports = sineInOut
-
-/***/ }),
-/* 34 */
-/***/ (function(module, exports) {
-
-function sineIn (t) {
-  var v = Math.cos(t * Math.PI * 0.5)
-  if (Math.abs(v) < 1e-14) return 1
-  else return 1 - v
-}
-
-module.exports = sineIn
-
-
-/***/ }),
-/* 35 */
-/***/ (function(module, exports) {
-
-function sineOut(t) {
-  return Math.sin(t * Math.PI/2)
-}
-
-module.exports = sineOut
+module.exports = __WEBPACK_EXTERNAL_MODULE_3__;
 
 /***/ })
 /******/ ]);

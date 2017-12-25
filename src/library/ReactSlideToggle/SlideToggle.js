@@ -5,7 +5,6 @@
 */
 
 import React from 'react';
-import eases from 'eases';
 //import PropTypes from 'prop-types';
 
 const log = console.log.bind(console);
@@ -24,22 +23,23 @@ const TOGGLE = {
   EXPANDING: 'EXPANDING',
   COLLAPSING: 'COLLAPSING',
 };
-const STRING = 'string';
 const FUNCTION = 'function';
-const CUSTOM_FUNCTION_NAME = 'custom function';
+
+const cubicInOut = t =>
+  t < 0.5 ? 4.0 * t * t * t : 0.5 * Math.pow(2.0 * t - 2.0, 3.0) + 1.0;
 
 export default class SlideToggle extends React.Component {
   static defaultProps = {
     duration: 300,
-    easeIn: 'quartInOut',
-    easeOut: 'quartInOut',
+    easeIn: cubicInOut,
+    easeOut: cubicInOut,
     collapsed: false,
   };
 
   // static propTypes = {
   //   duration: PropTypes.number,
-  //   easeIn: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-  //   easeOut: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+  //   easeIn: PropTypes.oneOfType([PropTypes.func]),
+  //   easeOut: PropTypes.oneOfType([PropTypes.func]),
   //   collapsed: PropTypes.bool,
   // };
 
@@ -112,23 +112,19 @@ export default class SlideToggle extends React.Component {
     return durationNumber;
   };
 
+  getFunctionName(fn) {
+    return /function ([^(]*)/.exec(fn + '')[1];
+  }
+
   setEaseFunction = ({ easeIn, easeOut }) => {
     const result = {};
-    if (typeof easeIn === STRING) {
-      this._state_.easeIn = eases[easeIn];
-      result.easeInName = easeIn;
-    }
-    if (typeof easeOut === STRING) {
-      this._state_.easeOut = eases[easeOut];
-      result.easeOutName = easeOut;
-    }
     if (typeof easeIn === FUNCTION) {
       this._state_.easeIn = easeIn;
-      result.easeInName = CUSTOM_FUNCTION_NAME;
+      result.easeInName = this.getFunctionName(easeIn);
     }
     if (typeof easeOut === FUNCTION) {
       this._state_.easeOut = easeOut;
-      result.easeOutName = CUSTOM_FUNCTION_NAME;
+      result.easeOutName = this.getFunctionName(easeOut);
     }
     return result;
   };

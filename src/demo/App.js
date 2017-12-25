@@ -1,6 +1,7 @@
 import React from 'react';
 import { SlideToggle } from '../library/ReactSlideToggle';
 import eases from 'eases';
+import BezierEasing from 'bezier-easing';
 
 //const log = console.log.bind(console);
 //log(Object.keys(eases));
@@ -9,9 +10,11 @@ const easeNames = Object.keys(eases);
 const easeInOutQuart = t =>
   t < 0.5 ? 8 * t * t * t * t : 1 - 8 * --t * t * t * t;
 
-const getRandomEaseName = () => {
+const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
+
+const getRandomEase = () => {
   const index = Math.floor(Math.random() * easeNames.length);
-  return easeNames[index];
+  return eases[easeNames[index]];
 };
 
 export default class App extends React.Component {
@@ -36,6 +39,7 @@ export default class App extends React.Component {
             with the release of Letraset sheets containing Lorem Ipsum passages,
             and more recently with desktop publishing software like Aldus
             PageMaker including versions of Lorem Ipsum.
+            <button onClick={() => window.alert('test tabindex')}>dummy button</button>
           </div>
         </div>
         <pre>
@@ -47,20 +51,31 @@ export default class App extends React.Component {
     );
 
     const components = [];
-    
+
     components.push(
       <SlideToggle
         key={components.length}
         duration={this.state.duration}
-        easeIn={getRandomEaseName()}
-        easeOut={'elasticOut'}
+        easeIn={getRandomEase()}
+        easeOut={eases['elasticOut']}
+        collapsed={Math.random() > 0.5 ? true : false}
+        render={generateMarkup}
+      />
+    );
+
+    components.push(
+      <SlideToggle
+        key={components.length}
+        duration={this.state.duration}
+        easeIn={bezierEaseInOutQuart}
+        easeOut={bezierEaseInOutQuart}
         collapsed={Math.random() > 0.5 ? true : false}
         render={generateMarkup}
       />
     );
 
     for (let i = 0; i < 4; i++) {
-      const ease = getRandomEaseName();
+      const ease = getRandomEase();
       components.push(
         <SlideToggle
           key={components.length}

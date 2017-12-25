@@ -11,14 +11,15 @@ body {
 .app {
   padding-bottom: 20rem;
 
-  &__button {
+  button{
     font-size: 1rem;
-    background: transparent;
+    background: rgba(white,.5);
     border: 1px solid gray;
     padding: 0.5rem;
     box-shadow: none;
     border-radius: 2px;
   }
+
 }
 
 .ease-names {
@@ -52,6 +53,7 @@ body {
   &__box-inner {
     padding: 1rem;
     display: flex;
+    flex-direction: column;
     min-height: 100px;
     justify-content: center;
     align-items: center;

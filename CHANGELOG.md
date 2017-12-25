@@ -1,5 +1,8 @@
 ## Changelog
 
+### 0.0.6
+* remove dependency to eases
+
 ### 0.0.5
 * add deploy script
 

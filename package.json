@@ -1,8 +1,7 @@
 {
   "name": "react-slide-toggle",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "dependencies": {
-    "eases": "^1.0.8"
   },
   "scripts": {
     "start": "npm run dev",
@@ -46,8 +45,10 @@
     "babel-preset-env": "*",
     "babel-preset-react": "*",
     "babel-preset-stage-2": "*",
+    "bezier-easing": "^2.0.3",    
     "cross-env": "*",
     "css-loader": "*",
+    "eases": "^1.0.8",
     "extract-text-webpack-plugin": "*",
     "html-webpack-plugin": "*",
     "node-sass": "*",
