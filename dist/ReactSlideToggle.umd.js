@@ -165,7 +165,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 //import PropTypes from 'prop-types';
 
-
 var log = console.log.bind(console);
 var warn = console.warn.bind(console);
 
@@ -313,12 +312,8 @@ var SlideToggle = function (_React$Component) {
     _this._state_ = {
       collasibleElement: null,
       isAnimating: false,
-      toggleState: TOGGLE.EXPANDED
+      toggleState: _this.props.collapsed ? TOGGLE.COLLAPSED : TOGGLE.EXPANDED
     };
-
-    if (_this.props.toggleState && _this.props.toggleState.toUpperCase() === TOGGLE.COLLAPSED) {
-      _this._state_.toggleState = TOGGLE.COLLAPSED;
-    }
 
     _this.setDuration(_this.props.duration);
     var easeName = _this.setEaseFunction(_this.props.ease);
@@ -353,17 +348,6 @@ var SlideToggle = function (_React$Component) {
       });
     }
   }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {}
-  }, {
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate() {}
-  }, {
-    key: 'shouldComponentUpdate',
-    value: function shouldComponentUpdate(nextProps, nextState) {
-      return true;
-    }
-  }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       cAF(this._state_.timeout);
@@ -375,14 +359,14 @@ var SlideToggle = function (_React$Component) {
 
 // SlideToggle.propTypes = {
 //   duration: PropTypes.number,
-//   ease: PropTypes.oneOf(Object.keys(eases)),
-//   toggleState: PropTypes.oneOf([TOGGLE.COLLAPSED, TOGGLE.EXPANDED]),
+//   ease: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+//   collapsed: PropTypes.bool,
 // };
 
 SlideToggle.defaultProps = {
   duration: 300,
   ease: 'quartInOut',
-  toggleState: TOGGLE.EXPANDED
+  collapsed: false
 };
 exports.default = SlideToggle;
 

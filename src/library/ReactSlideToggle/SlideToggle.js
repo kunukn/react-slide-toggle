@@ -5,8 +5,8 @@
 */
 
 import React from 'react';
-//import PropTypes from 'prop-types';
 import eases from 'eases';
+//import PropTypes from 'prop-types';
 
 const log = console.log.bind(console);
 const warn = console.warn.bind(console);
@@ -29,7 +29,7 @@ class SlideToggle extends React.Component {
   static defaultProps = {
     duration: 300,
     ease: 'quartInOut',
-    toggleState: TOGGLE.EXPANDED,
+    collapsed: false,
   };
 
   constructor(props) {
@@ -38,15 +38,8 @@ class SlideToggle extends React.Component {
     this._state_ = {
       collasibleElement: null,
       isAnimating: false,
-      toggleState: TOGGLE.EXPANDED,
+      toggleState: this.props.collapsed ? TOGGLE.COLLAPSED : TOGGLE.EXPANDED,
     };
-
-    if (
-      this.props.toggleState &&
-      this.props.toggleState.toUpperCase() === TOGGLE.COLLAPSED
-    ) {
-      this._state_.toggleState = TOGGLE.COLLAPSED;
-    }
 
     this.setDuration(this.props.duration);
     const easeName = this.setEaseFunction(this.props.ease);
@@ -58,7 +51,7 @@ class SlideToggle extends React.Component {
     };
   }
 
-  setCollapsibleElement = (element) => {
+  setCollapsibleElement = element => {
     if (!element) {
       warn('no element in setCollapsibleElement');
     }
@@ -101,7 +94,7 @@ class SlideToggle extends React.Component {
     }
   };
 
-  setDuration = (duration) => {
+  setDuration = duration => {
     this._state_.duration = parseInt(duration, 10) || 0;
   };
 
@@ -201,14 +194,6 @@ class SlideToggle extends React.Component {
     });
   }
 
-  componentDidMount() {}
-
-  componentDidUpdate() {}
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return true;
-  }
-
   componentWillUnmount() {
     cAF(this._state_.timeout);
   }
@@ -216,8 +201,8 @@ class SlideToggle extends React.Component {
 
 // SlideToggle.propTypes = {
 //   duration: PropTypes.number,
-//   ease: PropTypes.oneOf(Object.keys(eases)),
-//   toggleState: PropTypes.oneOf([TOGGLE.COLLAPSED, TOGGLE.EXPANDED]),
+//   ease: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+//   collapsed: PropTypes.bool,
 // };
 
 export default SlideToggle;

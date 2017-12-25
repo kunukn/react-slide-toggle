@@ -1,4 +1,4 @@
-module.exports =
+var ReactSlideToggle =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -365,7 +365,7 @@ exports.default = SlideToggle;
 /* 4 */
 /***/ (function(module, exports) {
 
-module.exports = require("React");
+module.exports = React;
 
 /***/ }),
 /* 5 */

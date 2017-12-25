@@ -8,9 +8,6 @@ const entry = './src/library/ReactSlideToggle';
 const name = 'ReactSlideToggle';
 
 const plugins = [
-  new webpack.ProvidePlugin({
-    React: "React", react: "React", "window.react": "React", "window.React": "React"
-  }),
   new HtmlWebpackPlugin({
     template: './src/demo/index.html',
     filename: 'index.html',
@@ -83,14 +80,14 @@ function createConfig(options) {
     externals: {
       "react": "React",
       "react-dom": "ReactDOM",
+      "prop-types": "PropTypes",
     }
   };
 }
 
 module.exports = createVariants(
   {
-    target: ['umd', 'commonjs2']
-    //target: ['var', 'commonjs2', 'umd']
+    target: ['var', 'commonjs2', 'umd']
   },
   createConfig
 );

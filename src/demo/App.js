@@ -12,7 +12,7 @@ const getRandomEaseName = () => {
   return easeNames[index];
 };
 
-class App extends React.Component {
+export default class App extends React.Component {
   state = { duration: 400 };
 
   render() {
@@ -23,7 +23,7 @@ class App extends React.Component {
           key={i}
           duration={this.state.duration}
           ease={getRandomEaseName()}
-          toggleState={Math.random() > 0.5 ? 'collapsed' : 'expanded'}
+          collapsed={Math.random() > 0.5 ? true : false}
           render={({ onToggle, setCollasibleElement, state }) => (
             <div className="slide-toggle">
               <div className="slide-toggle__header">
@@ -75,5 +75,3 @@ class App extends React.Component {
     );
   }
 }
-
-export default App;
