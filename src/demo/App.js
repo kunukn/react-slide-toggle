@@ -1,16 +1,16 @@
 import React from 'react';
 import { SlideToggle } from '../library/ReactSlideToggle';
-import eases from 'eases';
-import BezierEasing from 'bezier-easing';
 
-//const log = console.log.bind(console);
-//log(Object.keys(eases));
+import eases from 'eases'; // example, provide your own easing fn
+import BezierEasing from 'bezier-easing'; // example, provide your own easing fn
 
 const easeNames = Object.keys(eases);
+
 const easeInOutQuart = t =>
   t < 0.5 ? 8 * t * t * t * t : 1 - 8 * --t * t * t * t;
 
 const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
+const easing_077_0_0175_1 = val => bezierEaseInOutQuart(val);
 
 const getRandomEase = () => {
   const index = Math.floor(Math.random() * easeNames.length);
@@ -67,8 +67,8 @@ export default class App extends React.Component {
       <SlideToggle
         key={components.length}
         duration={this.state.duration}
-        easeIn={bezierEaseInOutQuart}
-        easeOut={bezierEaseInOutQuart}
+        easeIn={easing_077_0_0175_1}
+        easeOut={easing_077_0_0175_1}
         collapsed={Math.random() > 0.5 ? true : false}
         render={generateMarkup}
       />
