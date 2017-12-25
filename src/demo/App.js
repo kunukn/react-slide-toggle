@@ -18,79 +18,79 @@ export default class App extends React.Component {
   state = { duration: 400 };
 
   render() {
+    const generateMarkup = ({ onToggle, setCollasibleElement, state }) => (
+      <div className="slide-toggle">
+        <div className="slide-toggle__header">
+          <button className="slide-toggle__button" onClick={onToggle}>
+            toggle
+          </button>
+        </div>
+        <div className="slide-toggle__box" ref={setCollasibleElement}>
+          <div className="slide-toggle__box-inner">
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry's standard dummy text
+            ever since the 1500s, when an unknown printer took a galley of type
+            and scrambled it to make a type specimen book. It has survived not
+            only five centuries, but also the leap into electronic typesetting,
+            remaining essentially unchanged. It was popularised in the 1960s
+            with the release of Letraset sheets containing Lorem Ipsum passages,
+            and more recently with desktop publishing software like Aldus
+            PageMaker including versions of Lorem Ipsum.
+          </div>
+        </div>
+        <pre>
+          {(() => {
+            return JSON.stringify(state, null, 2);
+          })()}
+        </pre>
+      </div>
+    );
+
     const components = [];
-    for (let i = 0; i < 10; i++) {
+    
+    components.push(
+      <SlideToggle
+        key={components.length}
+        duration={this.state.duration}
+        easeIn={getRandomEaseName()}
+        easeOut={'elasticOut'}
+        collapsed={Math.random() > 0.5 ? true : false}
+        render={generateMarkup}
+      />
+    );
+
+    for (let i = 0; i < 4; i++) {
+      const ease = getRandomEaseName();
       components.push(
         <SlideToggle
-          key={i}
+          key={components.length}
           duration={this.state.duration}
-          ease={getRandomEaseName()}
+          easeIn={ease}
+          easeOut={ease}
           collapsed={Math.random() > 0.5 ? true : false}
-          render={({ onToggle, setCollasibleElement, state }) => (
-            <div className="slide-toggle">
-              <div className="slide-toggle__header">
-                <button className="slide-toggle__button" onClick={onToggle}>
-                  toggle
-                </button>
-              </div>
-              <div className="slide-toggle__box" ref={setCollasibleElement}>
-                <div className="slide-toggle__box-inner">
-                  Lorem Ipsum is simply dummy text of the printing and
-                  typesetting industry. Lorem Ipsum has been the industry's
-                  standard dummy text ever since the 1500s, when an unknown
-                  printer took a galley of type and scrambled it to make a type
-                  specimen book. It has survived not only five centuries, but
-                  also the leap into electronic typesetting, remaining
-                  essentially unchanged. It was popularised in the 1960s with
-                  the release of Letraset sheets containing Lorem Ipsum
-                  passages, and more recently with desktop publishing software
-                  like Aldus PageMaker including versions of Lorem Ipsum.
-                </div>
-              </div>
-              <pre>
-                {(() => {
-                  return JSON.stringify(state, null, 2);
-                })()}
-              </pre>
-            </div>
-          )}
+          render={generateMarkup}
         />
       );
     }
     components.push(
       <SlideToggle
-        key={'custom easing'}
+        key={components.length}
         duration={this.state.duration}
-        ease={easeInOutQuart}
+        easeIn={easeInOutQuart}
+        easeOut={easeInOutQuart}
         collapsed={Math.random() > 0.5 ? true : false}
-        render={({ onToggle, setCollasibleElement, state }) => (
-          <div className="slide-toggle">
-            <div className="slide-toggle__header">
-              <button className="slide-toggle__button" onClick={onToggle}>
-                toggle
-              </button>
-            </div>
-            <div className="slide-toggle__box" ref={setCollasibleElement}>
-              <div className="slide-toggle__box-inner">
-                Lorem Ipsum is simply dummy text of the printing and
-                typesetting industry. Lorem Ipsum has been the industry's
-                standard dummy text ever since the 1500s, when an unknown
-                printer took a galley of type and scrambled it to make a type
-                specimen book. It has survived not only five centuries, but
-                also the leap into electronic typesetting, remaining
-                essentially unchanged. It was popularised in the 1960s with
-                the release of Letraset sheets containing Lorem Ipsum
-                passages, and more recently with desktop publishing software
-                like Aldus PageMaker including versions of Lorem Ipsum.
-              </div>
-            </div>
-            <pre>
-              {(() => {
-                return JSON.stringify(state, null, 2);
-              })()}
-            </pre>
-          </div>
-        )}
+        render={generateMarkup}
+      />
+    );
+
+    components.push(
+      <SlideToggle
+        key={components.length}
+        duration={this.state.duration}
+        easeIn={easeInOutQuart}
+        easeOut={easeInOutQuart}
+        collapsed={Math.random() > 0.5 ? true : false}
+        render={generateMarkup}
       />
     );
 

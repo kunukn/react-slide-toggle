@@ -179,135 +179,26 @@ var TOGGLE = {
   EXPANDING: 'EXPANDING',
   COLLAPSING: 'COLLAPSING'
 };
+var STRING = 'string';
+var FUNCTION = 'function';
+var CUSTOM_FUNCTION_NAME = 'custom function';
 
 var SlideToggle = function (_React$Component) {
   _inherits(SlideToggle, _React$Component);
+
+  // static propTypes = {
+  //   duration: PropTypes.number,
+  //   easeIn: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+  //   easeOut: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+  //   collapsed: PropTypes.bool,
+  // };
 
   function SlideToggle(props) {
     _classCallCheck(this, SlideToggle);
 
     var _this = _possibleConstructorReturn(this, (SlideToggle.__proto__ || Object.getPrototypeOf(SlideToggle)).call(this, props));
 
-    _this.setCollapsibleElement = function (element) {
-      if (!element) {
-        warn('no element in setCollapsibleElement');
-      }
-      _this._state_.collasibleElement = element || null;
-      if (element) {
-        if (_this._state_.toggleState === TOGGLE.COLLAPSED) {
-          _this.setCollapsedState();
-        } else if (_this._state_.toggleState === TOGGLE.EXPANDED) {
-          _this.setExpandedState();
-        }
-      }
-    };
-
-    _this.onToggle = function () {
-      if (_this._state_.isAnimating) {
-        log('working.. please wait - isAnimating true');
-        return;
-      }
-
-      var updateState = function updateState(_ref) {
-        var toggleState = _ref.toggleState,
-            display = _ref.display;
-
-        _this._state_.isAnimating = true;
-        _this._state_.toggleState = toggleState;
-        if ((typeof display === 'undefined' ? 'undefined' : _typeof(display)) !== undefined) {
-          _this._state_.collasibleElement.style.display = display;
-        }
-        _this._state_.boxHeight = _this._state_.collasibleElement.clientHeight;
-        _this._state_.startAnimationTime = new Date().getTime();
-      };
-
-      if (_this._state_.toggleState === TOGGLE.EXPANDED) {
-        updateState({ toggleState: TOGGLE.COLLAPSING });
-        _this.setState({ toggleState: TOGGLE.COLLAPSING });
-        _this.collapse();
-      } else if (_this._state_.toggleState === TOGGLE.COLLAPSED) {
-        updateState({ toggleState: TOGGLE.EXPANDING, display: '' });
-        _this.setState({ toggleState: TOGGLE.EXPANDING });
-        _this.expand();
-      } else {
-        log('error onToggle');
-      }
-    };
-
-    _this.setDuration = function (duration) {
-      _this._state_.duration = parseInt(duration, 10) || 0;
-    };
-
-    _this.setEaseFunction = function (ease) {
-      if (typeof ease === 'string') {
-        _this._state_.ease = _eases2.default[ease];
-        return ease;
-      } else if (typeof ease === 'function') {
-        _this._state_.ease = ease;
-        return 'custom function';
-      }
-    };
-
-    _this.setCollapsedState = function () {
-      _this._state_.collasibleElement.style.display = 'none';
-      _this._state_.collasibleElement.style.height = '';
-      _this._state_.toggleState = TOGGLE.COLLAPSED;
-      _this._state_.isAnimating = false;
-      _this.setState({ toggleState: TOGGLE.COLLAPSED });
-    };
-
-    _this.collapse = function () {
-      if (!_this._state_.collasibleElement) {
-        warn('no collapsibleElement');
-        return;
-      }
-
-      var duration = _this._state_.duration;
-      var now = new Date().getTime();
-      var elapsedTime = Math.min(duration, now - _this._state_.startAnimationTime);
-      var range = elapsedTime / duration;
-      var progress = 1 - _this._state_.ease(range);
-      var currentHeightValue = Math.round(_this._state_.boxHeight * progress);
-
-      if (elapsedTime < duration) {
-        _this._state_.collasibleElement.style.height = currentHeightValue + 'px';
-        _this._state_.timeout = _this.nextTick(_this.collapse);
-      } else {
-        _this.setCollapsedState();
-      }
-    };
-
-    _this.setExpandedState = function () {
-      _this._state_.collasibleElement.style.height = '';
-      _this._state_.toggleState = TOGGLE.EXPANDED;
-      _this._state_.isAnimating = false;
-      _this.setState({ toggleState: TOGGLE.EXPANDED });
-    };
-
-    _this.expand = function () {
-      if (!_this._state_.collasibleElement) {
-        warn('no collapsibleElement');
-        return;
-      }
-
-      var duration = _this._state_.duration;
-      var now = new Date().getTime();
-      var elapsedTime = Math.min(duration, now - _this._state_.startAnimationTime);
-      var range = elapsedTime / duration;
-      var progress = _this._state_.ease(range);
-      var currentHeightValue = Math.round(_this._state_.boxHeight * progress);
-
-      if (elapsedTime < duration) {
-        _this._state_.collasibleElement.style.height = currentHeightValue + 'px';
-        _this.nextTick(_this.expand);
-      } else {
-        _this.setExpandedState();
-      }
-    };
-
-    _this.nextTick = function (callback) {
-      _this._state_.timeout = rAF(callback);
-    };
+    _initialiseProps.call(_this);
 
     _this._state_ = {
       collasibleElement: null,
@@ -315,13 +206,21 @@ var SlideToggle = function (_React$Component) {
       toggleState: _this.props.collapsed ? TOGGLE.COLLAPSED : TOGGLE.EXPANDED
     };
 
-    _this.setDuration(_this.props.duration);
-    var easeName = _this.setEaseFunction(_this.props.ease);
+    var duration = _this.setDuration(_this.props.duration);
+
+    var _this$setEaseFunction = _this.setEaseFunction({ easeIn: _this.props.easeIn }),
+        easeInName = _this$setEaseFunction.easeInName;
+
+    var _this$setEaseFunction2 = _this.setEaseFunction({
+      easeOut: _this.props.easeOut
+    }),
+        easeOutName = _this$setEaseFunction2.easeOutName;
 
     _this.state = {
       toggleState: _this._state_.toggleState,
-      duration: _this._state_.duration,
-      easeName: easeName
+      duration: duration,
+      easeInName: easeInName,
+      easeOutName: easeOutName
     };
     return _this;
   }
@@ -329,13 +228,25 @@ var SlideToggle = function (_React$Component) {
   _createClass(SlideToggle, [{
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      if (nextProps.ease !== this.props.ease) {
-        var easeName = this.setEaseFunction(nextProps.ease);
-        this.setState({ easeName: easeName });
+      if (nextProps.easeIn !== this.props.easeIn) {
+        var _setEaseFunction = this.setEaseFunction({
+          easeIn: nextProps.easeIn
+        }),
+            easeInName = _setEaseFunction.easeInName;
+
+        this.setState({ easeInName: easeInName });
+      }
+      if (nextProps.easeOut !== this.props.easeOut) {
+        var _setEaseFunction2 = this.setEaseFunction({
+          easeOut: nextProps.easeOut
+        }),
+            easeOutName = _setEaseFunction2.easeOutName;
+
+        this.setState({ easeOutName: easeOutName });
       }
       if (nextProps.duration !== this.props.duration) {
-        this.setDuration(nextProps.duration);
-        this.setState({ duration: this._state_.duration });
+        var duration = this.setDuration(nextProps.duration);
+        this.setState({ duration: duration });
       }
     }
   }, {
@@ -357,17 +268,175 @@ var SlideToggle = function (_React$Component) {
   return SlideToggle;
 }(_react2.default.Component);
 
-// SlideToggle.propTypes = {
-//   duration: PropTypes.number,
-//   ease: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-//   collapsed: PropTypes.bool,
-// };
-
 SlideToggle.defaultProps = {
   duration: 300,
-  ease: 'quartInOut',
+  easeIn: 'quartInOut',
+  easeOut: 'quartInOut',
   collapsed: false
 };
+
+var _initialiseProps = function _initialiseProps() {
+  var _this2 = this;
+
+  this.setCollapsibleElement = function (element) {
+    if (!element) {
+      warn('no element in setCollapsibleElement');
+      return;
+    }
+    _this2._state_.collasibleElement = element;
+    if (_this2._state_.toggleState === TOGGLE.COLLAPSED) {
+      _this2.setCollapsedState();
+    } else if (_this2._state_.toggleState === TOGGLE.EXPANDED) {
+      _this2.setExpandedState();
+    }
+  };
+
+  this.onToggle = function () {
+    if (_this2._state_.isAnimating) {
+      log('working.. please wait - isAnimating true');
+      return;
+    }
+
+    var update_State_ = function update_State_(_ref) {
+      var toggleState = _ref.toggleState,
+          display = _ref.display;
+
+      _this2._state_.isAnimating = true;
+      _this2._state_.toggleState = toggleState;
+      if ((typeof display === 'undefined' ? 'undefined' : _typeof(display)) !== undefined) {
+        _this2._state_.collasibleElement.style.display = display;
+      }
+      _this2._state_.boxHeight = _this2._state_.collasibleElement.clientHeight;
+      _this2._state_.startAnimationTime = new Date().getTime();
+    };
+
+    if (_this2._state_.toggleState === TOGGLE.EXPANDED) {
+      update_State_({ toggleState: TOGGLE.COLLAPSING });
+      _this2.setState({ toggleState: TOGGLE.COLLAPSING });
+      _this2.collapse();
+    } else if (_this2._state_.toggleState === TOGGLE.COLLAPSED) {
+      update_State_({ toggleState: TOGGLE.EXPANDING, display: '' });
+      _this2.setState({ toggleState: TOGGLE.EXPANDING });
+      _this2.expand();
+    }
+  };
+
+  this.setDuration = function (duration) {
+    var durationNumber = parseInt(duration, 10) || 0;
+    _this2._state_.duration = durationNumber;
+    return durationNumber;
+  };
+
+  this.setEaseFunction = function (_ref2) {
+    var easeIn = _ref2.easeIn,
+        easeOut = _ref2.easeOut;
+
+    var result = {};
+    if ((typeof easeIn === 'undefined' ? 'undefined' : _typeof(easeIn)) === STRING) {
+      _this2._state_.easeIn = _eases2.default[easeIn];
+      result.easeInName = easeIn;
+    }
+    if ((typeof easeOut === 'undefined' ? 'undefined' : _typeof(easeOut)) === STRING) {
+      _this2._state_.easeOut = _eases2.default[easeOut];
+      result.easeOutName = easeOut;
+    }
+    if ((typeof easeIn === 'undefined' ? 'undefined' : _typeof(easeIn)) === FUNCTION) {
+      _this2._state_.easeIn = easeIn;
+      result.easeInName = CUSTOM_FUNCTION_NAME;
+    }
+    if ((typeof easeOut === 'undefined' ? 'undefined' : _typeof(easeOut)) === FUNCTION) {
+      _this2._state_.easeOut = easeOut;
+      result.easeOutName = CUSTOM_FUNCTION_NAME;
+    }
+    return result;
+  };
+
+  this.setCollapsedState = function () {
+    _this2._state_.collasibleElement.style.display = 'none';
+    _this2._state_.collasibleElement.style.height = '';
+    _this2._state_.toggleState = TOGGLE.COLLAPSED;
+    _this2._state_.isAnimating = false;
+    _this2._state_.range = 0;
+    _this2._state_.progress = 0;
+    _this2.setState({ toggleState: TOGGLE.COLLAPSED });
+  };
+
+  this.collapse = function () {
+    if (!_this2._state_.collasibleElement) {
+      warn('no collapsibleElement');
+      return;
+    }
+    if (_this2._state_.toggleState !== TOGGLE.COLLAPSING) {
+      return;
+    }
+
+    var _state_ = _this2._state_,
+        duration = _state_.duration,
+        easeIn = _state_.easeIn,
+        startAnimationTime = _state_.startAnimationTime,
+        boxHeight = _state_.boxHeight;
+
+    var now = new Date().getTime();
+    var elapsedTime = Math.min(duration, now - startAnimationTime);
+    var range = elapsedTime / duration;
+    var progress = 1 - easeIn(range);
+    var currentHeightValue = Math.round(boxHeight * progress);
+
+    if (elapsedTime < duration) {
+      _this2._state_.collasibleElement.style.height = currentHeightValue + 'px';
+      _this2._state_.timeout = _this2.nextTick(_this2.collapse);
+      _this2._state_.range = range;
+      _this2._state_.progress = progress;
+    } else {
+      _this2.setCollapsedState();
+    }
+  };
+
+  this.setExpandedState = function () {
+    _this2._state_.collasibleElement.style.height = '';
+    _this2._state_.toggleState = TOGGLE.EXPANDED;
+    _this2._state_.isAnimating = false;
+    _this2._state_.range = 0;
+    _this2._state_.progress = 0;
+    _this2.setState({ toggleState: TOGGLE.EXPANDED });
+  };
+
+  this.expand = function () {
+    if (!_this2._state_.collasibleElement) {
+      warn('no collapsibleElement');
+      return;
+    }
+    if (_this2._state_.toggleState !== TOGGLE.EXPANDING) {
+      return;
+    }
+
+    var _state_2 = _this2._state_,
+        duration = _state_2.duration,
+        startAnimationTime = _state_2.startAnimationTime,
+        easeOut = _state_2.easeOut,
+        boxHeight = _state_2.boxHeight;
+
+    var now = new Date().getTime();
+    var elapsedTime = Math.min(duration, now - startAnimationTime);
+    var range = elapsedTime / duration;
+    var progress = easeOut(range);
+    var currentHeightValue = Math.round(boxHeight * progress);
+
+    if (elapsedTime < duration) {
+      _this2._state_.collasibleElement.style.height = currentHeightValue + 'px';
+      _this2._state_.range = range;
+      _this2._state_.progress = progress;
+      _this2.nextTick(_this2.expand);
+    } else {
+      _this2.setExpandedState();
+    }
+  };
+
+  this.nextTick = function (callback) {
+    _this2._state_.timeout = rAF(callback);
+  };
+};
+
 exports.default = SlideToggle;
 
 /***/ }),

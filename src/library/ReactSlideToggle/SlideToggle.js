@@ -24,17 +24,22 @@ const TOGGLE = {
   EXPANDING: 'EXPANDING',
   COLLAPSING: 'COLLAPSING',
 };
+const STRING = 'string';
+const FUNCTION = 'function';
+const CUSTOM_FUNCTION_NAME = 'custom function';
 
 export default class SlideToggle extends React.Component {
   static defaultProps = {
     duration: 300,
-    ease: 'quartInOut',
+    easeIn: 'quartInOut',
+    easeOut: 'quartInOut',
     collapsed: false,
   };
 
   // static propTypes = {
   //   duration: PropTypes.number,
-  //   ease: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+  //   easeIn: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+  //   easeOut: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
   //   collapsed: PropTypes.bool,
   // };
 
@@ -47,13 +52,17 @@ export default class SlideToggle extends React.Component {
       toggleState: this.props.collapsed ? TOGGLE.COLLAPSED : TOGGLE.EXPANDED,
     };
 
-    this.setDuration(this.props.duration);
-    const easeName = this.setEaseFunction(this.props.ease);
+    const duration = this.setDuration(this.props.duration);
+    const { easeInName } = this.setEaseFunction({ easeIn: this.props.easeIn });
+    const { easeOutName } = this.setEaseFunction({
+      easeOut: this.props.easeOut,
+    });
 
     this.state = {
       toggleState: this._state_.toggleState,
-      duration: this._state_.duration,
-      easeName,
+      duration,
+      easeInName,
+      easeOutName,
     };
   }
 
@@ -98,18 +107,30 @@ export default class SlideToggle extends React.Component {
   };
 
   setDuration = duration => {
-    this._state_.duration = parseInt(duration, 10) || 0;
-    return this._state_.duration;
+    const durationNumber = parseInt(duration, 10) || 0;
+    this._state_.duration = durationNumber;
+    return durationNumber;
   };
 
-  setEaseFunction = ease => {
-    if (typeof ease === 'string') {
-      this._state_.ease = eases[ease];
-      return ease;
-    } else if (typeof ease === 'function') {
-      this._state_.ease = ease;
-      return 'custom function';
+  setEaseFunction = ({ easeIn, easeOut }) => {
+    const result = {};
+    if (typeof easeIn === STRING) {
+      this._state_.easeIn = eases[easeIn];
+      result.easeInName = easeIn;
     }
+    if (typeof easeOut === STRING) {
+      this._state_.easeOut = eases[easeOut];
+      result.easeOutName = easeOut;
+    }
+    if (typeof easeIn === FUNCTION) {
+      this._state_.easeIn = easeIn;
+      result.easeInName = CUSTOM_FUNCTION_NAME;
+    }
+    if (typeof easeOut === FUNCTION) {
+      this._state_.easeOut = easeOut;
+      result.easeOutName = CUSTOM_FUNCTION_NAME;
+    }
+    return result;
   };
 
   setCollapsedState = () => {
@@ -131,15 +152,12 @@ export default class SlideToggle extends React.Component {
       return;
     }
 
-    const duration = this._state_.duration;
+    const { duration, easeIn, startAnimationTime, boxHeight } = this._state_;
     const now = new Date().getTime();
-    const elapsedTime = Math.min(
-      duration,
-      now - this._state_.startAnimationTime
-    );
+    const elapsedTime = Math.min(duration, now - startAnimationTime);
     const range = elapsedTime / duration;
-    const progress = 1 - this._state_.ease(range);
-    const currentHeightValue = Math.round(this._state_.boxHeight * progress);
+    const progress = 1 - easeIn(range);
+    const currentHeightValue = Math.round(boxHeight * progress);
 
     if (elapsedTime < duration) {
       this._state_.collasibleElement.style.height = `${currentHeightValue}px`;
@@ -169,15 +187,12 @@ export default class SlideToggle extends React.Component {
       return;
     }
 
-    const duration = this._state_.duration;
+    const { duration, startAnimationTime, easeOut, boxHeight } = this._state_;
     const now = new Date().getTime();
-    const elapsedTime = Math.min(
-      duration,
-      now - this._state_.startAnimationTime
-    );
+    const elapsedTime = Math.min(duration, now - startAnimationTime);
     const range = elapsedTime / duration;
-    const progress = this._state_.ease(range);
-    const currentHeightValue = Math.round(this._state_.boxHeight * progress);
+    const progress = easeOut(range);
+    const currentHeightValue = Math.round(boxHeight * progress);
 
     if (elapsedTime < duration) {
       this._state_.collasibleElement.style.height = `${currentHeightValue}px`;
@@ -194,9 +209,17 @@ export default class SlideToggle extends React.Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.ease !== this.props.ease) {
-      const easeName = this.setEaseFunction(nextProps.ease);
-      this.setState({ easeName });
+    if (nextProps.easeIn !== this.props.easeIn) {
+      const { easeInName } = this.setEaseFunction({
+        easeIn: nextProps.easeIn,
+      });
+      this.setState({ easeInName });
+    }
+    if (nextProps.easeOut !== this.props.easeOut) {
+      const { easeOutName } = this.setEaseFunction({
+        easeOut: nextProps.easeOut,
+      });
+      this.setState({ easeOutName });
     }
     if (nextProps.duration !== this.props.duration) {
       const duration = this.setDuration(nextProps.duration);
