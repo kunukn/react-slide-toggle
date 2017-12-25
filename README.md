@@ -1,9 +1,9 @@
 React version of jQuery.slideToggle. JavaScript animation where height is set on every requestAnimationFrame.
 
-## Demo
+## demo
 
-* yarn
-* yarn start
+* yarn (npm install)
+* yarn start (npm start)
 
 ## cdn
 
@@ -13,7 +13,7 @@ https://unpkg.com/react-slide-toggle/
 
 https://www.npmjs.com/package/react-slide-toggle
 
-## Usage example
+## usage example
 
 Look in App component for inspiration
 
@@ -47,8 +47,12 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 />
 ```
 
+## size
 
-## Provide your own easing functions
+About 7Kb
+
+
+## provide your own easing functions
 
 Look for examples in the App component
 
