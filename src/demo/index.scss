@@ -8,8 +8,10 @@ body {
   font-family: sans-serif;
 }
 
-.app{
-  &__button{
+.app {
+  padding-bottom: 20rem;
+
+  &__button {
     font-size: 1rem;
     background: transparent;
     border: 1px solid gray;
@@ -19,14 +21,13 @@ body {
   }
 }
 
-.ease-names{
-  span{
+.ease-names {
+  span {
     background: #eee;
     display: inline-block;
-    margin-right: .5em;
+    margin-right: 0.5em;
   }
 }
-
 
 .slide-toggle {
   outline: 1px solid black;
