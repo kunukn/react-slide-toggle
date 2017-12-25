@@ -13,16 +13,6 @@ https://unpkg.com/react-slide-toggle/
 
 https://www.npmjs.com/package/react-slide-toggle
 
-
-## Provide your own easing functions
-
-Look for examples in the App component
-
-```js
-import eases from 'eases';
-import BezierEasing from 'bezier-easing';
-```
-
 ## Usage example
 
 Look in App component for inspiration
@@ -56,3 +46,15 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
   )}
 />
 ```
+
+
+## Provide your own easing functions
+
+Look for examples in the App component
+
+```js
+import eases from 'eases';
+import BezierEasing from 'bezier-easing';
+```
+
+To minimize the component size, no default easing library has been added.
