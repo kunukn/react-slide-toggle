@@ -18,7 +18,7 @@ https://www.npmjs.com/package/react-slide-toggle
 
 Look for examples in the App component
 
-```javascript
+```js
 import eases from 'eases';
 import BezierEasing from 'bezier-easing';
 ```
@@ -28,7 +28,7 @@ import BezierEasing from 'bezier-easing';
 Look in App component for inspiration
 
 
-```javascript
+```js
 import { SlideToggle } from 'ReactSlideToggle';
 import BezierEasing from 'bezier-easing';
 
