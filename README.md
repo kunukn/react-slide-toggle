@@ -2,8 +2,8 @@ React version of jQuery.slideToggle. JavaScript animation where height is set on
 
 ## demo
 
-* yarn (npm install)
-* yarn start (npm start)
+* npm install
+* npm start
 
 ## cdn
 
