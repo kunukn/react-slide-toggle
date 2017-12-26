@@ -62,3 +62,8 @@ import BezierEasing from 'bezier-easing';
 ```
 
 To minimize the component size, no default easing library has been added.
+
+You can see examples of JS-easing library usage here
+
+* easings      https://codepen.io/kunukn/full/mpVJOm/
+* cubic-bezier https://codepen.io/kunukn/full/YYNqyj/
