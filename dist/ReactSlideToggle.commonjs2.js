@@ -262,21 +262,33 @@ var _initialiseProps = function _initialiseProps() {
 
   this.onToggle = function () {
     if (_this2._state_.isAnimating) {
-      log('working.. please wait - isAnimating true');
-      return;
+      //  log('working.. please wait - isAnimating true');
+      // return;
     }
 
     var update_State_ = function update_State_(_ref) {
       var toggleState = _ref.toggleState,
-          display = _ref.display;
+          display = _ref.display,
+          isReverse = _ref.isReverse;
 
       _this2._state_.isAnimating = true;
       _this2._state_.toggleState = toggleState;
       if ((typeof display === 'undefined' ? 'undefined' : _typeof(display)) !== undefined) {
         _this2._state_.collasibleElement.style.display = display;
       }
-      _this2._state_.boxHeight = _this2._state_.collasibleElement.clientHeight;
-      _this2._state_.startAnimationTime = new Date().getTime();
+      var now = new Date().getTime();
+      if (isReverse) {
+        var _state_ = _this2._state_,
+            duration = _state_.duration,
+            startAnimationTime = _state_.startAnimationTime;
+
+        var elapsedTime = Math.min(duration, now - startAnimationTime);
+        var subtract = Math.max(0, duration - elapsedTime);
+        _this2._state_.startAnimationTime = now - subtract;
+      } else {
+        _this2._state_.boxHeight = _this2._state_.collasibleElement.clientHeight;
+        _this2._state_.startAnimationTime = now;
+      }
     };
 
     if (_this2._state_.toggleState === TOGGLE.EXPANDED) {
@@ -285,6 +297,18 @@ var _initialiseProps = function _initialiseProps() {
       _this2.collapse();
     } else if (_this2._state_.toggleState === TOGGLE.COLLAPSED) {
       update_State_({ toggleState: TOGGLE.EXPANDING, display: '' });
+      _this2.setState({ toggleState: TOGGLE.EXPANDING });
+      _this2.expand();
+    } else if (_this2._state_.toggleState === TOGGLE.EXPANDING) {
+      update_State_({ toggleState: TOGGLE.COLLAPSING, isReverse: true });
+      _this2.setState({ toggleState: TOGGLE.COLLAPSING });
+      _this2.collapse();
+    } else if (_this2._state_.toggleState === TOGGLE.COLLAPSING) {
+      update_State_({
+        toggleState: TOGGLE.EXPANDING,
+        display: '',
+        isReverse: true
+      });
       _this2.setState({ toggleState: TOGGLE.EXPANDING });
       _this2.expand();
     }
@@ -317,8 +341,6 @@ var _initialiseProps = function _initialiseProps() {
     _this2._state_.collasibleElement.style.height = '';
     _this2._state_.toggleState = TOGGLE.COLLAPSED;
     _this2._state_.isAnimating = false;
-    _this2._state_.range = 0;
-    _this2._state_.progress = 0;
     _this2.setState({ toggleState: TOGGLE.COLLAPSED });
   };
 
@@ -331,11 +353,11 @@ var _initialiseProps = function _initialiseProps() {
       return;
     }
 
-    var _state_ = _this2._state_,
-        duration = _state_.duration,
-        easeIn = _state_.easeIn,
-        startAnimationTime = _state_.startAnimationTime,
-        boxHeight = _state_.boxHeight;
+    var _state_2 = _this2._state_,
+        duration = _state_2.duration,
+        easeIn = _state_2.easeIn,
+        startAnimationTime = _state_2.startAnimationTime,
+        boxHeight = _state_2.boxHeight;
 
     var now = new Date().getTime();
     var elapsedTime = Math.min(duration, now - startAnimationTime);
@@ -346,8 +368,6 @@ var _initialiseProps = function _initialiseProps() {
     if (elapsedTime < duration) {
       _this2._state_.collasibleElement.style.height = currentHeightValue + 'px';
       _this2._state_.timeout = _this2.nextTick(_this2.collapse);
-      _this2._state_.range = range;
-      _this2._state_.progress = progress;
     } else {
       _this2.setCollapsedState();
     }
@@ -357,8 +377,6 @@ var _initialiseProps = function _initialiseProps() {
     _this2._state_.collasibleElement.style.height = '';
     _this2._state_.toggleState = TOGGLE.EXPANDED;
     _this2._state_.isAnimating = false;
-    _this2._state_.range = 0;
-    _this2._state_.progress = 0;
     _this2.setState({ toggleState: TOGGLE.EXPANDED });
   };
 
@@ -371,11 +389,11 @@ var _initialiseProps = function _initialiseProps() {
       return;
     }
 
-    var _state_2 = _this2._state_,
-        duration = _state_2.duration,
-        startAnimationTime = _state_2.startAnimationTime,
-        easeOut = _state_2.easeOut,
-        boxHeight = _state_2.boxHeight;
+    var _state_3 = _this2._state_,
+        duration = _state_3.duration,
+        startAnimationTime = _state_3.startAnimationTime,
+        easeOut = _state_3.easeOut,
+        boxHeight = _state_3.boxHeight;
 
     var now = new Date().getTime();
     var elapsedTime = Math.min(duration, now - startAnimationTime);
@@ -385,8 +403,6 @@ var _initialiseProps = function _initialiseProps() {
 
     if (elapsedTime < duration) {
       _this2._state_.collasibleElement.style.height = currentHeightValue + 'px';
-      _this2._state_.range = range;
-      _this2._state_.progress = progress;
       _this2.nextTick(_this2.expand);
     } else {
       _this2.setExpandedState();
