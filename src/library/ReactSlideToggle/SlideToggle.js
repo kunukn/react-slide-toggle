@@ -80,11 +80,6 @@ export default class SlideToggle extends React.Component {
   };
 
   onToggle = () => {
-    if (this._state_.isAnimating) {
-      //  log('working.. please wait - isAnimating true');
-      // return;
-    }
-
     const update_State_ = ({ toggleState, display, isReverse }) => {
       this._state_.isAnimating = true;
       this._state_.toggleState = toggleState;
@@ -105,15 +100,24 @@ export default class SlideToggle extends React.Component {
 
     if (this._state_.toggleState === TOGGLE.EXPANDED) {
       update_State_({ toggleState: TOGGLE.COLLAPSING });
-      this.setState({ toggleState: TOGGLE.COLLAPSING });
+      this.setState({
+        toggleState: TOGGLE.COLLAPSING,
+        isAnimating: this._state_.isAnimating,
+      });
       this.collapse();
     } else if (this._state_.toggleState === TOGGLE.COLLAPSED) {
       update_State_({ toggleState: TOGGLE.EXPANDING, display: '' });
-      this.setState({ toggleState: TOGGLE.EXPANDING });
+      this.setState({
+        toggleState: TOGGLE.EXPANDING,
+        isAnimating: this._state_.isAnimating,
+      });
       this.expand();
     } else if (this._state_.toggleState === TOGGLE.EXPANDING) {
       update_State_({ toggleState: TOGGLE.COLLAPSING, isReverse: true });
-      this.setState({ toggleState: TOGGLE.COLLAPSING });
+      this.setState({
+        toggleState: TOGGLE.COLLAPSING,
+        isAnimating: this._state_.isAnimating,
+      });
       this.collapse();
     } else if (this._state_.toggleState === TOGGLE.COLLAPSING) {
       update_State_({
@@ -121,7 +125,10 @@ export default class SlideToggle extends React.Component {
         display: '',
         isReverse: true,
       });
-      this.setState({ toggleState: TOGGLE.EXPANDING });
+      this.setState({
+        toggleState: TOGGLE.EXPANDING,
+        isAnimating: this._state_.isAnimating,
+      });
       this.expand();
     }
   };
@@ -154,7 +161,10 @@ export default class SlideToggle extends React.Component {
     this._state_.collasibleElement.style.height = '';
     this._state_.toggleState = TOGGLE.COLLAPSED;
     this._state_.isAnimating = false;
-    this.setState({ toggleState: TOGGLE.COLLAPSED });
+    this.setState({
+      toggleState: TOGGLE.COLLAPSED,
+      isAnimating: this._state_.isAnimating,
+    });
   };
 
   collapse = () => {
@@ -185,7 +195,10 @@ export default class SlideToggle extends React.Component {
     this._state_.collasibleElement.style.height = '';
     this._state_.toggleState = TOGGLE.EXPANDED;
     this._state_.isAnimating = false;
-    this.setState({ toggleState: TOGGLE.EXPANDED });
+    this.setState({
+      toggleState: TOGGLE.EXPANDED,
+      isAnimating: this._state_.isAnimating,
+    });
   };
 
   expand = () => {

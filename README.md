@@ -1,4 +1,4 @@
-React version of jQuery.slideToggle. JavaScript animation where height is set on every requestAnimationFrame.
+React version of jQuery.slideToggle. JavaScript animation where height is set on every requestAnimationFrame. The toggle direction can be reversed during the animation.
 
 ## demo
 

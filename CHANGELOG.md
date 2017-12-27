@@ -1,5 +1,8 @@
 ## Changelog
 
+### 0.0.7
+* ability to reverse toggle direction before the animation is complete.
+
 ### 0.0.6
 * remove dependency to eases
 
