@@ -18,7 +18,7 @@ const getRandomEase = () => {
 };
 
 export default class App extends React.Component {
-  state = { duration: 400 };
+  state = { duration: 1000 };
 
   render() {
     const generateMarkup = ({ onToggle, setCollasibleElement, state }) => (
@@ -54,27 +54,17 @@ export default class App extends React.Component {
 
     const components = [];
 
-    components.push(
+    true && components.push(
       <SlideToggle
         key={components.length}
         duration={this.state.duration}
-        easeIn={getRandomEase()}
-        easeOut={eases['elasticOut']}
+        easeIn={easeInOutQuart}
+        easeOut={easeInOutQuart}
         collapsed={Math.random() > 0.5 ? true : false}
         render={generateMarkup}
       />
     );
 
-    components.push(
-      <SlideToggle
-        key={components.length}
-        duration={this.state.duration}
-        easeIn={easing_077_0_0175_1}
-        easeOut={easing_077_0_0175_1}
-        collapsed={Math.random() > 0.5 ? true : false}
-        render={generateMarkup}
-      />
-    );
 
     for (let i = 0; i < 4; i++) {
       const ease = getRandomEase();
@@ -89,16 +79,40 @@ export default class App extends React.Component {
         />
       );
     }
-    components.push(
+
+    false && components.push(
       <SlideToggle
         key={components.length}
         duration={this.state.duration}
-        easeIn={easeInOutQuart}
-        easeOut={easeInOutQuart}
+        easeIn={eases['sineInOut']}
+        easeOut={eases['sineInOut']}
         collapsed={Math.random() > 0.5 ? true : false}
         render={generateMarkup}
       />
     );
+
+    true && components.push(
+      <SlideToggle
+        key={components.length}
+        duration={this.state.duration}
+        easeIn={easing_077_0_0175_1}
+        easeOut={easing_077_0_0175_1}
+        collapsed={Math.random() > 0.5 ? true : false}
+        render={generateMarkup}
+      />
+    );
+
+    true && components.push(
+      <SlideToggle
+        key={components.length}
+        duration={this.state.duration}
+        easeIn={eases['elasticIn']}
+        easeOut={eases['elasticOut']}
+        collapsed={Math.random() > 0.5 ? true : false}
+        render={generateMarkup}
+      />
+    );
+
 
     components.push(
       <SlideToggle
