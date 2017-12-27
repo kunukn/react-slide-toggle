@@ -270,11 +270,6 @@ var _initialiseProps = function _initialiseProps() {
   };
 
   this.onToggle = function () {
-    if (_this2._state_.isAnimating) {
-      //  log('working.. please wait - isAnimating true');
-      // return;
-    }
-
     var update_State_ = function update_State_(_ref) {
       var toggleState = _ref.toggleState,
           display = _ref.display,
@@ -302,15 +297,24 @@ var _initialiseProps = function _initialiseProps() {
 
     if (_this2._state_.toggleState === TOGGLE.EXPANDED) {
       update_State_({ toggleState: TOGGLE.COLLAPSING });
-      _this2.setState({ toggleState: TOGGLE.COLLAPSING });
+      _this2.setState({
+        toggleState: TOGGLE.COLLAPSING,
+        isAnimating: _this2._state_.isAnimating
+      });
       _this2.collapse();
     } else if (_this2._state_.toggleState === TOGGLE.COLLAPSED) {
       update_State_({ toggleState: TOGGLE.EXPANDING, display: '' });
-      _this2.setState({ toggleState: TOGGLE.EXPANDING });
+      _this2.setState({
+        toggleState: TOGGLE.EXPANDING,
+        isAnimating: _this2._state_.isAnimating
+      });
       _this2.expand();
     } else if (_this2._state_.toggleState === TOGGLE.EXPANDING) {
       update_State_({ toggleState: TOGGLE.COLLAPSING, isReverse: true });
-      _this2.setState({ toggleState: TOGGLE.COLLAPSING });
+      _this2.setState({
+        toggleState: TOGGLE.COLLAPSING,
+        isAnimating: _this2._state_.isAnimating
+      });
       _this2.collapse();
     } else if (_this2._state_.toggleState === TOGGLE.COLLAPSING) {
       update_State_({
@@ -318,7 +322,10 @@ var _initialiseProps = function _initialiseProps() {
         display: '',
         isReverse: true
       });
-      _this2.setState({ toggleState: TOGGLE.EXPANDING });
+      _this2.setState({
+        toggleState: TOGGLE.EXPANDING,
+        isAnimating: _this2._state_.isAnimating
+      });
       _this2.expand();
     }
   };
@@ -350,7 +357,10 @@ var _initialiseProps = function _initialiseProps() {
     _this2._state_.collasibleElement.style.height = '';
     _this2._state_.toggleState = TOGGLE.COLLAPSED;
     _this2._state_.isAnimating = false;
-    _this2.setState({ toggleState: TOGGLE.COLLAPSED });
+    _this2.setState({
+      toggleState: TOGGLE.COLLAPSED,
+      isAnimating: _this2._state_.isAnimating
+    });
   };
 
   this.collapse = function () {
@@ -386,7 +396,10 @@ var _initialiseProps = function _initialiseProps() {
     _this2._state_.collasibleElement.style.height = '';
     _this2._state_.toggleState = TOGGLE.EXPANDED;
     _this2._state_.isAnimating = false;
-    _this2.setState({ toggleState: TOGGLE.EXPANDED });
+    _this2.setState({
+      toggleState: TOGGLE.EXPANDED,
+      isAnimating: _this2._state_.isAnimating
+    });
   };
 
   this.expand = function () {
