@@ -1,6 +1,6 @@
 {
   "name": "react-slide-toggle",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "dependencies": {
   },
   "scripts": {
@@ -30,11 +30,6 @@
       "react"
     ]
   },
-  "babel-plugins-already-used-by-state-2": [
-    "transform-class-properties",
-    "transform-object-rest-spread",
-    "transform-react-jsx"
-  ],
   "devDependencies": {
     "babel-core": "*",
     "babel-eslint": "*",

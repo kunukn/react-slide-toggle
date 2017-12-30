@@ -4,6 +4,8 @@ import { SlideToggle } from '../library/ReactSlideToggle';
 import eases from 'eases'; // example, provide your own easing fn
 import BezierEasing from 'bezier-easing'; // example, provide your own easing fn
 
+const log = console.log.bind(console);
+
 const easeNames = Object.keys(eases);
 
 const easeInOutQuart = t =>
@@ -61,6 +63,10 @@ export default class App extends React.Component {
         easeIn={easeInOutQuart}
         easeOut={easeInOutQuart}
         collapsed={Math.random() > 0.5 ? true : false}
+        onExpanded={log.bind(null,'onExpanded')}
+        onCollapsed={log.bind(null,'onCollapsed')}
+        onCollapsing={log.bind(null,'onCollapsing')}
+        onExpanding={log.bind(null,'onExpanding')}
         render={generateMarkup}
       />
     );

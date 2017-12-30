@@ -163,6 +163,10 @@ var SlideToggle = function (_React$Component) {
   //   easeIn: PropTypes.oneOfType([PropTypes.func]),
   //   easeOut: PropTypes.oneOfType([PropTypes.func]),
   //   collapsed: PropTypes.bool,
+  //   onExpanded: PropTypes.func,
+  //   onExpanding: PropTypes.func,
+  //   onCollapsed: PropTypes.func,
+  //   onCollapsing: PropTypes.func,
   // };
 
   function SlideToggle(props) {
@@ -198,6 +202,11 @@ var SlideToggle = function (_React$Component) {
   }
 
   _createClass(SlideToggle, [{
+    key: 'now',
+    value: function now() {
+      return new Date().getTime();
+    }
+  }, {
     key: 'getFunctionName',
     value: function getFunctionName(fn) {
       return (/function ([^(]*)/.exec(fn + '')[1]
@@ -250,7 +259,11 @@ SlideToggle.defaultProps = {
   duration: 300,
   easeIn: cubicInOut,
   easeOut: cubicInOut,
-  collapsed: false
+  collapsed: false,
+  onExpanded: null,
+  onExpanding: null,
+  onCollapsed: null,
+  onCollapsing: null
 };
 
 var _initialiseProps = function _initialiseProps() {
@@ -280,7 +293,7 @@ var _initialiseProps = function _initialiseProps() {
       if ((typeof display === 'undefined' ? 'undefined' : _typeof(display)) !== undefined) {
         _this2._state_.collasibleElement.style.display = display;
       }
-      var now = new Date().getTime();
+      var now = _this2.now();
       if (isReverse) {
         var _state_ = _this2._state_,
             duration = _state_.duration,
@@ -301,6 +314,7 @@ var _initialiseProps = function _initialiseProps() {
         toggleState: TOGGLE.COLLAPSING,
         isAnimating: _this2._state_.isAnimating
       });
+      _this2.props.onCollapsing && _this2.props.onCollapsing();
       _this2.collapse();
     } else if (_this2._state_.toggleState === TOGGLE.COLLAPSED) {
       update_State_({ toggleState: TOGGLE.EXPANDING, display: '' });
@@ -308,6 +322,7 @@ var _initialiseProps = function _initialiseProps() {
         toggleState: TOGGLE.EXPANDING,
         isAnimating: _this2._state_.isAnimating
       });
+      _this2.props.onExpanding && _this2.props.onExpanding();
       _this2.expand();
     } else if (_this2._state_.toggleState === TOGGLE.EXPANDING) {
       update_State_({ toggleState: TOGGLE.COLLAPSING, isReverse: true });
@@ -315,6 +330,7 @@ var _initialiseProps = function _initialiseProps() {
         toggleState: TOGGLE.COLLAPSING,
         isAnimating: _this2._state_.isAnimating
       });
+      _this2.props.onCollapsing && _this2.props.onCollapsing();
       _this2.collapse();
     } else if (_this2._state_.toggleState === TOGGLE.COLLAPSING) {
       update_State_({
@@ -326,6 +342,7 @@ var _initialiseProps = function _initialiseProps() {
         toggleState: TOGGLE.EXPANDING,
         isAnimating: _this2._state_.isAnimating
       });
+      _this2.props.onExpanding && _this2.props.onExpanding();
       _this2.expand();
     }
   };
@@ -361,6 +378,7 @@ var _initialiseProps = function _initialiseProps() {
       toggleState: TOGGLE.COLLAPSED,
       isAnimating: _this2._state_.isAnimating
     });
+    _this2.props.onCollapsed && _this2.props.onCollapsed();
   };
 
   this.collapse = function () {
@@ -378,8 +396,7 @@ var _initialiseProps = function _initialiseProps() {
         startAnimationTime = _state_2.startAnimationTime,
         boxHeight = _state_2.boxHeight;
 
-    var now = new Date().getTime();
-    var elapsedTime = Math.min(duration, now - startAnimationTime);
+    var elapsedTime = Math.min(duration, _this2.now() - startAnimationTime);
     var range = elapsedTime / duration;
     var progress = 1 - easeIn(range);
     var currentHeightValue = Math.round(boxHeight * progress);
@@ -400,6 +417,7 @@ var _initialiseProps = function _initialiseProps() {
       toggleState: TOGGLE.EXPANDED,
       isAnimating: _this2._state_.isAnimating
     });
+    _this2.props.onExpanded && _this2.props.onExpanded();
   };
 
   this.expand = function () {
@@ -417,8 +435,7 @@ var _initialiseProps = function _initialiseProps() {
         easeOut = _state_3.easeOut,
         boxHeight = _state_3.boxHeight;
 
-    var now = new Date().getTime();
-    var elapsedTime = Math.min(duration, now - startAnimationTime);
+    var elapsedTime = Math.min(duration, _this2.now() - startAnimationTime);
     var range = elapsedTime / duration;
     var progress = easeOut(range);
     var currentHeightValue = Math.round(boxHeight * progress);
