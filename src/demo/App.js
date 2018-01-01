@@ -95,7 +95,7 @@ export default class App extends React.Component {
       />
     );
 
-    if (false)
+    if (true)
       for (let i = 0; i < 4; i++) {
         const ease = getRandomEase();
         const name = this.fnName(ease);
@@ -114,7 +114,8 @@ export default class App extends React.Component {
         );
       }
 
-    false &&
+ 
+      false &&
       components.push(
         <SlideToggle
           key={components.length}
@@ -129,7 +130,7 @@ export default class App extends React.Component {
         />
       );
 
-    false &&
+      true &&
       components.push(
         <SlideToggle
           key={components.length}
