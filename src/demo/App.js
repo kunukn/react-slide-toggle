@@ -60,14 +60,12 @@ export default class App extends React.Component {
       <SlideToggle
         key={components.length}
         duration={this.state.duration}
-        easeIn={easeInOutQuart}
-        easeOut={easeInOutQuart}
         collapsed={Math.random() > 0.5 ? true : false}
         onExpanded={() => log('onExpanded')}
         onCollapsed={() => log('onCollapsed')}
         onCollapsing={() => log('onCollapsing')}
         onExpanding={() => log('onExpanding')}
-        render={this.generateMarkup({easeInName: 'easeInOutQuart', easeOutName: 'easeInOutQuart'})}
+        render={this.generateMarkup({easeInName: 'default', easeOutName: 'default'})}
       />
     );
 
