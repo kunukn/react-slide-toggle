@@ -48,6 +48,8 @@ export default class App extends React.Component {
 
       <div>toggleState: {toggleState} </div>
       <div>isMoving: {isMoving+''} </div>
+      <div>easeIn: {easeInName}</div>
+      <div>easeOut: {easeOutName}</div>
     </div>
   );
 

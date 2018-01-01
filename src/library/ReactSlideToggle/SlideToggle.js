@@ -23,7 +23,6 @@ const TOGGLE = {
   EXPANDING: 'EXPANDING',
   COLLAPSING: 'COLLAPSING',
 };
-const FUNCTION = 'function';
 
 const cubicInOut = t =>
   t < 0.5 ? 4.0 * t * t * t : 0.5 * Math.pow(2.0 * t - 2.0, 3.0) + 1.0;
@@ -59,18 +58,13 @@ export default class SlideToggle extends React.Component {
       toggleState: this.props.collapsed ? TOGGLE.COLLAPSED : TOGGLE.EXPANDED,
     };
 
-    const duration = this.setDuration(this.props.duration);
-    const { easeInName } = this.setEaseFunction({ easeIn: this.props.easeIn });
-    const { easeOutName } = this.setEaseFunction({
+    this.setDuration(this.props.duration);
+    this.setEaseFunction({
+      easeIn: this.props.easeIn,
       easeOut: this.props.easeOut,
     });
 
-    this.state = {
-      toggleState: this._state_.toggleState,
-      duration,
-      easeInName,
-      easeOutName,
-    };
+    this.state = { toggleState: this._state_.toggleState };
   }
 
   render() {
@@ -164,21 +158,9 @@ export default class SlideToggle extends React.Component {
     return durationNumber;
   };
 
-  getFunctionName(fn) {
-    return /function ([^(]*)/.exec(fn + '')[1];
-  }
-
   setEaseFunction = ({ easeIn, easeOut }) => {
-    const result = {};
-    if (typeof easeIn === FUNCTION) {
-      this._state_.easeIn = easeIn;
-      result.easeInName = this.getFunctionName(easeIn);
-    }
-    if (typeof easeOut === FUNCTION) {
-      this._state_.easeOut = easeOut;
-      result.easeOutName = this.getFunctionName(easeOut);
-    }
-    return result;
+    if (easeIn) this._state_.easeIn = easeIn;
+    if (easeOut) this._state_.easeOut = easeOut;
   };
 
   setCollapsedState = () => {
@@ -252,20 +234,13 @@ export default class SlideToggle extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.easeIn !== this.props.easeIn) {
-      const { easeInName } = this.setEaseFunction({
-        easeIn: nextProps.easeIn,
-      });
-      this.setState({ easeInName });
+      this.setEaseFunction({ easeIn: nextProps.easeIn });
     }
     if (nextProps.easeOut !== this.props.easeOut) {
-      const { easeOutName } = this.setEaseFunction({
-        easeOut: nextProps.easeOut,
-      });
-      this.setState({ easeOutName });
+      this.setEaseFunction({ easeOut: nextProps.easeOut });
     }
     if (nextProps.duration !== this.props.duration) {
-      const duration = this.setDuration(nextProps.duration);
-      this.setState({ duration });
+      this.setDuration(nextProps.duration);
     }
   }
 
