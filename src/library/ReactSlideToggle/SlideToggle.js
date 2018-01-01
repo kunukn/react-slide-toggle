@@ -1,7 +1,6 @@
 /*
   _state_ is used to minimize expensive re-renderings.
   We don't want to update the state for every requestAnimationFrame
-  this.state is updated on toggle state change, used easing and duration.
 */
 
 import React from 'react';
@@ -24,14 +23,14 @@ const TOGGLE = {
   COLLAPSING: 'COLLAPSING',
 };
 
-const cubicInOut = t =>
+const easeInOutCubic = t =>
   t < 0.5 ? 4.0 * t * t * t : 0.5 * Math.pow(2.0 * t - 2.0, 3.0) + 1.0;
 
 export default class SlideToggle extends React.Component {
   static defaultProps = {
     duration: 300,
-    easeIn: cubicInOut,
-    easeOut: cubicInOut,
+    easeIn: easeInOutCubic,
+    easeOut: easeInOutCubic,
     collapsed: false,
     onExpanded: null,
     onExpanding: null,

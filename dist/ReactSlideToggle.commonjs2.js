@@ -104,8 +104,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(3);
@@ -121,7 +119,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  _state_ is used to minimize expensive re-renderings.
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  We don't want to update the state for every requestAnimationFrame
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 this.state is updated on toggle state change, used easing and duration.
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
 //import PropTypes from 'prop-types';
@@ -141,7 +138,7 @@ var TOGGLE = {
   COLLAPSING: 'COLLAPSING'
 };
 
-var cubicInOut = function cubicInOut(t) {
+var easeInOutCubic = function easeInOutCubic(t) {
   return t < 0.5 ? 4.0 * t * t * t : 0.5 * Math.pow(2.0 * t - 2.0, 3.0) + 1.0;
 };
 
@@ -186,7 +183,7 @@ var SlideToggle = function (_React$Component) {
         _this._state_.toggleState = toggleState;
         _this._state_.isReverse = !!isReverse;
 
-        if ((typeof display === 'undefined' ? 'undefined' : _typeof(display)) !== undefined) {
+        if (display !== undefined) {
           _this._state_.collasibleElement.style.display = display;
         }
         var now = _this.now();
@@ -232,18 +229,6 @@ var SlideToggle = function (_React$Component) {
       }
     };
 
-    _this.setDuration = function (duration) {
-      _this._state_.duration = Math.max(parseInt(duration, 10) || 1);
-    };
-
-    _this.setEaseFunction = function (_ref2) {
-      var easeIn = _ref2.easeIn,
-          easeOut = _ref2.easeOut;
-
-      if (easeIn) _this._state_.easeIn = easeIn;
-      if (easeOut) _this._state_.easeOut = easeOut;
-    };
-
     _this.setCollapsedState = function () {
       _this._state_.collasibleElement.style.display = 'none';
       _this._state_.collasibleElement.style.height = '';
@@ -265,9 +250,9 @@ var SlideToggle = function (_React$Component) {
 
       var _this$_state_2 = _this._state_,
           duration = _this$_state_2.duration,
-          easeIn = _this$_state_2.easeIn,
           startTime = _this$_state_2.startTime,
           boxHeight = _this$_state_2.boxHeight;
+      var easeIn = _this.props.easeIn;
 
       var elapsedTime = Math.min(duration, _this.now() - startTime);
       var range = elapsedTime / duration;
@@ -303,8 +288,8 @@ var SlideToggle = function (_React$Component) {
       var _this$_state_3 = _this._state_,
           duration = _this$_state_3.duration,
           startTime = _this$_state_3.startTime,
-          easeOut = _this$_state_3.easeOut,
           boxHeight = _this$_state_3.boxHeight;
+      var easeOut = _this.props.easeOut;
 
       var elapsedTime = Math.min(duration, _this.now() - startTime);
       var range = elapsedTime / duration;
@@ -325,14 +310,9 @@ var SlideToggle = function (_React$Component) {
 
     _this._state_ = {
       collasibleElement: null,
-      toggleState: _this.props.collapsed ? TOGGLE.COLLAPSED : TOGGLE.EXPANDED
+      toggleState: _this.props.collapsed ? TOGGLE.COLLAPSED : TOGGLE.EXPANDED,
+      duration: _this.sanitizeDuration(_this.props.duration)
     };
-
-    _this.setDuration(_this.props.duration);
-    _this.setEaseFunction({
-      easeIn: _this.props.easeIn,
-      easeOut: _this.props.easeOut
-    });
 
     _this.state = {
       toggleState: _this._state_.toggleState,
@@ -363,16 +343,15 @@ var SlideToggle = function (_React$Component) {
       return new Date().getTime();
     }
   }, {
+    key: 'sanitizeDuration',
+    value: function sanitizeDuration(duration) {
+      return Math.max(parseInt(duration, 10) || 1);
+    }
+  }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      if (nextProps.easeIn !== this.props.easeIn) {
-        this.setEaseFunction({ easeIn: nextProps.easeIn });
-      }
-      if (nextProps.easeOut !== this.props.easeOut) {
-        this.setEaseFunction({ easeOut: nextProps.easeOut });
-      }
       if (nextProps.duration !== this.props.duration) {
-        this.setDuration(nextProps.duration);
+        this._state_.duration = this.sanitizeDuration(nextProps.duration);
       }
     }
   }, {
@@ -387,8 +366,8 @@ var SlideToggle = function (_React$Component) {
 
 SlideToggle.defaultProps = {
   duration: 300,
-  easeIn: cubicInOut,
-  easeOut: cubicInOut,
+  easeIn: easeInOutCubic,
+  easeOut: easeInOutCubic,
   collapsed: false,
   onExpanded: null,
   onExpanding: null,

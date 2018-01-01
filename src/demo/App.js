@@ -12,7 +12,6 @@ const easeInOutQuart = t =>
   t < 0.5 ? 8 * t * t * t * t : 1 - 8 * --t * t * t * t;
 
 const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
-const easing_077_0_0175_1 = val => bezierEaseInOutQuart(val);
 
 const getRandomEase = () => {
   const index = Math.floor(Math.random() * easeNames.length);
