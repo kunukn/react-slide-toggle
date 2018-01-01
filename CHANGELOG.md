@@ -1,5 +1,8 @@
 ## Changelog
 
+### 0.0.10
+* code refactorings
+
 ### 0.0.8
 * add callback on event change
 
