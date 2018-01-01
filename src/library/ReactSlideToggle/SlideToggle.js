@@ -108,7 +108,6 @@ export default class SlideToggle extends React.Component {
       this._state_.toggleState = toggleState;
       this._state_.isReverse = !!isReverse;
 
-      
       if (typeof display !== undefined) {
         this._state_.collasibleElement.style.display = display;
       }
@@ -127,7 +126,6 @@ export default class SlideToggle extends React.Component {
         toggleState: this._state_.toggleState,
         isReverse: this._state_.isReverse,
       });
-
     };
 
     if (this._state_.toggleState === TOGGLE.EXPANDED) {
@@ -154,8 +152,12 @@ export default class SlideToggle extends React.Component {
   };
 
   setDuration = duration => {
-    this._state_.duration = Math.max(parseInt(duration, 10) || 1);
+    this._state_.duration = this.sanitizeDuration(duration);
   };
+
+  sanitizeDuration(duration) {
+    return Math.max(parseInt(duration, 10) || 1);
+  }
 
   setEaseFunction = ({ easeIn, easeOut }) => {
     if (easeIn) this._state_.easeIn = easeIn;
