@@ -56,13 +56,8 @@ export default class SlideToggle extends React.Component {
     this._state_ = {
       collasibleElement: null,
       toggleState: this.props.collapsed ? TOGGLE.COLLAPSED : TOGGLE.EXPANDED,
+      duration: this.sanitizeDuration(this.props.duration),
     };
-
-    this.setDuration(this.props.duration);
-    this.setEaseFunction({
-      easeIn: this.props.easeIn,
-      easeOut: this.props.easeOut,
-    });
 
     this.state = {
       toggleState: this._state_.toggleState,
@@ -159,11 +154,6 @@ export default class SlideToggle extends React.Component {
     return Math.max(parseInt(duration, 10) || 1);
   }
 
-  setEaseFunction = ({ easeIn, easeOut }) => {
-    if (easeIn) this._state_.easeIn = easeIn;
-    if (easeOut) this._state_.easeOut = easeOut;
-  };
-
   setCollapsedState = () => {
     this._state_.collasibleElement.style.display = 'none';
     this._state_.collasibleElement.style.height = '';
@@ -183,7 +173,8 @@ export default class SlideToggle extends React.Component {
       return;
     }
 
-    const { duration, easeIn, startTime, boxHeight } = this._state_;
+    const { duration, startTime, boxHeight } = this._state_;
+    const { easeIn } = this.props;
     const elapsedTime = Math.min(duration, this.now() - startTime);
     const range = elapsedTime / duration;
     const progress = 1 - easeIn(range);
@@ -215,7 +206,8 @@ export default class SlideToggle extends React.Component {
       return;
     }
 
-    const { duration, startTime, easeOut, boxHeight } = this._state_;
+    const { duration, startTime, boxHeight } = this._state_;
+    const { easeOut } = this.props;
     const elapsedTime = Math.min(duration, this.now() - startTime);
     const range = elapsedTime / duration;
     const progress = easeOut(range);
@@ -234,12 +226,6 @@ export default class SlideToggle extends React.Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.easeIn !== this.props.easeIn) {
-      this.setEaseFunction({ easeIn: nextProps.easeIn });
-    }
-    if (nextProps.easeOut !== this.props.easeOut) {
-      this.setEaseFunction({ easeOut: nextProps.easeOut });
-    }
     if (nextProps.duration !== this.props.duration) {
       this.setDuration(nextProps.duration);
     }
