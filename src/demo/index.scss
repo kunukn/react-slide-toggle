@@ -63,3 +63,10 @@ body {
     background-color: hotpink;
   }
 }
+
+.state-values{
+  span:first-of-type{
+    display: inline-block;
+    min-width: 6rem;
+  }
+}

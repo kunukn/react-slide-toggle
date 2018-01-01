@@ -64,7 +64,10 @@ export default class SlideToggle extends React.Component {
       easeOut: this.props.easeOut,
     });
 
-    this.state = { toggleState: this._state_.toggleState };
+    this.state = {
+      toggleState: this._state_.toggleState,
+      isReverse: false,
+    };
   }
 
   render() {
@@ -72,6 +75,7 @@ export default class SlideToggle extends React.Component {
       onToggle: this.onToggle,
       setCollasibleElement: this.setCollapsibleElement,
       toggleState: this.state.toggleState,
+      isReverse: this.state.isReverse,
       isMoving: this.isMoving(this.state.toggleState),
     });
   }
@@ -102,40 +106,40 @@ export default class SlideToggle extends React.Component {
   onToggle = () => {
     const update_State_ = ({ toggleState, display, isReverse }) => {
       this._state_.toggleState = toggleState;
+      this._state_.isReverse = !!isReverse;
+
+      
       if (typeof display !== undefined) {
         this._state_.collasibleElement.style.display = display;
       }
       const now = this.now();
       if (isReverse) {
-        const { duration, startAnimationTime } = this._state_;
-        const elapsedTime = Math.min(duration, now - startAnimationTime);
+        const { duration, startTime } = this._state_;
+        const elapsedTime = Math.min(duration, now - startTime);
         const subtract = Math.max(0, duration - elapsedTime);
-        this._state_.startAnimationTime = now - subtract;
+        this._state_.startTime = now - subtract;
       } else {
         this._state_.boxHeight = this._state_.collasibleElement.clientHeight;
-        this._state_.startAnimationTime = now;
+        this._state_.startTime = now;
       }
+
+      this.setState({
+        toggleState: this._state_.toggleState,
+        isReverse: this._state_.isReverse,
+      });
+
     };
 
     if (this._state_.toggleState === TOGGLE.EXPANDED) {
       update_State_({ toggleState: TOGGLE.COLLAPSING });
-      this.setState({
-        toggleState: TOGGLE.COLLAPSING,
-      });
       this.props.onCollapsing && this.props.onCollapsing();
       this.collapse();
     } else if (this._state_.toggleState === TOGGLE.COLLAPSED) {
       update_State_({ toggleState: TOGGLE.EXPANDING, display: '' });
-      this.setState({
-        toggleState: TOGGLE.EXPANDING,
-      });
       this.props.onExpanding && this.props.onExpanding();
       this.expand();
     } else if (this._state_.toggleState === TOGGLE.EXPANDING) {
       update_State_({ toggleState: TOGGLE.COLLAPSING, isReverse: true });
-      this.setState({
-        toggleState: TOGGLE.COLLAPSING,
-      });
       this.props.onCollapsing && this.props.onCollapsing();
       this.collapse();
     } else if (this._state_.toggleState === TOGGLE.COLLAPSING) {
@@ -144,18 +148,13 @@ export default class SlideToggle extends React.Component {
         display: '',
         isReverse: true,
       });
-      this.setState({
-        toggleState: TOGGLE.EXPANDING,
-      });
       this.props.onExpanding && this.props.onExpanding();
       this.expand();
     }
   };
 
   setDuration = duration => {
-    const durationNumber = parseInt(duration, 10) || 0;
-    this._state_.duration = durationNumber;
-    return durationNumber;
+    this._state_.duration = Math.max(parseInt(duration, 10) || 1);
   };
 
   setEaseFunction = ({ easeIn, easeOut }) => {
@@ -182,8 +181,8 @@ export default class SlideToggle extends React.Component {
       return;
     }
 
-    const { duration, easeIn, startAnimationTime, boxHeight } = this._state_;
-    const elapsedTime = Math.min(duration, this.now() - startAnimationTime);
+    const { duration, easeIn, startTime, boxHeight } = this._state_;
+    const elapsedTime = Math.min(duration, this.now() - startTime);
     const range = elapsedTime / duration;
     const progress = 1 - easeIn(range);
     const currentHeightValue = Math.round(boxHeight * progress);
@@ -214,8 +213,8 @@ export default class SlideToggle extends React.Component {
       return;
     }
 
-    const { duration, startAnimationTime, easeOut, boxHeight } = this._state_;
-    const elapsedTime = Math.min(duration, this.now() - startAnimationTime);
+    const { duration, startTime, easeOut, boxHeight } = this._state_;
+    const elapsedTime = Math.min(duration, this.now() - startTime);
     const range = elapsedTime / duration;
     const progress = easeOut(range);
     const currentHeightValue = Math.round(boxHeight * progress);

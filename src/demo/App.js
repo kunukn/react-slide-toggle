@@ -22,7 +22,13 @@ const getRandomEase = () => {
 export default class App extends React.Component {
   state = { duration: 1000 };
 
-  generateMarkup = ({easeInName,easeOutName}={}) => ({ onToggle, setCollasibleElement, toggleState, isMoving }) => (
+  generateMarkup = ({ easeInName, easeOutName } = {}) => ({
+    onToggle,
+    setCollasibleElement,
+    toggleState,
+    isMoving,
+    isReverse,
+  }) => (
     <div className="slide-toggle">
       <div className="slide-toggle__header">
         <button className="slide-toggle__button" onClick={onToggle}>
@@ -46,10 +52,28 @@ export default class App extends React.Component {
         </div>
       </div>
 
-      <div>toggleState: {toggleState} </div>
-      <div>isMoving: {isMoving+''} </div>
-      <div>easeIn: {easeInName}</div>
-      <div>easeOut: {easeOutName}</div>
+      <div className="state-values">
+        <div>
+          <span>toggleState:</span>
+          <span>{toggleState}</span>
+        </div>
+        <div>
+          <span>isMoving:</span>
+          <span>{isMoving + ''}</span>
+        </div>
+        <div>
+          <span>easeIn:</span>
+          <span>{easeInName}</span>
+        </div>
+        <div>
+          <span>easeOut:</span>
+          <span>{easeOutName}</span>
+        </div>
+        <div>
+          <span>isReverse:</span>
+          <span>{isReverse+''}</span>
+        </div>
+      </div>
     </div>
   );
 
@@ -65,25 +89,31 @@ export default class App extends React.Component {
         onCollapsed={() => log('onCollapsed')}
         onCollapsing={() => log('onCollapsing')}
         onExpanding={() => log('onExpanding')}
-        render={this.generateMarkup({easeInName: 'default', easeOutName: 'default'})}
+        render={this.generateMarkup({
+          easeInName: 'default',
+          easeOutName: 'default',
+        })}
       />
     );
 
-    if(false)
-    for (let i = 0; i < 4; i++) {
-      const ease = getRandomEase();
-      const name = this.fnName(ease);
-      components.push(
-        <SlideToggle
-          key={components.length}
-          duration={this.state.duration}
-          easeIn={ease}
-          easeOut={ease}
-          collapsed={Math.random() > 0.5 ? true : false}
-          render={this.generateMarkup({easeInName: name, easeOutName: name})}
-        />
-      );
-    }
+    if (false)
+      for (let i = 0; i < 4; i++) {
+        const ease = getRandomEase();
+        const name = this.fnName(ease);
+        components.push(
+          <SlideToggle
+            key={components.length}
+            duration={this.state.duration}
+            easeIn={ease}
+            easeOut={ease}
+            collapsed={Math.random() > 0.5 ? true : false}
+            render={this.generateMarkup({
+              easeInName: name,
+              easeOutName: name,
+            })}
+          />
+        );
+      }
 
     false &&
       components.push(
@@ -93,7 +123,10 @@ export default class App extends React.Component {
           easeIn={bezierEaseInOutQuart}
           easeOut={bezierEaseInOutQuart}
           collapsed={Math.random() > 0.5 ? true : false}
-          render={this.generateMarkup({easeInName: this.fnName(bezierEaseInOutQuart), easeOutName: this.fnName(bezierEaseInOutQuart)})}
+          render={this.generateMarkup({
+            easeInName: this.fnName(bezierEaseInOutQuart),
+            easeOutName: this.fnName(bezierEaseInOutQuart),
+          })}
         />
       );
 
@@ -105,7 +138,10 @@ export default class App extends React.Component {
           easeIn={eases['elasticIn']}
           easeOut={eases['elasticOut']}
           collapsed={Math.random() > 0.5 ? true : false}
-          render={this.generateMarkup({easeInName: 'elasticIn', easeOutName: 'elasticOut'})}
+          render={this.generateMarkup({
+            easeInName: 'elasticIn',
+            easeOutName: 'elasticOut',
+          })}
         />
       );
 
@@ -129,10 +165,9 @@ export default class App extends React.Component {
     );
   }
 
-
   getFunctionName(fn) {
     return /function ([^(]*)/.exec(fn + '')[1];
   }
 
-  fnName = (fn) => this.getFunctionName(fn);
+  fnName = fn => this.getFunctionName(fn);
 }
