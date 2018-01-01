@@ -22,7 +22,7 @@ const getRandomEase = () => {
 export default class App extends React.Component {
   state = { duration: 1000 };
 
-  generateMarkup = ({ onToggle, setCollasibleElement, toggleState, isMoving }) => (
+  generateMarkup = ({easeInName,easeOutName}={}) => ({ onToggle, setCollasibleElement, toggleState, isMoving }) => (
     <div className="slide-toggle">
       <div className="slide-toggle__header">
         <button className="slide-toggle__button" onClick={onToggle}>
@@ -61,16 +61,18 @@ export default class App extends React.Component {
         easeIn={easeInOutQuart}
         easeOut={easeInOutQuart}
         collapsed={Math.random() > 0.5 ? true : false}
-        onExpanded={log.bind(null, 'onExpanded')}
-        onCollapsed={log.bind(null, 'onCollapsed')}
-        onCollapsing={log.bind(null, 'onCollapsing')}
-        onExpanding={log.bind(null, 'onExpanding')}
-        render={this.generateMarkup}
+        onExpanded={() => log('onExpanded')}
+        onCollapsed={() => log('onCollapsed')}
+        onCollapsing={() => log('onCollapsing')}
+        onExpanding={() => log('onExpanding')}
+        render={this.generateMarkup({easeInName: 'easeInOutQuart', easeOutName: 'easeInOutQuart'})}
       />
     );
 
+    if(false)
     for (let i = 0; i < 4; i++) {
       const ease = getRandomEase();
+      const name = this.fnName(ease);
       components.push(
         <SlideToggle
           key={components.length}
@@ -78,7 +80,7 @@ export default class App extends React.Component {
           easeIn={ease}
           easeOut={ease}
           collapsed={Math.random() > 0.5 ? true : false}
-          render={this.generateMarkup}
+          render={this.generateMarkup({easeInName: name, easeOutName: name})}
         />
       );
     }
@@ -88,26 +90,14 @@ export default class App extends React.Component {
         <SlideToggle
           key={components.length}
           duration={this.state.duration}
-          easeIn={eases['sineInOut']}
-          easeOut={eases['sineInOut']}
+          easeIn={bezierEaseInOutQuart}
+          easeOut={bezierEaseInOutQuart}
           collapsed={Math.random() > 0.5 ? true : false}
-          render={this.generateMarkup}
+          render={this.generateMarkup({easeInName: this.fnName(bezierEaseInOutQuart), easeOutName: this.fnName(bezierEaseInOutQuart)})}
         />
       );
 
-    true &&
-      components.push(
-        <SlideToggle
-          key={components.length}
-          duration={this.state.duration}
-          easeIn={easing_077_0_0175_1}
-          easeOut={easing_077_0_0175_1}
-          collapsed={Math.random() > 0.5 ? true : false}
-          render={this.generateMarkup}
-        />
-      );
-
-    true &&
+    false &&
       components.push(
         <SlideToggle
           key={components.length}
@@ -115,20 +105,9 @@ export default class App extends React.Component {
           easeIn={eases['elasticIn']}
           easeOut={eases['elasticOut']}
           collapsed={Math.random() > 0.5 ? true : false}
-          render={this.generateMarkup}
+          render={this.generateMarkup({easeInName: 'elasticIn', easeOutName: 'elasticOut'})}
         />
       );
-
-    components.push(
-      <SlideToggle
-        key={components.length}
-        duration={this.state.duration}
-        easeIn={easeInOutQuart}
-        easeOut={easeInOutQuart}
-        collapsed={Math.random() > 0.5 ? true : false}
-        render={this.generateMarkup}
-      />
-    );
 
     return (
       <div className="app">
@@ -140,6 +119,7 @@ export default class App extends React.Component {
         >
           Randomize
         </button>
+        <div>{this.state.duration}</div>
         <div className="ease-names">
           <div>Ease names ({easeNames.length}):</div>
           {easeNames.map((name, index) => <span key={index}>{name} </span>)}
@@ -148,4 +128,11 @@ export default class App extends React.Component {
       </div>
     );
   }
+
+
+  getFunctionName(fn) {
+    return /function ([^(]*)/.exec(fn + '')[1];
+  }
+
+  fnName = (fn) => this.getFunctionName(fn);
 }

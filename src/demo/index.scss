@@ -1,25 +1,28 @@
+* {
+  box-sizing: border-box;
+}
+
 html {
   font-size: 16px;
 }
 
 body {
   margin: 0;
-  padding: 0;
+  padding: 1rem;
   font-family: sans-serif;
 }
 
 .app {
   padding-bottom: 20rem;
 
-  button{
+  button {
     font-size: 1rem;
-    background: rgba(white,.5);
+    background: rgba(white, 0.5);
     border: 1px solid gray;
     padding: 0.5rem;
     box-shadow: none;
     border-radius: 2px;
   }
-
 }
 
 .ease-names {
