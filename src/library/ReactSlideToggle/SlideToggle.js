@@ -103,7 +103,7 @@ export default class SlideToggle extends React.Component {
       this._state_.toggleState = toggleState;
       this._state_.isReverse = !!isReverse;
 
-      if (typeof display !== undefined) {
+      if (display !== undefined) {
         this._state_.collasibleElement.style.display = display;
       }
       const now = this.now();
@@ -144,10 +144,6 @@ export default class SlideToggle extends React.Component {
       this.props.onExpanding && this.props.onExpanding();
       this.expand();
     }
-  };
-
-  setDuration = duration => {
-    this._state_.duration = this.sanitizeDuration(duration);
   };
 
   sanitizeDuration(duration) {
@@ -227,7 +223,7 @@ export default class SlideToggle extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.duration !== this.props.duration) {
-      this.setDuration(nextProps.duration);
+      this._state_.duration = this.sanitizeDuration(nextProps.duration);
     }
   }
 
