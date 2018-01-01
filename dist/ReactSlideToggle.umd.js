@@ -178,7 +178,6 @@ var SlideToggle = function (_React$Component) {
 
     _this._state_ = {
       collasibleElement: null,
-      isAnimating: false,
       toggleState: _this.props.collapsed ? TOGGLE.COLLAPSED : TOGGLE.EXPANDED
     };
 
@@ -202,6 +201,21 @@ var SlideToggle = function (_React$Component) {
   }
 
   _createClass(SlideToggle, [{
+    key: 'render',
+    value: function render() {
+      return this.props.render({
+        onToggle: this.onToggle,
+        setCollasibleElement: this.setCollapsibleElement,
+        toggleState: this.state.toggleState,
+        isMoving: this.isMoving(this.state.toggleState)
+      });
+    }
+  }, {
+    key: 'isMoving',
+    value: function isMoving(toggleState) {
+      return toggleState === TOGGLE.EXPANDING || toggleState === TOGGLE.COLLAPSING;
+    }
+  }, {
     key: 'now',
     value: function now() {
       return new Date().getTime();
@@ -235,15 +249,6 @@ var SlideToggle = function (_React$Component) {
         var duration = this.setDuration(nextProps.duration);
         this.setState({ duration: duration });
       }
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return this.props.render({
-        onToggle: this.onToggle,
-        setCollasibleElement: this.setCollapsibleElement,
-        state: this.state
-      });
     }
   }, {
     key: 'componentWillUnmount',
@@ -288,7 +293,6 @@ var _initialiseProps = function _initialiseProps() {
           display = _ref.display,
           isReverse = _ref.isReverse;
 
-      _this2._state_.isAnimating = true;
       _this2._state_.toggleState = toggleState;
       if ((typeof display === 'undefined' ? 'undefined' : _typeof(display)) !== undefined) {
         _this2._state_.collasibleElement.style.display = display;
@@ -311,24 +315,21 @@ var _initialiseProps = function _initialiseProps() {
     if (_this2._state_.toggleState === TOGGLE.EXPANDED) {
       update_State_({ toggleState: TOGGLE.COLLAPSING });
       _this2.setState({
-        toggleState: TOGGLE.COLLAPSING,
-        isAnimating: _this2._state_.isAnimating
+        toggleState: TOGGLE.COLLAPSING
       });
       _this2.props.onCollapsing && _this2.props.onCollapsing();
       _this2.collapse();
     } else if (_this2._state_.toggleState === TOGGLE.COLLAPSED) {
       update_State_({ toggleState: TOGGLE.EXPANDING, display: '' });
       _this2.setState({
-        toggleState: TOGGLE.EXPANDING,
-        isAnimating: _this2._state_.isAnimating
+        toggleState: TOGGLE.EXPANDING
       });
       _this2.props.onExpanding && _this2.props.onExpanding();
       _this2.expand();
     } else if (_this2._state_.toggleState === TOGGLE.EXPANDING) {
       update_State_({ toggleState: TOGGLE.COLLAPSING, isReverse: true });
       _this2.setState({
-        toggleState: TOGGLE.COLLAPSING,
-        isAnimating: _this2._state_.isAnimating
+        toggleState: TOGGLE.COLLAPSING
       });
       _this2.props.onCollapsing && _this2.props.onCollapsing();
       _this2.collapse();
@@ -339,8 +340,7 @@ var _initialiseProps = function _initialiseProps() {
         isReverse: true
       });
       _this2.setState({
-        toggleState: TOGGLE.EXPANDING,
-        isAnimating: _this2._state_.isAnimating
+        toggleState: TOGGLE.EXPANDING
       });
       _this2.props.onExpanding && _this2.props.onExpanding();
       _this2.expand();
@@ -373,10 +373,8 @@ var _initialiseProps = function _initialiseProps() {
     _this2._state_.collasibleElement.style.display = 'none';
     _this2._state_.collasibleElement.style.height = '';
     _this2._state_.toggleState = TOGGLE.COLLAPSED;
-    _this2._state_.isAnimating = false;
     _this2.setState({
-      toggleState: TOGGLE.COLLAPSED,
-      isAnimating: _this2._state_.isAnimating
+      toggleState: TOGGLE.COLLAPSED
     });
     _this2.props.onCollapsed && _this2.props.onCollapsed();
   };
@@ -412,10 +410,8 @@ var _initialiseProps = function _initialiseProps() {
   this.setExpandedState = function () {
     _this2._state_.collasibleElement.style.height = '';
     _this2._state_.toggleState = TOGGLE.EXPANDED;
-    _this2._state_.isAnimating = false;
     _this2.setState({
-      toggleState: TOGGLE.EXPANDED,
-      isAnimating: _this2._state_.isAnimating
+      toggleState: TOGGLE.EXPANDED
     });
     _this2.props.onExpanded && _this2.props.onExpanded();
   };

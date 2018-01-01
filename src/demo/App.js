@@ -22,55 +22,52 @@ const getRandomEase = () => {
 export default class App extends React.Component {
   state = { duration: 1000 };
 
-  render() {
-    const generateMarkup = ({ onToggle, setCollasibleElement, state }) => (
-      <div className="slide-toggle">
-        <div className="slide-toggle__header">
-          <button className="slide-toggle__button" onClick={onToggle}>
-            toggle
+  generateMarkup = ({ onToggle, setCollasibleElement, toggleState, isMoving }) => (
+    <div className="slide-toggle">
+      <div className="slide-toggle__header">
+        <button className="slide-toggle__button" onClick={onToggle}>
+          toggle
+        </button>
+      </div>
+      <div className="slide-toggle__box" ref={setCollasibleElement}>
+        <div className="slide-toggle__box-inner">
+          Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry. Lorem Ipsum has been the industry's standard dummy text ever
+          since the 1500s, when an unknown printer took a galley of type and
+          scrambled it to make a type specimen book. It has survived not only
+          five centuries, but also the leap into electronic typesetting,
+          remaining essentially unchanged. It was popularised in the 1960s with
+          the release of Letraset sheets containing Lorem Ipsum passages, and
+          more recently with desktop publishing software like Aldus PageMaker
+          including versions of Lorem Ipsum.
+          <button onClick={() => window.alert('test tabindex')}>
+            dummy button
           </button>
         </div>
-        <div className="slide-toggle__box" ref={setCollasibleElement}>
-          <div className="slide-toggle__box-inner">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s
-            with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus
-            PageMaker including versions of Lorem Ipsum.
-            <button onClick={() => window.alert('test tabindex')}>
-              dummy button
-            </button>
-          </div>
-        </div>
-        <pre>
-          {(() => {
-            return JSON.stringify(state, null, 2);
-          })()}
-        </pre>
       </div>
-    );
 
+      <div>toggleState: {toggleState} </div>
+      <div>isMoving: {isMoving+''} </div>
+    </div>
+  );
+
+  render() {
     const components = [];
 
-    true && components.push(
+    components.push(
       <SlideToggle
         key={components.length}
         duration={this.state.duration}
         easeIn={easeInOutQuart}
         easeOut={easeInOutQuart}
         collapsed={Math.random() > 0.5 ? true : false}
-        onExpanded={log.bind(null,'onExpanded')}
-        onCollapsed={log.bind(null,'onCollapsed')}
-        onCollapsing={log.bind(null,'onCollapsing')}
-        onExpanding={log.bind(null,'onExpanding')}
-        render={generateMarkup}
+        onExpanded={log.bind(null, 'onExpanded')}
+        onCollapsed={log.bind(null, 'onCollapsed')}
+        onCollapsing={log.bind(null, 'onCollapsing')}
+        onExpanding={log.bind(null, 'onExpanding')}
+        render={this.generateMarkup}
       />
     );
-
 
     for (let i = 0; i < 4; i++) {
       const ease = getRandomEase();
@@ -81,44 +78,46 @@ export default class App extends React.Component {
           easeIn={ease}
           easeOut={ease}
           collapsed={Math.random() > 0.5 ? true : false}
-          render={generateMarkup}
+          render={this.generateMarkup}
         />
       );
     }
 
-    false && components.push(
-      <SlideToggle
-        key={components.length}
-        duration={this.state.duration}
-        easeIn={eases['sineInOut']}
-        easeOut={eases['sineInOut']}
-        collapsed={Math.random() > 0.5 ? true : false}
-        render={generateMarkup}
-      />
-    );
+    false &&
+      components.push(
+        <SlideToggle
+          key={components.length}
+          duration={this.state.duration}
+          easeIn={eases['sineInOut']}
+          easeOut={eases['sineInOut']}
+          collapsed={Math.random() > 0.5 ? true : false}
+          render={this.generateMarkup}
+        />
+      );
 
-    true && components.push(
-      <SlideToggle
-        key={components.length}
-        duration={this.state.duration}
-        easeIn={easing_077_0_0175_1}
-        easeOut={easing_077_0_0175_1}
-        collapsed={Math.random() > 0.5 ? true : false}
-        render={generateMarkup}
-      />
-    );
+    true &&
+      components.push(
+        <SlideToggle
+          key={components.length}
+          duration={this.state.duration}
+          easeIn={easing_077_0_0175_1}
+          easeOut={easing_077_0_0175_1}
+          collapsed={Math.random() > 0.5 ? true : false}
+          render={this.generateMarkup}
+        />
+      );
 
-    true && components.push(
-      <SlideToggle
-        key={components.length}
-        duration={this.state.duration}
-        easeIn={eases['elasticIn']}
-        easeOut={eases['elasticOut']}
-        collapsed={Math.random() > 0.5 ? true : false}
-        render={generateMarkup}
-      />
-    );
-
+    true &&
+      components.push(
+        <SlideToggle
+          key={components.length}
+          duration={this.state.duration}
+          easeIn={eases['elasticIn']}
+          easeOut={eases['elasticOut']}
+          collapsed={Math.random() > 0.5 ? true : false}
+          render={this.generateMarkup}
+        />
+      );
 
     components.push(
       <SlideToggle
@@ -127,7 +126,7 @@ export default class App extends React.Component {
         easeIn={easeInOutQuart}
         easeOut={easeInOutQuart}
         collapsed={Math.random() > 0.5 ? true : false}
-        render={generateMarkup}
+        render={this.generateMarkup}
       />
     );
 

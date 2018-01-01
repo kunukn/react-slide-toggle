@@ -8,7 +8,8 @@
     "dev": "webpack-dev-server --env.dev --progress --config webpack.config.js",
     "build": "webpack --config webpack.config.build.js",
     "clean": "rimraf dist/*",
-    "minify": "npm run minify-umd & npm run minify-var",
+    "minify": "npm run minify-umd",
+    "minify-all": "npm run minify-umd & npm run minify-var",
     "minify-umd": "uglifyjs dist/ReactSlideToggle.umd.js --config-file uglify.config.json --output dist/ReactSlideToggle.umd.min.js",
     "minify-var": "uglifyjs dist/ReactSlideToggle.var.js --config-file uglify.config.json --output dist/ReactSlideToggle.var.min.js",
     "deploy": "npm run clean && npm run build && npm run minify"
