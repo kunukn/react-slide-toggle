@@ -39,6 +39,7 @@ export default class SlideToggle extends React.Component {
   };
 
   // static propTypes = {
+  //   render: PropTypes.func,
   //   duration: PropTypes.number,
   //   collapsed: PropTypes.bool,
   //   easeIn: PropTypes.func,
@@ -209,7 +210,7 @@ export default class SlideToggle extends React.Component {
     const { duration, startTime, boxHeight } = this._state_;
     const elapsedTime = Math.min(duration, this.now() - startTime);
     const range = elapsedTime / duration;
-    const ease = this.props.easeOut;    
+    const ease = this.props.easeOut;
     const progress = ease(range);
     const currentHeightValue = Math.round(boxHeight * progress);
     this.frame();
