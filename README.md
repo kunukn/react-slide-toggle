@@ -29,8 +29,8 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
   duration={280 /* default 300 */}
   easeCollapse={bezierEaseInOutQuart /* default cubicInOut */ }
   easeExpand={bezierEaseInOutQuart /* default cubicInOut */ }
-  collapsed={false /* default false */ }
-  irreversible={false /* default false */ }
+  collapsed={false /* default falsy */ }
+  irreversible={false /* default falsy */ }
   onExpanded={()=>{ /* optional event hook */ }}
   onExpanding={()=>{ /* optional event hook */ }}
   onCollapsed={()=>{ /* optional event hook */ }}
