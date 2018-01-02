@@ -1,5 +1,8 @@
 ## Changelog
 
+### 0.0.13
+* update readme
+
 ### 0.0.10
 * code refactorings
 
