@@ -79,7 +79,7 @@ export default class App extends React.Component {
   render() {
     const components = [];
 
-    components.push(
+    1 && components.push(
       <SlideToggle
         key={components.length}
         duration={this.state.duration}
@@ -95,7 +95,22 @@ export default class App extends React.Component {
       />
     );
 
-    if (true)
+    1 &&
+      components.push(
+        <SlideToggle
+          key={components.length}
+          duration={this.state.duration}
+          easeIn={eases['bounceOut']}
+          easeOut={eases['bounceIn']}
+          collapsed={Math.random() > 0.5 ? true : false}
+          render={this.generateMarkup({
+            easeInName: 'bounceInOut',
+            easeOutName: 'bounceInOut',
+          })}
+        />
+      );
+
+    if (0)
       for (let i = 0; i < 4; i++) {
         const ease = getRandomEase();
         const name = this.fnName(ease);
@@ -115,7 +130,7 @@ export default class App extends React.Component {
       }
 
  
-      false &&
+      1 &&
       components.push(
         <SlideToggle
           key={components.length}
@@ -130,17 +145,17 @@ export default class App extends React.Component {
         />
       );
 
-      true &&
+      1 &&
       components.push(
         <SlideToggle
           key={components.length}
           duration={this.state.duration}
-          easeIn={eases['elasticIn']}
-          easeOut={eases['elasticOut']}
+          easeIn={eases['circIn']}
+          easeOut={eases['circOut']}
           collapsed={Math.random() > 0.5 ? true : false}
           render={this.generateMarkup({
-            easeInName: 'elasticIn',
-            easeOutName: 'elasticOut',
+            easeInName: 'circIn',
+            easeOutName: 'circOut',
           })}
         />
       );
