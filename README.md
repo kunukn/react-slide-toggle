@@ -2,6 +2,11 @@ React version of jQuery.slideToggle. JavaScript animation where height is set on
 
 ## demo
 
+https://codepen.io/kunukn/full/wpepGz/
+
+## setup
+
+* git clone or download
 * npm install
 * npm start
 
