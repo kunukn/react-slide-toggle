@@ -126,13 +126,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 _state_ is used to minimize expensive re-renderings.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 We don't want to update the state for every requestAnimationFrame
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 _state_ is for minimizing potential expensive re-renderings.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 Don't update the state for every requestAnimationFrame.
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
 //import PropTypes from 'prop-types';
 
-var log = console.log.bind(console);
+//const log = console.log.bind(console);
 var warn = console.warn.bind(console);
 
 var rAF = window.requestAnimationFrame ? window.requestAnimationFrame.bind(window) : function (callback) {
@@ -146,10 +146,6 @@ var TOGGLE = {
   EXPANDING: 'EXPANDING',
   COLLAPSING: 'COLLAPSING'
 };
-var EASE = {
-  IN: 'IN',
-  OUT: 'OUT'
-};
 
 var easeInOutCubic = function easeInOutCubic(t) {
   return t < 0.5 ? 4.0 * t * t * t : 0.5 * Math.pow(2.0 * t - 2.0, 3.0) + 1.0;
@@ -159,9 +155,11 @@ var SlideToggle = function (_React$Component) {
   _inherits(SlideToggle, _React$Component);
 
   // static propTypes = {
+  //   render: PropTypes.func,
   //   duration: PropTypes.number,
-  //   easeIn: PropTypes.oneOfType([PropTypes.func]),
-  //   easeOut: PropTypes.oneOfType([PropTypes.func]),
+  //   irreversible: PropTypes.bool,
+  //   easeCollapse: PropTypes.func,
+  //   easeExpand: PropTypes.func,
   //   collapsed: PropTypes.bool,
   //   onExpanded: PropTypes.func,
   //   onExpanding: PropTypes.func,
@@ -188,6 +186,11 @@ var SlideToggle = function (_React$Component) {
     };
 
     _this.onToggle = function () {
+
+      if (_this.props.irreversible && _this.isMoving(_this._state_.toggleState)) {
+        return;
+      }
+
       var update_State_ = function update_State_(_ref) {
         var toggleState = _ref.toggleState,
             display = _ref.display,
@@ -211,11 +214,6 @@ var SlideToggle = function (_React$Component) {
         } else {
           _this._state_.boxHeight = _this._state_.collasibleElement.clientHeight;
           _this._state_.startTime = now;
-          if (_this._state_.toggleState === TOGGLE.EXPANDING) {
-            _this._state_.easeDirection = EASE.OUT;
-          } else if (_this._state_.toggleState === TOGGLE.COLLAPSING) {
-            _this._state_.easeDirection = EASE.IN;
-          }
         }
 
         _this.setState({
@@ -247,12 +245,6 @@ var SlideToggle = function (_React$Component) {
       }
     };
 
-    _this.getEaseByDirection = function () {
-      if (_this._state_.easeDirection === EASE.IN) return _this.props.easeIn;
-      if (_this._state_.easeDirection === EASE.OUT) return _this.props.easeOut;
-      return null;
-    };
-
     _this.setCollapsedState = function () {
       var _ref2 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
           initialState = _ref2.initialState;
@@ -282,7 +274,7 @@ var SlideToggle = function (_React$Component) {
 
       var elapsedTime = Math.min(duration, _this.now() - startTime);
       var range = elapsedTime / duration;
-      var ease = _this.getEaseByDirection();
+      var ease = _this.props.easeCollapse;
       var progress = 1 - ease(range);
       var currentHeightValue = Math.round(boxHeight * progress);
 
@@ -322,7 +314,7 @@ var SlideToggle = function (_React$Component) {
 
       var elapsedTime = Math.min(duration, _this.now() - startTime);
       var range = elapsedTime / duration;
-      var ease = _this.getEaseByDirection();
+      var ease = _this.props.easeExpand;
       var progress = ease(range);
       var currentHeightValue = Math.round(boxHeight * progress);
 
@@ -375,7 +367,7 @@ var SlideToggle = function (_React$Component) {
   }, {
     key: 'sanitizeDuration',
     value: function sanitizeDuration(duration) {
-      return Math.max(parseInt(duration, 10) || 1);
+      return Math.max(parseInt(duration, 10) || 1, 1);
     }
   }, {
     key: 'componentWillReceiveProps',
@@ -396,13 +388,8 @@ var SlideToggle = function (_React$Component) {
 
 SlideToggle.defaultProps = {
   duration: 300,
-  easeIn: easeInOutCubic,
-  easeOut: easeInOutCubic,
-  collapsed: false,
-  onExpanded: null,
-  onExpanding: null,
-  onCollapsed: null,
-  onCollapsing: null
+  easeCollapse: easeInOutCubic,
+  easeExpand: easeInOutCubic
 };
 exports.default = SlideToggle;
 
