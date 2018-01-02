@@ -2,6 +2,11 @@ React version of jQuery.slideToggle. JavaScript animation where height is set on
 
 ## demo
 
+https://codepen.io/kunukn/full/wpepGz/
+
+## setup
+
+* git clone or download
 * npm install
 * npm start
 
@@ -19,18 +24,23 @@ Look in App component for inspiration
 
 
 ```js
-import { SlideToggle } from 'ReactSlideToggle';
+import { SlideToggle } from 'react-slide-toggle';
 import BezierEasing from 'bezier-easing';
 
 const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 
-// Component usage
+// Component usage example
 <SlideToggle
-  duration={300}
-  easeIn={bezierEaseInOutQuart}
-  easeOut={bezierEaseInOutQuart}
-  collapsed={false}
-  render={({ onToggle, setCollasibleElement, state }) => (
+  duration={280 /* default 300 */}
+  easeCollapse={bezierEaseInOutQuart /* default cubicInOut */ }
+  easeExpand={bezierEaseInOutQuart /* default cubicInOut */ }
+  collapsed={false /* default falsy */ }
+  irreversible={false /* default falsy */ }
+  onExpanded={()=>{ /* optional event hook */ }}
+  onExpanding={()=>{ /* optional event hook */ }}
+  onCollapsed={()=>{ /* optional event hook */ }}
+  onCollapsing={()=>{ /* optional event hook */ }}
+  render={({ onToggle, setCollasibleElement, toggleState, isMoving, isReverse }) => (
     <div className="slide-toggle">
       <div className="slide-toggle__header">
         <button className="slide-toggle__button" onClick={onToggle}>
@@ -49,7 +59,15 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 
 ## size
 
-About 7Kb
+* minified file ~7Kb
+* gzip-size ~2Kb
+
+
+## provide your own markup
+
+The component provides the functionality. 
+Minimum requirement is to bind the collapsible element with `setCollasibleElement`. 
+Use the `onToggle` function to toggle the collapsible element.
 
 
 ## provide your own easing functions

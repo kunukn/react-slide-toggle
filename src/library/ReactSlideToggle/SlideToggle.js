@@ -1,6 +1,6 @@
 /*
-  _state_ is used to minimize expensive re-renderings.
-  We don't want to update the state for every requestAnimationFrame
+  _state_ is for minimizing potential expensive re-renderings.
+  Don't update the state for every requestAnimationFrame.
 */
 
 import React from 'react';
@@ -29,21 +29,17 @@ const easeInOutCubic = t =>
 export default class SlideToggle extends React.Component {
   static defaultProps = {
     duration: 300,
-    easeIn: easeInOutCubic,
-    easeOut: easeInOutCubic,
-    collapsed: false,
-    onExpanded: null,
-    onExpanding: null,
-    onCollapsed: null,
-    onCollapsing: null,
+    easeCollapse: easeInOutCubic,
+    easeExpand: easeInOutCubic,
   };
 
   // static propTypes = {
   //   render: PropTypes.func,
   //   duration: PropTypes.number,
+  //   irreversible: PropTypes.bool,
+  //   easeCollapse: PropTypes.func,
+  //   easeExpand: PropTypes.func,
   //   collapsed: PropTypes.bool,
-  //   easeIn: PropTypes.func,
-  //   easeOut: PropTypes.func,
   //   onExpanded: PropTypes.func,
   //   onExpanding: PropTypes.func,
   //   onCollapsed: PropTypes.func,
@@ -99,6 +95,11 @@ export default class SlideToggle extends React.Component {
   }
 
   onToggle = () => {
+
+    if (this.props.irreversible && this.isMoving(this._state_.toggleState)) {
+      return;
+    }
+
     const update_State_ = ({ toggleState, display, isReverse }) => {
       this._state_.toggleState = toggleState;
       this._state_.isReverse = !!isReverse;
@@ -147,10 +148,7 @@ export default class SlideToggle extends React.Component {
   };
 
   sanitizeDuration(duration) {
-    return Math.max(parseInt(duration, 10) || 1);
-  }
-
-  frame = () => {
+    return Math.max(parseInt(duration, 10) || 1, 1);
   }
 
   setCollapsedState = ({ initialState } = {}) => {
@@ -175,11 +173,9 @@ export default class SlideToggle extends React.Component {
     const { duration, startTime, boxHeight } = this._state_;
     const elapsedTime = Math.min(duration, this.now() - startTime);
     const range = elapsedTime / duration;
-    const ease = this.props.easeIn;
+    const ease = this.props.easeCollapse;
     const progress = 1 - ease(range);
-      
     const currentHeightValue = Math.round(boxHeight * progress);
-    this.frame();
 
     if (elapsedTime < duration) {
       this._state_.collasibleElement.style.height = `${currentHeightValue}px`;
@@ -210,10 +206,9 @@ export default class SlideToggle extends React.Component {
     const { duration, startTime, boxHeight } = this._state_;
     const elapsedTime = Math.min(duration, this.now() - startTime);
     const range = elapsedTime / duration;
-    const ease = this.props.easeOut;
+    const ease = this.props.easeExpand;
     const progress = ease(range);
     const currentHeightValue = Math.round(boxHeight * progress);
-    this.frame();
 
     if (elapsedTime < duration) {
       this._state_.collasibleElement.style.height = `${currentHeightValue}px`;
