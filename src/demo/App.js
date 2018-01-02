@@ -21,7 +21,7 @@ const getRandomEase = () => {
 export default class App extends React.Component {
   state = { duration: 1000 };
 
-  generateMarkup = ({ easeInName, easeOutName } = {}) => ({
+  generateMarkup = ({ easeCollapseName, easeExpandName } = {}) => ({
     onToggle,
     setCollasibleElement,
     toggleState,
@@ -61,16 +61,16 @@ export default class App extends React.Component {
           <span>{isMoving + ''}</span>
         </div>
         <div>
-          <span>easeIn:</span>
-          <span>{easeInName}</span>
+          <span>easeCollapse:</span>
+          <span>{easeCollapseName}</span>
         </div>
         <div>
-          <span>easeOut:</span>
-          <span>{easeOutName}</span>
+          <span>easeExpand:</span>
+          <span>{easeExpandName}</span>
         </div>
         <div>
           <span>isReverse:</span>
-          <span>{isReverse+''}</span>
+          <span>{isReverse + ''}</span>
         </div>
       </div>
     </div>
@@ -79,23 +79,54 @@ export default class App extends React.Component {
   render() {
     const components = [];
 
-    components.push(
-      <SlideToggle
-        key={components.length}
-        duration={this.state.duration}
-        collapsed={Math.random() > 0.5 ? true : false}
-        onExpanded={() => log('onExpanded')}
-        onCollapsed={() => log('onCollapsed')}
-        onCollapsing={() => log('onCollapsing')}
-        onExpanding={() => log('onExpanding')}
-        render={this.generateMarkup({
-          easeInName: 'default',
-          easeOutName: 'default',
-        })}
-      />
-    );
+    if (1)
+      components.push(
+        <SlideToggle
+          key={components.length}
+          duration={this.state.duration}
+          collapsed={Math.random() > 0.5 ? true : false}
+          onExpanded={() => log('onExpanded')}
+          onCollapsed={() => log('onCollapsed')}
+          onCollapsing={() => log('onCollapsing')}
+          onExpanding={() => log('onExpanding')}
+          render={this.generateMarkup({
+            easeCollapseName: 'default',
+            easeExpandName: 'default',
+          })}
+        />
+      );
 
-    if (true)
+    1 &&
+      components.push(
+        <SlideToggle
+          key={components.length}
+          duration={this.state.duration}
+          easeCollapse={bezierEaseInOutQuart}
+          easeExpand={bezierEaseInOutQuart}
+          collapsed={Math.random() > 0.5 ? true : false}
+          render={this.generateMarkup({
+            easeCollapseName: this.fnName(bezierEaseInOutQuart),
+            easeExpandName: this.fnName(bezierEaseInOutQuart),
+          })}
+        />
+      );
+
+    1 &&
+      components.push(
+        <SlideToggle
+          key={components.length}
+          duration={this.state.duration}
+          easeCollapse={eases['elasticIn']}
+          easeExpand={eases['elasticOut']}
+          collapsed={Math.random() > 0.5 ? true : false}
+          render={this.generateMarkup({
+            easeCollapseName: 'elasticIn',
+            easeExpandName: 'elasticOut',
+          })}
+        />
+      );
+
+    if (0)
       for (let i = 0; i < 4; i++) {
         const ease = getRandomEase();
         const name = this.fnName(ease);
@@ -103,46 +134,16 @@ export default class App extends React.Component {
           <SlideToggle
             key={components.length}
             duration={this.state.duration}
-            easeIn={ease}
-            easeOut={ease}
+            easeCollapse={ease}
+            easeExpand={ease}                        
             collapsed={Math.random() > 0.5 ? true : false}
             render={this.generateMarkup({
-              easeInName: name,
-              easeOutName: name,
+              easeCollapseName: name,
+              easeExpandName: name,
             })}
           />
         );
       }
- 
-      false &&
-      components.push(
-        <SlideToggle
-          key={components.length}
-          duration={this.state.duration}
-          easeIn={bezierEaseInOutQuart}
-          easeOut={bezierEaseInOutQuart}
-          collapsed={Math.random() > 0.5 ? true : false}
-          render={this.generateMarkup({
-            easeInName: this.fnName(bezierEaseInOutQuart),
-            easeOutName: this.fnName(bezierEaseInOutQuart),
-          })}
-        />
-      );
-
-      true &&
-      components.push(
-        <SlideToggle
-          key={components.length}
-          duration={this.state.duration}
-          easeIn={eases['elasticIn']}
-          easeOut={eases['elasticOut']}
-          collapsed={Math.random() > 0.5 ? true : false}
-          render={this.generateMarkup({
-            easeInName: 'elasticIn',
-            easeOutName: 'elasticOut',
-          })}
-        />
-      );
 
     return (
       <div className="app">

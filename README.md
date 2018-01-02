@@ -27,8 +27,8 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 // Component usage
 <SlideToggle
   duration={300}
-  easeIn={bezierEaseInOutQuart}
-  easeOut={bezierEaseInOutQuart}
+  easeCollapse={bezierEaseInOutQuart}
+  easeExpand={bezierEaseInOutQuart}
   collapsed={false}
   render={({ onToggle, setCollasibleElement, state }) => (
     <div className="slide-toggle">
