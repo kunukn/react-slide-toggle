@@ -163,12 +163,22 @@ var SlideToggle = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (SlideToggle.__proto__ || Object.getPrototypeOf(SlideToggle)).call(this, props));
 
+    _this.updateBoxHeight = function () {
+      if (_this._state_.collasibleElement) {
+        // obs: clientHeight triggers reflow in browser.
+        _this._state_.boxHeight = _this._state_.collasibleElement.clientHeight;
+        _this.setState({ boxHeight: _this._state_.boxHeight });
+      }
+    };
+
     _this.setCollapsibleElement = function (element) {
       if (!element) {
         warn('no element in setCollapsibleElement');
         return;
       }
       _this._state_.collasibleElement = element;
+      _this.updateBoxHeight();
+
       if (_this._state_.toggleState === TOGGLE.COLLAPSED) {
         _this.setCollapsedState({ initialState: true });
       } else if (_this._state_.toggleState === TOGGLE.EXPANDED) {
@@ -177,7 +187,6 @@ var SlideToggle = function (_React$Component) {
     };
 
     _this.onToggle = function () {
-
       if (_this.props.irreversible && _this.isMoving(_this._state_.toggleState)) {
         return;
       }
@@ -209,7 +218,8 @@ var SlideToggle = function (_React$Component) {
 
         _this.setState({
           toggleState: _this._state_.toggleState,
-          isReverse: _this._state_.isReverse
+          isReverse: _this._state_.isReverse,
+          boxHeight: _this._state_.boxHeight
         });
       };
 
@@ -342,7 +352,9 @@ var SlideToggle = function (_React$Component) {
         setCollasibleElement: this.setCollapsibleElement,
         toggleState: this.state.toggleState,
         isReverse: this.state.isReverse,
-        isMoving: this.isMoving(this.state.toggleState)
+        isMoving: this.isMoving(this.state.toggleState),
+        boxHeight: this.state.boxHeight,
+        updateBoxHeight: this.updateBoxHeight
       });
     }
   }, {
@@ -380,7 +392,8 @@ var SlideToggle = function (_React$Component) {
 SlideToggle.defaultProps = {
   duration: 300,
   easeCollapse: easeInOutCubic,
-  easeExpand: easeInOutCubic
+  easeExpand: easeInOutCubic,
+  boxHeight: 0
 };
 exports.default = SlideToggle;
 

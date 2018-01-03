@@ -82,6 +82,7 @@ export default class SlideToggle extends React.Component {
 
   updateBoxHeight = () => {
     if (this._state_.collasibleElement) {
+      // obs: clientHeight triggers reflow in browser.
       this._state_.boxHeight = this._state_.collasibleElement.clientHeight;
       this.setState({ boxHeight: this._state_.boxHeight });
     }

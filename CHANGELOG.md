@@ -1,5 +1,8 @@
 ## Changelog
 
+### 0.0.14
+* add boxHeight and updateBoxHeight to render props
+
 ### 0.0.13
 * update readme
 
