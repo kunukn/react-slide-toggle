@@ -45,7 +45,7 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
     setCollasibleElement, 
     toggleState, 
     isMoving, 
-    isReverse, 
+    hasReversed, 
     boxHeight, 
     updateBoxHeight, 
   }) => (

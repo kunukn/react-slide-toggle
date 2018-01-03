@@ -1,5 +1,8 @@
 ## Changelog
 
+### 0.0.15
+* changed render prop to hasReversed
+
 ### 0.0.14
 * add boxHeight and updateBoxHeight to render props
 

@@ -26,7 +26,7 @@ export default class App extends React.Component {
     setCollasibleElement,
     toggleState,
     isMoving,
-    isReverse,
+    hasReversed,
     boxHeight,
     updateBoxHeight,
   }) => (
@@ -71,8 +71,8 @@ export default class App extends React.Component {
           <span>{easeExpandName}</span>
         </div>
         <div>
-          <span>isReverse:</span>
-          <span>{isReverse + ''}</span>
+          <span>hasReversed:</span>
+          <span>{hasReversed + ''}</span>
         </div>
         <div>
           <span>boxHeight:</span>

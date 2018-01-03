@@ -58,7 +58,7 @@ export default class SlideToggle extends React.Component {
 
     this.state = {
       toggleState: this._state_.toggleState,
-      isReverse: false,
+      hasReversed: false,
     };
   }
 
@@ -67,7 +67,7 @@ export default class SlideToggle extends React.Component {
       onToggle: this.onToggle,
       setCollasibleElement: this.setCollapsibleElement,
       toggleState: this.state.toggleState,
-      isReverse: this.state.isReverse,
+      hasReversed: this.state.hasReversed,
       isMoving: this.isMoving(this.state.toggleState),
       boxHeight: this.state.boxHeight,
       updateBoxHeight: this.updateBoxHeight,
@@ -112,15 +112,15 @@ export default class SlideToggle extends React.Component {
       return;
     }
 
-    const update_State_ = ({ toggleState, display, isReverse }) => {
+    const update_State_ = ({ toggleState, display, hasReversed }) => {
       this._state_.toggleState = toggleState;
-      this._state_.isReverse = !!isReverse;
+      this._state_.hasReversed = !!hasReversed;
 
       if (display !== undefined) {
         this._state_.collasibleElement.style.display = display;
       }
       const now = this.now();
-      if (isReverse) {
+      if (hasReversed) {
         const { duration, startTime } = this._state_;
         const elapsedTime = Math.min(duration, now - startTime);
         const subtract = Math.max(0, duration - elapsedTime);
@@ -132,7 +132,7 @@ export default class SlideToggle extends React.Component {
 
       this.setState({
         toggleState: this._state_.toggleState,
-        isReverse: this._state_.isReverse,
+        hasReversed: this._state_.hasReversed,
         boxHeight: this._state_.boxHeight,
       });
     };
@@ -146,14 +146,14 @@ export default class SlideToggle extends React.Component {
       this.props.onExpanding && this.props.onExpanding();
       this.expand();
     } else if (this._state_.toggleState === TOGGLE.EXPANDING) {
-      update_State_({ toggleState: TOGGLE.COLLAPSING, isReverse: true });
+      update_State_({ toggleState: TOGGLE.COLLAPSING, hasReversed: true });
       this.props.onCollapsing && this.props.onCollapsing();
       this.collapse();
     } else if (this._state_.toggleState === TOGGLE.COLLAPSING) {
       update_State_({
         toggleState: TOGGLE.EXPANDING,
         display: '',
-        isReverse: true,
+        hasReversed: true,
       });
       this.props.onExpanding && this.props.onExpanding();
       this.expand();
