@@ -107,30 +107,30 @@ export default class App extends React.Component {
         <SlideToggle
           key={components.length}
           duration={this.state.duration}
-          easeCollapse={bezierEaseInOutQuart}
-          easeExpand={bezierEaseInOutQuart}
+          easeCollapse={eases['easeIn']}
+          easeExpand={eases['bounceOut']}
           collapsed={Math.random() > 0.5 ? true : false}
           render={this.generateMarkup({
-            easeCollapseName: this.fnName(bezierEaseInOutQuart),
-            easeExpandName: this.fnName(bezierEaseInOutQuart),
+            easeCollapseName: 'easeIn',
+            easeExpandName: 'bounceOut',
           })}
         />
       );
 
     1 &&
-      components.push(
-        <SlideToggle
-          key={components.length}
-          duration={this.state.duration}
-          easeCollapse={eases['elasticIn']}
-          easeExpand={eases['elasticOut']}
-          collapsed={Math.random() > 0.5 ? true : false}
-          render={this.generateMarkup({
-            easeCollapseName: 'elasticIn',
-            easeExpandName: 'elasticOut',
-          })}
-        />
-      );
+    components.push(
+      <SlideToggle
+        key={components.length}
+        duration={this.state.duration}
+        easeCollapse={bezierEaseInOutQuart}
+        easeExpand={bezierEaseInOutQuart}
+        collapsed={Math.random() > 0.5 ? true : false}
+        render={this.generateMarkup({
+          easeCollapseName: this.fnName(bezierEaseInOutQuart),
+          easeExpandName: this.fnName(bezierEaseInOutQuart),
+        })}
+      />
+    );
 
     if (0)
       for (let i = 0; i < 4; i++) {
