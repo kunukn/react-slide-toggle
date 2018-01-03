@@ -118,19 +118,19 @@ export default class App extends React.Component {
       );
 
     1 &&
-    components.push(
-      <SlideToggle
-        key={components.length}
-        duration={this.state.duration}
-        easeCollapse={bezierEaseInOutQuart}
-        easeExpand={bezierEaseInOutQuart}
-        collapsed={Math.random() > 0.5 ? true : false}
-        render={this.generateMarkup({
-          easeCollapseName: this.fnName(bezierEaseInOutQuart),
-          easeExpandName: this.fnName(bezierEaseInOutQuart),
-        })}
-      />
-    );
+      components.push(
+        <SlideToggle
+          key={components.length}
+          duration={this.state.duration}
+          easeCollapse={bezierEaseInOutQuart}
+          easeExpand={bezierEaseInOutQuart}
+          collapsed={Math.random() > 0.5 ? true : false}
+          render={this.generateMarkup({
+            easeCollapseName: this.fnName(bezierEaseInOutQuart),
+            easeExpandName: this.fnName(bezierEaseInOutQuart),
+          })}
+        />
+      );
 
     if (0)
       for (let i = 0; i < 4; i++) {
@@ -141,7 +141,7 @@ export default class App extends React.Component {
             key={components.length}
             duration={this.state.duration}
             easeCollapse={ease}
-            easeExpand={ease}                        
+            easeExpand={ease}
             collapsed={Math.random() > 0.5 ? true : false}
             render={this.generateMarkup({
               easeCollapseName: name,

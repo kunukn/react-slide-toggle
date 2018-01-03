@@ -40,7 +40,15 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
   onExpanding={()=>{ /* optional event hook */ }}
   onCollapsed={()=>{ /* optional event hook */ }}
   onCollapsing={()=>{ /* optional event hook */ }}
-  render={({ onToggle, setCollasibleElement, toggleState, isMoving, isReverse, boxHeight, updateBoxHeight }) => (
+  render={({ 
+    onToggle, 
+    setCollasibleElement, 
+    toggleState, 
+    isMoving, 
+    isReverse, 
+    boxHeight, 
+    updateBoxHeight, 
+  }) => (
     <div className="slide-toggle">
       <div className="slide-toggle__header">
         <button className="slide-toggle__button" onClick={onToggle}>
