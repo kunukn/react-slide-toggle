@@ -90,22 +90,6 @@ export default class App extends React.Component {
         <SlideToggle
           key={components.length}
           duration={this.state.duration}
-          easeCollapse={eases['bounceOut']}
-          easeExpand={eases['bounceOut']}
-          collapsed
-          whenReversedUseBackwardEase
-          render={this.generateMarkup({
-            easeCollapseName: 'bounceOut',
-            easeExpandName: 'bounceOut',
-          })}
-        />
-      );
-
-    1 &&
-      components.push(
-        <SlideToggle
-          key={components.length}
-          duration={this.state.duration}
           collapsed
           onExpanded={() => log('onExpanded')}
           onCollapsed={() => log('onCollapsed')}
@@ -128,6 +112,22 @@ export default class App extends React.Component {
           collapsed={Math.random() > 0.5 ? true : false}
           render={this.generateMarkup({
             easeCollapseName: 'easeIn',
+            easeExpandName: 'bounceOut',
+          })}
+        />
+      );
+
+    1 &&
+      components.push(
+        <SlideToggle
+          key={components.length}
+          duration={this.state.duration * 2}
+          easeCollapse={eases['bounceOut']}
+          easeExpand={eases['bounceOut']}
+          collapsed
+          whenReversedUseBackwardEase
+          render={this.generateMarkup({
+            easeCollapseName: 'bounceOut',
             easeExpandName: 'bounceOut',
           })}
         />
