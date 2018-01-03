@@ -27,6 +27,8 @@ export default class App extends React.Component {
     toggleState,
     isMoving,
     isReverse,
+    boxHeight,
+    updateBoxHeight,
   }) => (
     <div className="slide-toggle">
       <div className="slide-toggle__header">
@@ -72,6 +74,10 @@ export default class App extends React.Component {
           <span>isReverse:</span>
           <span>{isReverse + ''}</span>
         </div>
+        <div>
+          <span>boxHeight:</span>
+          <span>{boxHeight + 'px'}</span>
+        </div>
       </div>
     </div>
   );
@@ -79,12 +85,12 @@ export default class App extends React.Component {
   render() {
     const components = [];
 
-    if (1)
+    1 &&
       components.push(
         <SlideToggle
           key={components.length}
           duration={this.state.duration}
-          collapsed={Math.random() > 0.5 ? true : false}
+          collapsed
           onExpanded={() => log('onExpanded')}
           onCollapsed={() => log('onCollapsed')}
           onCollapsing={() => log('onCollapsing')}

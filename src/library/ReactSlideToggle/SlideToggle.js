@@ -31,6 +31,7 @@ export default class SlideToggle extends React.Component {
     duration: 300,
     easeCollapse: easeInOutCubic,
     easeExpand: easeInOutCubic,
+    boxHeight: 0,
   };
 
   // static propTypes = {
@@ -68,6 +69,8 @@ export default class SlideToggle extends React.Component {
       toggleState: this.state.toggleState,
       isReverse: this.state.isReverse,
       isMoving: this.isMoving(this.state.toggleState),
+      boxHeight: this.state.boxHeight,
+      updateBoxHeight: this.updateBoxHeight,
     });
   }
 
@@ -77,12 +80,21 @@ export default class SlideToggle extends React.Component {
     );
   }
 
+  updateBoxHeight = () => {
+    if (this._state_.collasibleElement) {
+      this._state_.boxHeight = this._state_.collasibleElement.clientHeight;
+      this.setState({ boxHeight: this._state_.boxHeight });
+    }
+  };
+
   setCollapsibleElement = element => {
     if (!element) {
       warn('no element in setCollapsibleElement');
       return;
     }
     this._state_.collasibleElement = element;
+    this.updateBoxHeight();
+
     if (this._state_.toggleState === TOGGLE.COLLAPSED) {
       this.setCollapsedState({ initialState: true });
     } else if (this._state_.toggleState === TOGGLE.EXPANDED) {
@@ -95,7 +107,6 @@ export default class SlideToggle extends React.Component {
   }
 
   onToggle = () => {
-
     if (this.props.irreversible && this.isMoving(this._state_.toggleState)) {
       return;
     }
@@ -121,6 +132,7 @@ export default class SlideToggle extends React.Component {
       this.setState({
         toggleState: this._state_.toggleState,
         isReverse: this._state_.isReverse,
+        boxHeight: this._state_.boxHeight,
       });
     };
 
