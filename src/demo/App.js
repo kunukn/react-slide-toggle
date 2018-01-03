@@ -90,6 +90,22 @@ export default class App extends React.Component {
         <SlideToggle
           key={components.length}
           duration={this.state.duration}
+          easeCollapse={eases['bounceOut']}
+          easeExpand={eases['bounceOut']}
+          collapsed
+          whenReversedUseBackwardEase
+          render={this.generateMarkup({
+            easeCollapseName: 'bounceOut',
+            easeExpandName: 'bounceOut',
+          })}
+        />
+      );
+
+    1 &&
+      components.push(
+        <SlideToggle
+          key={components.length}
+          duration={this.state.duration}
           collapsed
           onExpanded={() => log('onExpanded')}
           onCollapsed={() => log('onCollapsed')}
@@ -132,17 +148,18 @@ export default class App extends React.Component {
         />
       );
 
-    if (0)
+    if (1)
       for (let i = 0; i < 4; i++) {
         const ease = getRandomEase();
         const name = this.fnName(ease);
         components.push(
           <SlideToggle
             key={components.length}
+            collapsed
+            whenReversedUseBackwardEase
             duration={this.state.duration}
             easeCollapse={ease}
             easeExpand={ease}
-            collapsed={Math.random() > 0.5 ? true : false}
             render={this.generateMarkup({
               easeCollapseName: name,
               easeExpandName: name,
@@ -159,7 +176,7 @@ export default class App extends React.Component {
             this.setState({ duration: ~~(Math.random() * 800 + 200) });
           }}
         >
-          Randomize
+          Randomize duration
         </button>
         <div>{this.state.duration}</div>
         <div className="ease-names">

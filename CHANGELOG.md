@@ -1,5 +1,8 @@
 ## Changelog
 
+### 0.0.16
+* add render prop whenReversedUseBackwardEase
+
 ### 0.0.15
 * changed render prop to hasReversed
 

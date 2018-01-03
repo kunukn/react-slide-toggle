@@ -36,6 +36,7 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
   easeExpand={bezierEaseInOutQuart /* default cubicInOut */ }
   collapsed={false /* default falsy */ }
   irreversible={false /* default falsy */ }
+  whenReversedUseBackwardEase={false /* default falsy */ }
   onExpanded={()=>{ /* optional event hook */ }}
   onExpanding={()=>{ /* optional event hook */ }}
   onCollapsed={()=>{ /* optional event hook */ }}

@@ -6,7 +6,7 @@
 import React from 'react';
 //import PropTypes from 'prop-types';
 
-//const log = console.log.bind(console);
+const log = console.log.bind(console);
 const warn = console.warn.bind(console);
 
 const rAF = window.requestAnimationFrame
@@ -38,6 +38,7 @@ export default class SlideToggle extends React.Component {
   //   render: PropTypes.func,
   //   duration: PropTypes.number,
   //   irreversible: PropTypes.bool,
+  //   whenReversedUseBackwardEase: PropTypes.bool,
   //   easeCollapse: PropTypes.func,
   //   easeExpand: PropTypes.func,
   //   collapsed: PropTypes.bool,
@@ -103,6 +104,12 @@ export default class SlideToggle extends React.Component {
     }
   };
 
+  clamp({value, max = 1, min = 0}) {
+    if (value > max) return max;
+    if (value < min) return min;
+    return value;
+  }
+
   now() {
     return new Date().getTime();
   }
@@ -128,6 +135,7 @@ export default class SlideToggle extends React.Component {
       } else {
         this._state_.boxHeight = this._state_.collasibleElement.clientHeight;
         this._state_.startTime = now;
+        this._state_.startDirection = toggleState;
       }
 
       this.setState({
@@ -142,7 +150,10 @@ export default class SlideToggle extends React.Component {
       this.props.onCollapsing && this.props.onCollapsing();
       this.collapse();
     } else if (this._state_.toggleState === TOGGLE.COLLAPSED) {
-      update_State_({ toggleState: TOGGLE.EXPANDING, display: '' });
+      update_State_({
+        toggleState: TOGGLE.EXPANDING,
+        display: '',
+      });
       this.props.onExpanding && this.props.onExpanding();
       this.expand();
     } else if (this._state_.toggleState === TOGGLE.EXPANDING) {
@@ -164,6 +175,54 @@ export default class SlideToggle extends React.Component {
     return Math.max(parseInt(duration, 10) || 1, 1);
   }
 
+  setExpandedState = ({ initialState } = {}) => {
+    this._state_.collasibleElement.style.height = '';
+    this._state_.toggleState = TOGGLE.EXPANDED;
+    this.setState({
+      toggleState: TOGGLE.EXPANDED,
+    });
+    !initialState && this.props.onExpanded && this.props.onExpanded();
+  };
+
+  expand = () => {
+    if (!this._state_.collasibleElement) {
+      warn('no collapsibleElement');
+      return;
+    }
+    if (this._state_.toggleState !== TOGGLE.EXPANDING) {
+      return;
+    }
+
+    const {
+      duration,
+      startTime,
+      startDirection,
+      toggleState,
+      boxHeight,
+    } = this._state_;
+    const elapsedTime = Math.min(duration, this.now() - startTime);
+    const range = this.clamp({value: elapsedTime / duration});
+    let progress;
+
+    if (
+      this.props.whenReversedUseBackwardEase &&
+      startDirection !== toggleState
+    ) {
+      progress = 1 - this.props.easeCollapse(1 - range);
+    } else {
+      progress = this.props.easeExpand(range);
+    }
+
+    const currentHeightValue = Math.round(boxHeight * progress);
+
+    if (elapsedTime < duration) {
+      this._state_.collasibleElement.style.height = `${currentHeightValue}px`;
+      this.nextTick(this.expand);
+    } else {
+      this.setExpandedState();
+    }
+  };
+
   setCollapsedState = ({ initialState } = {}) => {
     this._state_.collasibleElement.style.display = 'none';
     this._state_.collasibleElement.style.height = '';
@@ -183,11 +242,29 @@ export default class SlideToggle extends React.Component {
       return;
     }
 
-    const { duration, startTime, boxHeight } = this._state_;
+    const {
+      duration,
+      startTime,
+      startDirection,
+      boxHeight,
+      toggleState,
+    } = this._state_;
     const elapsedTime = Math.min(duration, this.now() - startTime);
-    const range = elapsedTime / duration;
-    const ease = this.props.easeCollapse;
-    const progress = 1 - ease(range);
+    const range = this.clamp({value: elapsedTime / duration});
+    let progress;
+
+    const {
+      whenReversedUseBackwardEase,
+      easeExpand,
+      easeCollapse,
+    } = this.props;
+
+    if (whenReversedUseBackwardEase && startDirection !== toggleState) {
+      progress = easeExpand(1 - range);
+    } else {
+      progress = 1 - easeCollapse(range);
+    }
+
     const currentHeightValue = Math.round(boxHeight * progress);
 
     if (elapsedTime < duration) {
@@ -195,39 +272,6 @@ export default class SlideToggle extends React.Component {
       this._state_.timeout = this.nextTick(this.collapse);
     } else {
       this.setCollapsedState();
-    }
-  };
-
-  setExpandedState = ({ initialState } = {}) => {
-    this._state_.collasibleElement.style.height = '';
-    this._state_.toggleState = TOGGLE.EXPANDED;
-    this.setState({
-      toggleState: TOGGLE.EXPANDED,
-    });
-    !initialState && this.props.onExpanded && this.props.onExpanded();
-  };
-
-  expand = () => {
-    if (!this._state_.collasibleElement) {
-      warn('no collapsibleElement');
-      return;
-    }
-    if (this._state_.toggleState !== TOGGLE.EXPANDING) {
-      return;
-    }
-
-    const { duration, startTime, boxHeight } = this._state_;
-    const elapsedTime = Math.min(duration, this.now() - startTime);
-    const range = elapsedTime / duration;
-    const ease = this.props.easeExpand;
-    const progress = ease(range);
-    const currentHeightValue = Math.round(boxHeight * progress);
-
-    if (elapsedTime < duration) {
-      this._state_.collasibleElement.style.height = `${currentHeightValue}px`;
-      this.nextTick(this.expand);
-    } else {
-      this.setExpandedState();
     }
   };
 
