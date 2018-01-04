@@ -38,15 +38,21 @@ export default class App extends React.Component {
       </div>
       <div className="slide-toggle__box" ref={setCollasibleElement}>
         <div className="slide-toggle__box-inner">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book. It has survived not only
-          five centuries, but also the leap into electronic typesetting,
-          remaining essentially unchanged. It was popularised in the 1960s with
-          the release of Letraset sheets containing Lorem Ipsum passages, and
-          more recently with desktop publishing software like Aldus PageMaker
-          including versions of Lorem Ipsum.
+          <p>
+            Default easing is cubicInOut. You can reverse the toggle before the
+            movement completes. Ease in-out works best when reverse toggling is
+            to be used.
+          </p>
+          <p>
+            This should be A11Y friendly, you can test the tabindex by tabbing.
+            The collapsed items should be skipped due to usage of display:none
+          </p>
+          <p>
+            JS animation is used for best animation control and possible easing
+            configuration. This triggers browser reflows on every
+            requestAnimationFrame. If you have a very long page this might not
+            be the best option to use.
+          </p>
           <button onClick={() => window.alert('test tabindex')}>
             dummy button
           </button>

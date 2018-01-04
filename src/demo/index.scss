@@ -1,16 +1,13 @@
-$color-1: #abff4f;
 $color-2: #08bdbd;
-$color-3: #2a9134;
-$color-4: #f21b3f;
-$color-5: #ff9914;
+$max-width: 800px;
 
 * {
   box-sizing: border-box;
 }
 
 button {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-size: 1rem;
-  background: rgba(white, 0.5);
   border: 1px solid gray;
   padding: 0.5rem 0.75rem;
   box-shadow: none;
@@ -57,7 +54,6 @@ body {
   }
   &__button {
     font-size: 1rem;
-    //background: inherit;
     border: 1px solid gray;
     padding: 0.5rem;
     box-shadow: none;
@@ -66,14 +62,19 @@ body {
     overflow: hidden;
   }
   &__box-inner {
+    line-height: 1.5;
     padding: 1rem;
     display: flex;
     flex-direction: column;
     min-height: 100px;
     justify-content: center;
     align-items: center;
-    //background-color: hotpink;
-    
+
+    p {
+      margin: 0;
+      padding: 0;
+      margin-bottom: 1rem;
+    }
 
     button {
       margin-top: 1rem;
