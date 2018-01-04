@@ -1,11 +1,7 @@
 {
   "name": "react-slide-toggle",
-  "version": "0.0.17",
-  "dependencies": {
-    "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-config-prettier": "^2.9.0",
-    "eslint-plugin-import": "^2.8.0"
-  },
+  "version": "0.0.18",
+  "dependencies": {},
   "scripts": {
     "start": "npm run dev",
     "dev": "webpack-dev-server --env.dev --progress --config webpack.config.js",
@@ -13,8 +9,10 @@
     "clean": "rimraf dist/*",
     "minify": "npm run minify-umd",
     "minify-all": "npm run minify-umd & npm run minify-var",
-    "minify-umd": "uglifyjs dist/ReactSlideToggle.umd.js --config-file uglify.config.json --output dist/ReactSlideToggle.umd.min.js",
-    "minify-var": "uglifyjs dist/ReactSlideToggle.var.js --config-file uglify.config.json --output dist/ReactSlideToggle.var.min.js",
+    "minify-umd":
+      "uglifyjs dist/ReactSlideToggle.umd.js --config-file uglify.config.json --output dist/ReactSlideToggle.umd.min.js",
+    "minify-var":
+      "uglifyjs dist/ReactSlideToggle.var.js --config-file uglify.config.json --output dist/ReactSlideToggle.var.min.js",
     "deploy": "npm run clean && npm run build && npm run minify"
   },
   "description": "React component version of jQuery.slideToggle",
@@ -23,16 +21,10 @@
   "unpkg": "dist/ReactSlideToggle.umd.min.js",
   "author": "kunukn",
   "license": "MIT",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "browserslist": "last 2 versions, ie 11",
   "babel": {
-    "presets": [
-      "env",
-      "stage-2",
-      "react"
-    ]
+    "presets": ["env", "stage-2", "react"]
   },
   "devDependencies": {
     "babel-core": "*",
@@ -59,16 +51,16 @@
     "sass-loader": "^6.0.6",
     "style-loader": "^0.19.1",
     "webpack": "*",
-    "webpack-dev-server": "*"
+    "webpack-dev-server": "*",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-import": "^2.8.0"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kunukn/react-slide-toggle.git"
   },
-  "keywords": [
-    "slide",
-    "toggle"
-  ],
+  "keywords": ["slide", "toggle"],
   "bugs": {
     "url": "https://github.com/kunukn/react-slide-toggle/issues"
   },
