@@ -1,4 +1,8 @@
 ## Changelog
+
+### 0.0.18
+* cleanup dependencies
+
 ### 0.0.17
 * use eslint
 
