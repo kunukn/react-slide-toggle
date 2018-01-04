@@ -1,5 +1,8 @@
 ## Changelog
 
+### 0.0.21
+* fix range in state
+
 ### 0.0.20
 * update readme
 

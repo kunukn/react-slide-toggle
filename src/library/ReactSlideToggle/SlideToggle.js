@@ -257,7 +257,7 @@ export default class SlideToggle extends React.Component {
     const elapsedTime = Math.min(duration, util.now() - startTime);
     const range = util.clamp({ value: elapsedTime / duration });
 
-    this.setState({ range });
+    this.setState({ range: 1 - range });
 
     const {
       whenReversedUseBackwardEase,

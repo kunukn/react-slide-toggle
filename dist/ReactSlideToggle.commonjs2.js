@@ -366,7 +366,7 @@ var SlideToggle = function (_React$Component) {
       var elapsedTime = Math.min(duration, util.now() - startTime);
       var range = util.clamp({ value: elapsedTime / duration });
 
-      _this.setState({ range: range });
+      _this.setState({ range: 1 - range });
 
       var _this$props = _this.props,
           whenReversedUseBackwardEase = _this$props.whenReversedUseBackwardEase,

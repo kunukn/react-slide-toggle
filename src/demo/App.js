@@ -38,7 +38,7 @@ export default class App extends React.Component {
         </button>
       </div>
       <div className="slide-toggle__box" ref={setCollasibleElement}>
-        <div className="slide-toggle__box-inner">
+        <div className="slide-toggle__box-inner" style={{ opacity: Math.max(.1, range) }}>
           <p>
             Default easing is cubicInOut. You can reverse the toggle before the
             movement completes. Ease in-out works best when reverse toggling is
@@ -67,7 +67,7 @@ export default class App extends React.Component {
         </div>
         <div>
           <span>range:</span>
-          <span>{range.toFixed(1)}</span>
+          <span>{range.toFixed(2)}</span>
         </div>
         <div>
           <span>isMoving:</span>
