@@ -1,5 +1,8 @@
 ## Changelog
 
+### 0.0.19
+* add render prop: range
+
 ### 0.0.18
 * cleanup dependencies
 
@@ -7,7 +10,7 @@
 * use eslint
 
 ### 0.0.16
-* add render prop whenReversedUseBackwardEase
+* add render prop: whenReversedUseBackwardEase
 
 ### 0.0.15
 * changed render prop to hasReversed

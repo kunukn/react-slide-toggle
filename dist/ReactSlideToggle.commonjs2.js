@@ -288,7 +288,10 @@ var SlideToggle = function (_React$Component) {
 
       _this._state_.collasibleElement.style.height = '';
       _this._state_.toggleState = TOGGLE.EXPANDED;
-      _this.setState({ toggleState: TOGGLE.EXPANDED });
+      _this.setState({
+        toggleState: TOGGLE.EXPANDED,
+        range: 1
+      });
       if (!initialState && _this.props.onExpanded) _this.props.onExpanded();
     };
 
@@ -310,8 +313,10 @@ var SlideToggle = function (_React$Component) {
 
       var elapsedTime = Math.min(duration, util.now() - startTime);
       var range = util.clamp({ value: elapsedTime / duration });
-      var progress = void 0;
 
+      _this.setState({ range: range });
+
+      var progress = void 0;
       if (_this.props.whenReversedUseBackwardEase && startDirection !== toggleState) {
         progress = 1 - _this.props.easeCollapse(1 - range);
       } else {
@@ -336,7 +341,8 @@ var SlideToggle = function (_React$Component) {
       _this._state_.collasibleElement.style.height = '';
       _this._state_.toggleState = TOGGLE.COLLAPSED;
       _this.setState({
-        toggleState: TOGGLE.COLLAPSED
+        toggleState: TOGGLE.COLLAPSED,
+        range: 0
       });
       if (!initialState && _this.props.onCollapsed) _this.props.onCollapsed();
     };
@@ -359,13 +365,16 @@ var SlideToggle = function (_React$Component) {
 
       var elapsedTime = Math.min(duration, util.now() - startTime);
       var range = util.clamp({ value: elapsedTime / duration });
-      var progress = void 0;
+
+      _this.setState({ range: range });
 
       var _this$props = _this.props,
           whenReversedUseBackwardEase = _this$props.whenReversedUseBackwardEase,
           easeExpand = _this$props.easeExpand,
           easeCollapse = _this$props.easeCollapse;
 
+
+      var progress = void 0;
 
       if (whenReversedUseBackwardEase && startDirection !== toggleState) {
         progress = easeExpand(1 - range);
@@ -395,7 +404,8 @@ var SlideToggle = function (_React$Component) {
 
     _this.state = {
       toggleState: _this._state_.toggleState,
-      hasReversed: false
+      hasReversed: false,
+      range: _this.props.collapsed ? 0 : 1
     };
     return _this;
   }
@@ -409,6 +419,7 @@ var SlideToggle = function (_React$Component) {
         toggleState: this.state.toggleState,
         hasReversed: this.state.hasReversed,
         isMoving: util.isMoving(this.state.toggleState),
+        range: this.state.range,
         boxHeight: this.state.boxHeight,
         updateBoxHeight: this.updateBoxHeight
       });

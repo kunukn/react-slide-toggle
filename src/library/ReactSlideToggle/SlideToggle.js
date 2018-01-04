@@ -72,6 +72,7 @@ export default class SlideToggle extends React.Component {
     this.state = {
       toggleState: this._state_.toggleState,
       hasReversed: false,
+      range: this.props.collapsed ? 0 : 1,
     };
   }
 
@@ -82,6 +83,7 @@ export default class SlideToggle extends React.Component {
       toggleState: this.state.toggleState,
       hasReversed: this.state.hasReversed,
       isMoving: util.isMoving(this.state.toggleState),
+      range: this.state.range,
       boxHeight: this.state.boxHeight,
       updateBoxHeight: this.updateBoxHeight,
     });
@@ -177,7 +179,10 @@ export default class SlideToggle extends React.Component {
   setExpandedState = ({ initialState } = {}) => {
     this._state_.collasibleElement.style.height = '';
     this._state_.toggleState = TOGGLE.EXPANDED;
-    this.setState({ toggleState: TOGGLE.EXPANDED });
+    this.setState({
+      toggleState: TOGGLE.EXPANDED,
+      range: 1,
+    });
     if (!initialState && this.props.onExpanded) this.props.onExpanded();
   };
 
@@ -199,8 +204,10 @@ export default class SlideToggle extends React.Component {
     } = this._state_;
     const elapsedTime = Math.min(duration, util.now() - startTime);
     const range = util.clamp({ value: elapsedTime / duration });
-    let progress;
 
+    this.setState({ range });
+
+    let progress;
     if (
       this.props.whenReversedUseBackwardEase &&
       startDirection !== toggleState
@@ -226,6 +233,7 @@ export default class SlideToggle extends React.Component {
     this._state_.toggleState = TOGGLE.COLLAPSED;
     this.setState({
       toggleState: TOGGLE.COLLAPSED,
+      range: 0,
     });
     if (!initialState && this.props.onCollapsed) this.props.onCollapsed();
   };
@@ -248,13 +256,16 @@ export default class SlideToggle extends React.Component {
     } = this._state_;
     const elapsedTime = Math.min(duration, util.now() - startTime);
     const range = util.clamp({ value: elapsedTime / duration });
-    let progress;
+
+    this.setState({ range });
 
     const {
       whenReversedUseBackwardEase,
       easeExpand,
       easeCollapse,
     } = this.props;
+
+    let progress;
 
     if (whenReversedUseBackwardEase && startDirection !== toggleState) {
       progress = easeExpand(1 - range);

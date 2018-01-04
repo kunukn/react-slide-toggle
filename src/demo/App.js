@@ -29,6 +29,7 @@ export default class App extends React.Component {
     hasReversed,
     boxHeight,
     updateBoxHeight,
+    range,
   }) => (
     <div className="slide-toggle">
       <div className="slide-toggle__header">
@@ -63,6 +64,10 @@ export default class App extends React.Component {
         <div>
           <span>toggleState:</span>
           <span>{toggleState}</span>
+        </div>
+        <div>
+          <span>range:</span>
+          <span>{range.toFixed(1)}</span>
         </div>
         <div>
           <span>isMoving:</span>
