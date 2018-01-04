@@ -1,5 +1,8 @@
 ## Changelog
 
+### 0.0.22
+* remove boxHeight and updateBoxHeight from render prop
+
 ### 0.0.21
 * fix range in state
 

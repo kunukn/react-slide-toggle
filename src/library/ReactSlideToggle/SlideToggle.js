@@ -1,6 +1,7 @@
 /*
-  _state_ is for minimizing potential expensive re-renderings.
-  Don't update the state for every requestAnimationFrame.
+  _state_ is internal state for sync and rendering control.
+  setState is async and I need sync control because timing is important 
+  and because I need to control what is to be re-rendered.
 */
 
 import React from 'react'; // eslint-disable-line import/no-extraneous-dependencies
@@ -43,7 +44,6 @@ export default class SlideToggle extends React.Component {
     duration: 300,
     easeCollapse: easeInOutCubic,
     easeExpand: easeInOutCubic,
-    boxHeight: 0,
   };
 
   // static propTypes = {
@@ -84,18 +84,8 @@ export default class SlideToggle extends React.Component {
       hasReversed: this.state.hasReversed,
       isMoving: util.isMoving(this.state.toggleState),
       range: this.state.range,
-      boxHeight: this.state.boxHeight,
-      updateBoxHeight: this.updateBoxHeight,
     });
   }
-
-  updateBoxHeight = () => {
-    if (this._state_.collasibleElement) {
-      // obs: clientHeight triggers reflow in browser.
-      this._state_.boxHeight = this._state_.collasibleElement.clientHeight;
-      this.setState({ boxHeight: this._state_.boxHeight });
-    }
-  };
 
   setCollapsibleElement = element => {
     if (!element) {
@@ -103,7 +93,7 @@ export default class SlideToggle extends React.Component {
       return;
     }
     this._state_.collasibleElement = element;
-    this.updateBoxHeight();
+    this._state_.boxHeight = element.clientHeight;
 
     if (this._state_.toggleState === TOGGLE.COLLAPSED) {
       this.setCollapsedState({ initialState: true });
@@ -139,7 +129,6 @@ export default class SlideToggle extends React.Component {
       this.setState({
         toggleState: this._state_.toggleState,
         hasReversed: this._state_.hasReversed,
-        boxHeight: this._state_.boxHeight,
       });
     };
 
@@ -205,6 +194,8 @@ export default class SlideToggle extends React.Component {
     const elapsedTime = Math.min(duration, util.now() - startTime);
     const range = util.clamp({ value: elapsedTime / duration });
 
+    /* setState is called on every requestAnimationFrame, 
+    delete this if this is to expensive for re-renderings */
     this.setState({ range });
 
     let progress;
@@ -255,9 +246,11 @@ export default class SlideToggle extends React.Component {
       toggleState,
     } = this._state_;
     const elapsedTime = Math.min(duration, util.now() - startTime);
-    const range = util.clamp({ value: elapsedTime / duration });
+    const range = 1 - util.clamp({ value: elapsedTime / duration });
 
-    this.setState({ range: 1 - range });
+    /* setState is called on every requestAnimationFrame, 
+    delete this if this is to expensive for re-renderings */
+    this.setState({ range });
 
     const {
       whenReversedUseBackwardEase,
@@ -268,9 +261,9 @@ export default class SlideToggle extends React.Component {
     let progress;
 
     if (whenReversedUseBackwardEase && startDirection !== toggleState) {
-      progress = easeExpand(1 - range);
+      progress = easeExpand(range);
     } else {
-      progress = 1 - easeCollapse(range);
+      progress = 1 - easeCollapse(1 - range);
     }
 
     const currentHeightValue = Math.round(boxHeight * progress);

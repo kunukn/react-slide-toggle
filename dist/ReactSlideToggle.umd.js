@@ -126,8 +126,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 _state_ is for minimizing potential expensive re-renderings.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 Don't update the state for every requestAnimationFrame.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 _state_ is internal state for sync and rendering control.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 setState is async and I need sync control because timing is important 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 and because I need to control what is to be re-rendered.
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
 // eslint-disable-line import/no-extraneous-dependencies
@@ -197,21 +198,13 @@ var SlideToggle = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (SlideToggle.__proto__ || Object.getPrototypeOf(SlideToggle)).call(this, props));
 
-    _this.updateBoxHeight = function () {
-      if (_this._state_.collasibleElement) {
-        // obs: clientHeight triggers reflow in browser.
-        _this._state_.boxHeight = _this._state_.collasibleElement.clientHeight;
-        _this.setState({ boxHeight: _this._state_.boxHeight });
-      }
-    };
-
     _this.setCollapsibleElement = function (element) {
       if (!element) {
         warn('no element in setCollapsibleElement');
         return;
       }
       _this._state_.collasibleElement = element;
-      _this.updateBoxHeight();
+      _this._state_.boxHeight = element.clientHeight;
 
       if (_this._state_.toggleState === TOGGLE.COLLAPSED) {
         _this.setCollapsedState({ initialState: true });
@@ -253,8 +246,7 @@ var SlideToggle = function (_React$Component) {
 
         _this.setState({
           toggleState: _this._state_.toggleState,
-          hasReversed: _this._state_.hasReversed,
-          boxHeight: _this._state_.boxHeight
+          hasReversed: _this._state_.hasReversed
         });
       };
 
@@ -323,6 +315,8 @@ var SlideToggle = function (_React$Component) {
       var elapsedTime = Math.min(duration, util.now() - startTime);
       var range = util.clamp({ value: elapsedTime / duration });
 
+      /* setState is called on every requestAnimationFrame, 
+      delete this if this is to expensive for re-renderings */
       _this.setState({ range: range });
 
       var progress = void 0;
@@ -373,9 +367,11 @@ var SlideToggle = function (_React$Component) {
           toggleState = _this$_state_3.toggleState;
 
       var elapsedTime = Math.min(duration, util.now() - startTime);
-      var range = util.clamp({ value: elapsedTime / duration });
+      var range = 1 - util.clamp({ value: elapsedTime / duration });
 
-      _this.setState({ range: 1 - range });
+      /* setState is called on every requestAnimationFrame, 
+      delete this if this is to expensive for re-renderings */
+      _this.setState({ range: range });
 
       var _this$props = _this.props,
           whenReversedUseBackwardEase = _this$props.whenReversedUseBackwardEase,
@@ -386,9 +382,9 @@ var SlideToggle = function (_React$Component) {
       var progress = void 0;
 
       if (whenReversedUseBackwardEase && startDirection !== toggleState) {
-        progress = easeExpand(1 - range);
+        progress = easeExpand(range);
       } else {
-        progress = 1 - easeCollapse(range);
+        progress = 1 - easeCollapse(1 - range);
       }
 
       var currentHeightValue = Math.round(boxHeight * progress);
@@ -428,9 +424,7 @@ var SlideToggle = function (_React$Component) {
         toggleState: this.state.toggleState,
         hasReversed: this.state.hasReversed,
         isMoving: util.isMoving(this.state.toggleState),
-        range: this.state.range,
-        boxHeight: this.state.boxHeight,
-        updateBoxHeight: this.updateBoxHeight
+        range: this.state.range
       });
     }
   }, {
@@ -453,8 +447,7 @@ var SlideToggle = function (_React$Component) {
 SlideToggle.defaultProps = {
   duration: 300,
   easeCollapse: easeInOutCubic,
-  easeExpand: easeInOutCubic,
-  boxHeight: 0
+  easeExpand: easeInOutCubic
 };
 exports.default = SlideToggle;
 

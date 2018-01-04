@@ -48,8 +48,6 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
     isMoving, 
     hasReversed,
     range,
-    boxHeight, 
-    updateBoxHeight, 
   }) => (
     <div className="slide-toggle">
       <div className="slide-toggle__header">
@@ -58,7 +56,9 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
         </button>
       </div>
       <div className="slide-toggle__box" ref={setCollasibleElement}>
-        <div className="slide-toggle__box-inner">
+        <div className="slide-toggle__box-inner" 
+             style={{ opacity: Math.max(.5, range) }}
+         >
           Lorem Ipsum.
         </div>
       </div>
@@ -70,7 +70,7 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 ## size
 
 * minified file ~7Kb
-* gzip-size ~3Kb
+* gzip-size ~2Kb
 
 
 ## provide your own markup

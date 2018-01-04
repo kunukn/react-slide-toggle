@@ -18,6 +18,8 @@ const getRandomEase = () => {
   return eases[easeNames[index]];
 };
 
+const ToggleText = () => "Toggle";
+
 export default class App extends React.Component {
   state = { duration: 1000 };
 
@@ -27,18 +29,16 @@ export default class App extends React.Component {
     toggleState,
     isMoving,
     hasReversed,
-    boxHeight,
-    updateBoxHeight,
     range,
   }) => (
     <div className="slide-toggle">
       <div className="slide-toggle__header">
         <button className="slide-toggle__button" onClick={onToggle}>
-          toggle
+          <ToggleText/>
         </button>
       </div>
       <div className="slide-toggle__box" ref={setCollasibleElement}>
-        <div className="slide-toggle__box-inner" style={{ opacity: Math.max(.1, range) }}>
+        <div className="slide-toggle__box-inner" style={{ opacity: Math.max(.5, range) }}>
           <p>
             Default easing is cubicInOut. You can reverse the toggle before the
             movement completes. Ease in-out works best when reverse toggling is
@@ -84,10 +84,6 @@ export default class App extends React.Component {
         <div>
           <span>hasReversed:</span>
           <span>{hasReversed + ''}</span>
-        </div>
-        <div>
-          <span>boxHeight:</span>
-          <span>{boxHeight + 'px'}</span>
         </div>
       </div>
     </div>
