@@ -170,15 +170,17 @@ export default class App extends React.Component {
 
     return (
       <div className="app">
-        <button
-          className="app__button"
-          onClick={() => {
-            this.setState({ duration: ~~(Math.random() * 800 + 200) });
-          }}
-        >
-          Randomize duration
-        </button>
-        <div>{this.state.duration}</div>
+        <header className="app__header">
+          <button
+            className="app__button"
+            onClick={() => {
+              this.setState({ duration: ~~(Math.random() * 800 + 200) });
+            }}
+          >
+            Randomize duration
+          </button>
+          <span>{this.state.duration}</span>
+        </header>
         <div className="ease-names">
           <div>Ease names ({easeNames.length}):</div>
           {easeNames.map((name, index) => <span key={index}>{name} </span>)}

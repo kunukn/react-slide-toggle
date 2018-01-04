@@ -1,5 +1,25 @@
+$color-1: #abff4f;
+$color-2: #08bdbd;
+$color-3: #2a9134;
+$color-4: #f21b3f;
+$color-5: #ff9914;
+
 * {
   box-sizing: border-box;
+}
+
+button {
+  font-size: 1rem;
+  background: rgba(white, 0.5);
+  border: 1px solid gray;
+  padding: 0.5rem 0.75rem;
+  box-shadow: none;
+  border-radius: 0.5rem;
+  background: linear-gradient(
+    0deg,
+    rgba(mix($color-2, white, 20%), 1),
+    rgba(white, 1)
+  );
 }
 
 html {
@@ -16,40 +36,31 @@ body {
 .app {
   padding-bottom: 20rem;
 
-  button {
-    font-size: 1rem;
-    background: rgba(white, 0.5);
-    border: 1px solid gray;
-    padding: 0.5rem;
-    box-shadow: none;
-    border-radius: 2px;
+  &__header {
+    margin-bottom: 1rem;
   }
-}
 
-.ease-names {
-  span {
-    background: #eee;
-    display: inline-block;
-    margin-right: 0.5em;
+  &__button {
+    margin-right: 1rem;
   }
 }
 
 .slide-toggle {
   outline: 1px solid black;
   max-width: 800px;
-  margin: 0 auto;
+  margin: 0 auto 1rem;
   box-sizing: border-box;
   &__header {
     padding: 1rem;
     outline: 1px solid black;
+    background: linear-gradient(90deg, rgba($color-2, 1), rgba($color-2, 1));
   }
   &__button {
     font-size: 1rem;
-    background: transparent;
+    //background: inherit;
     border: 1px solid gray;
     padding: 0.5rem;
     box-shadow: none;
-    border-radius: 2px;
   }
   &__box {
     overflow: hidden;
@@ -61,13 +72,30 @@ body {
     min-height: 100px;
     justify-content: center;
     align-items: center;
-    background-color: hotpink;
+    //background-color: hotpink;
+    
+
+    button {
+      margin-top: 1rem;
+    }
   }
 }
 
-.state-values{
-  span:first-of-type{
+.state-values {
+  padding: 1rem;
+  border-top: 1px solid $color-2;
+  font-weight: 300;
+  span:first-of-type {
     display: inline-block;
     min-width: 8rem;
+  }
+}
+
+.ease-names {
+  padding: 1rem 0;
+  span {
+    font-weight: 300;
+    display: inline-block;
+    margin-right: 0.5em;
   }
 }
