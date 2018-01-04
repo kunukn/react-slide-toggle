@@ -46,7 +46,8 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
     setCollasibleElement, 
     toggleState, 
     isMoving, 
-    hasReversed, 
+    hasReversed,
+    range,
     boxHeight, 
     updateBoxHeight, 
   }) => (
@@ -69,7 +70,7 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 ## size
 
 * minified file ~7Kb
-* gzip-size ~2Kb
+* gzip-size ~3Kb
 
 
 ## provide your own markup
