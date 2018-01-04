@@ -1,5 +1,8 @@
 ## Changelog
 
+### 0.0.20
+* update readme
+
 ### 0.0.19
 * add render prop: range
 
