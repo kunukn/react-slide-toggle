@@ -3,11 +3,11 @@
   Don't update the state for every requestAnimationFrame.
 */
 
-import React from 'react';
-//import PropTypes from 'prop-types';
+import React from 'react'; // eslint-disable-line import/no-extraneous-dependencies
+// import PropTypes from 'prop-types'; // eslint-disable-line import/no-extraneous-dependencies
 
-const log = console.log.bind(console);
-const warn = console.warn.bind(console);
+// const log = console.log.bind(console);
+const warn = console.warn.bind(console); // eslint-disable-line no-console
 
 const rAF = window.requestAnimationFrame
   ? window.requestAnimationFrame.bind(window)
@@ -25,6 +25,18 @@ const TOGGLE = {
 
 const easeInOutCubic = t =>
   t < 0.5 ? 4.0 * t * t * t : 0.5 * Math.pow(2.0 * t - 2.0, 3.0) + 1.0;
+
+const util = {
+  isMoving: toggleState =>
+    toggleState === TOGGLE.EXPANDING || toggleState === TOGGLE.COLLAPSING,
+  clamp: ({ value, max = 1, min = 0 }) => {
+    if (value > max) return max;
+    if (value < min) return min;
+    return value;
+  },
+  now: () => new Date().getTime(),
+  sanitizeDuration: duration => Math.max(parseInt(duration, 10) || 1, 1),
+};
 
 export default class SlideToggle extends React.Component {
   static defaultProps = {
@@ -54,7 +66,7 @@ export default class SlideToggle extends React.Component {
     this._state_ = {
       collasibleElement: null,
       toggleState: this.props.collapsed ? TOGGLE.COLLAPSED : TOGGLE.EXPANDED,
-      duration: this.sanitizeDuration(this.props.duration),
+      duration: util.sanitizeDuration(this.props.duration),
     };
 
     this.state = {
@@ -69,16 +81,10 @@ export default class SlideToggle extends React.Component {
       setCollasibleElement: this.setCollapsibleElement,
       toggleState: this.state.toggleState,
       hasReversed: this.state.hasReversed,
-      isMoving: this.isMoving(this.state.toggleState),
+      isMoving: util.isMoving(this.state.toggleState),
       boxHeight: this.state.boxHeight,
       updateBoxHeight: this.updateBoxHeight,
     });
-  }
-
-  isMoving(toggleState) {
-    return (
-      toggleState === TOGGLE.EXPANDING || toggleState === TOGGLE.COLLAPSING
-    );
   }
 
   updateBoxHeight = () => {
@@ -104,29 +110,19 @@ export default class SlideToggle extends React.Component {
     }
   };
 
-  clamp({value, max = 1, min = 0}) {
-    if (value > max) return max;
-    if (value < min) return min;
-    return value;
-  }
-
-  now() {
-    return new Date().getTime();
-  }
-
   onToggle = () => {
     if (this.props.irreversible && this.isMoving(this._state_.toggleState)) {
       return;
     }
 
-    const update_State_ = ({ toggleState, display, hasReversed }) => {
+    const updateInternalState = ({ toggleState, display, hasReversed }) => {
       this._state_.toggleState = toggleState;
       this._state_.hasReversed = !!hasReversed;
 
       if (display !== undefined) {
         this._state_.collasibleElement.style.display = display;
       }
-      const now = this.now();
+      const now = util.now();
       if (hasReversed) {
         const { duration, startTime } = this._state_;
         const elapsedTime = Math.min(duration, now - startTime);
@@ -146,42 +142,43 @@ export default class SlideToggle extends React.Component {
     };
 
     if (this._state_.toggleState === TOGGLE.EXPANDED) {
-      update_State_({ toggleState: TOGGLE.COLLAPSING });
-      this.props.onCollapsing && this.props.onCollapsing();
+      updateInternalState({ toggleState: TOGGLE.COLLAPSING });
+      if (this.props.onCollapsing) this.props.onCollapsing();
+
       this.collapse();
     } else if (this._state_.toggleState === TOGGLE.COLLAPSED) {
-      update_State_({
+      updateInternalState({
         toggleState: TOGGLE.EXPANDING,
         display: '',
       });
-      this.props.onExpanding && this.props.onExpanding();
+      if (this.props.onExpanding) this.props.onExpanding();
+
       this.expand();
     } else if (this._state_.toggleState === TOGGLE.EXPANDING) {
-      update_State_({ toggleState: TOGGLE.COLLAPSING, hasReversed: true });
-      this.props.onCollapsing && this.props.onCollapsing();
+      updateInternalState({
+        toggleState: TOGGLE.COLLAPSING,
+        hasReversed: true,
+      });
+      if (this.props.onCollapsing) this.props.onCollapsing();
+
       this.collapse();
     } else if (this._state_.toggleState === TOGGLE.COLLAPSING) {
-      update_State_({
+      updateInternalState({
         toggleState: TOGGLE.EXPANDING,
         display: '',
         hasReversed: true,
       });
-      this.props.onExpanding && this.props.onExpanding();
+      if (this.props.onExpanding) this.props.onExpanding();
+
       this.expand();
     }
   };
 
-  sanitizeDuration(duration) {
-    return Math.max(parseInt(duration, 10) || 1, 1);
-  }
-
   setExpandedState = ({ initialState } = {}) => {
     this._state_.collasibleElement.style.height = '';
     this._state_.toggleState = TOGGLE.EXPANDED;
-    this.setState({
-      toggleState: TOGGLE.EXPANDED,
-    });
-    !initialState && this.props.onExpanded && this.props.onExpanded();
+    this.setState({ toggleState: TOGGLE.EXPANDED });
+    if (!initialState && this.props.onExpanded) this.props.onExpanded();
   };
 
   expand = () => {
@@ -200,8 +197,8 @@ export default class SlideToggle extends React.Component {
       toggleState,
       boxHeight,
     } = this._state_;
-    const elapsedTime = Math.min(duration, this.now() - startTime);
-    const range = this.clamp({value: elapsedTime / duration});
+    const elapsedTime = Math.min(duration, util.now() - startTime);
+    const range = util.clamp({ value: elapsedTime / duration });
     let progress;
 
     if (
@@ -230,7 +227,7 @@ export default class SlideToggle extends React.Component {
     this.setState({
       toggleState: TOGGLE.COLLAPSED,
     });
-    !initialState && this.props.onCollapsed && this.props.onCollapsed();
+    if (!initialState && this.props.onCollapsed) this.props.onCollapsed();
   };
 
   collapse = () => {
@@ -249,8 +246,8 @@ export default class SlideToggle extends React.Component {
       boxHeight,
       toggleState,
     } = this._state_;
-    const elapsedTime = Math.min(duration, this.now() - startTime);
-    const range = this.clamp({value: elapsedTime / duration});
+    const elapsedTime = Math.min(duration, util.now() - startTime);
+    const range = util.clamp({ value: elapsedTime / duration });
     let progress;
 
     const {
@@ -281,7 +278,7 @@ export default class SlideToggle extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.duration !== this.props.duration) {
-      this._state_.duration = this.sanitizeDuration(nextProps.duration);
+      this._state_.duration = util.sanitizeDuration(nextProps.duration);
     }
   }
 

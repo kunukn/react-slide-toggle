@@ -1,8 +1,9 @@
 {
   "name": "react-slide-toggle",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "dependencies": {
     "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-import": "^2.8.0"
   },
   "scripts": {

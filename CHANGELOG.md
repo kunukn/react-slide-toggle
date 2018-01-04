@@ -1,4 +1,6 @@
 ## Changelog
+### 0.0.17
+* use eslint
 
 ### 0.0.16
 * add render prop whenReversedUseBackwardEase
