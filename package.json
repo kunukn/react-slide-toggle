@@ -2,6 +2,8 @@
   "name": "react-slide-toggle",
   "version": "0.0.16",
   "dependencies": {
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0"
   },
   "scripts": {
     "start": "npm run dev",
@@ -33,7 +35,7 @@
   },
   "devDependencies": {
     "babel-core": "*",
-    "babel-eslint": "*",
+    "babel-eslint": "^8.1.2",
     "babel-loader": "*",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
@@ -41,10 +43,11 @@
     "babel-preset-env": "*",
     "babel-preset-react": "*",
     "babel-preset-stage-2": "*",
-    "bezier-easing": "^2.0.3",    
+    "bezier-easing": "^2.0.3",
     "cross-env": "*",
     "css-loader": "*",
     "eases": "^1.0.8",
+    "eslint": "^4.14.0",
     "extract-text-webpack-plugin": "*",
     "html-webpack-plugin": "*",
     "node-sass": "*",

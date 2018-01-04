@@ -1,0 +1,4 @@
+src/demo/*
+dist/*
+webpack.config.js
+webpack.config.build.js
