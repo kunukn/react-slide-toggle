@@ -163,7 +163,7 @@ var util = {
     return new Date().getTime();
   },
   sanitizeDuration: function sanitizeDuration(duration) {
-    return Math.max(parseInt(duration, 10) || 1, 1);
+    return Math.max(0, parseInt(+duration, 10) || 0);
   }
 };
 
@@ -175,6 +175,7 @@ var SlideToggle = function (_React$Component) {
   //   duration: PropTypes.number,
   //   irreversible: PropTypes.bool,
   //   whenReversedUseBackwardEase: PropTypes.bool,
+  //   noDisplayStyle: PropTypes.bool,
   //   easeCollapse: PropTypes.func,
   //   easeExpand: PropTypes.func,
   //   collapsed: PropTypes.bool,
@@ -217,15 +218,16 @@ var SlideToggle = function (_React$Component) {
         _this._state_.toggleState = toggleState;
         _this._state_.hasReversed = !!hasReversed;
 
-        if (display !== undefined) {
+        if (display !== undefined && !_this.props.noDisplayStyle) {
           _this._state_.collasibleElement.style.display = display;
         }
-        var now = util.now();
-        if (hasReversed) {
-          var _this$_state_ = _this._state_,
-              duration = _this$_state_.duration,
-              startTime = _this$_state_.startTime;
 
+        var now = util.now();
+
+        if (hasReversed) {
+          var startTime = _this._state_.startTime;
+
+          var duration = util.sanitizeDuration(_this.props.duration);
           var elapsedTime = Math.min(duration, now - startTime);
           var subtract = Math.max(0, duration - elapsedTime);
           _this._state_.startTime = now - subtract;
@@ -296,12 +298,17 @@ var SlideToggle = function (_React$Component) {
         return;
       }
 
-      var _this$_state_2 = _this._state_,
-          duration = _this$_state_2.duration,
-          startTime = _this$_state_2.startTime,
-          startDirection = _this$_state_2.startDirection,
-          toggleState = _this$_state_2.toggleState,
-          boxHeight = _this$_state_2.boxHeight;
+      var duration = util.sanitizeDuration(_this.props.duration);
+      if (duration <= 0) {
+        _this.setExpandedState();
+        return;
+      }
+
+      var _this$_state_ = _this._state_,
+          startTime = _this$_state_.startTime,
+          startDirection = _this$_state_.startDirection,
+          toggleState = _this$_state_.toggleState,
+          boxHeight = _this$_state_.boxHeight;
 
       var elapsedTime = Math.min(duration, util.now() - startTime);
       var range = util.clamp({ value: elapsedTime / duration });
@@ -331,7 +338,9 @@ var SlideToggle = function (_React$Component) {
       var _ref4 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
           initialState = _ref4.initialState;
 
-      _this._state_.collasibleElement.style.display = 'none';
+      if (!_this.props.noDisplayStyle) {
+        _this._state_.collasibleElement.style.display = 'none';
+      }
       _this._state_.collasibleElement.style.height = '';
       _this._state_.toggleState = TOGGLE.COLLAPSED;
       _this.setState({
@@ -349,13 +358,17 @@ var SlideToggle = function (_React$Component) {
       if (_this._state_.toggleState !== TOGGLE.COLLAPSING) {
         return;
       }
+      var duration = util.sanitizeDuration(_this.props.duration);
+      if (duration <= 0) {
+        _this.setCollapsedState();
+        return;
+      }
 
-      var _this$_state_3 = _this._state_,
-          duration = _this$_state_3.duration,
-          startTime = _this$_state_3.startTime,
-          startDirection = _this$_state_3.startDirection,
-          boxHeight = _this$_state_3.boxHeight,
-          toggleState = _this$_state_3.toggleState;
+      var _this$_state_2 = _this._state_,
+          startTime = _this$_state_2.startTime,
+          startDirection = _this$_state_2.startDirection,
+          boxHeight = _this$_state_2.boxHeight,
+          toggleState = _this$_state_2.toggleState;
 
       var elapsedTime = Math.min(duration, util.now() - startTime);
       var range = 1 - util.clamp({ value: elapsedTime / duration });
@@ -394,8 +407,7 @@ var SlideToggle = function (_React$Component) {
 
     _this._state_ = {
       collasibleElement: null,
-      toggleState: _this.props.collapsed ? TOGGLE.COLLAPSED : TOGGLE.EXPANDED,
-      duration: util.sanitizeDuration(_this.props.duration)
+      toggleState: _this.props.collapsed ? TOGGLE.COLLAPSED : TOGGLE.EXPANDED
     };
 
     _this.state = {
@@ -417,13 +429,6 @@ var SlideToggle = function (_React$Component) {
         isMoving: util.isMoving(this.state.toggleState),
         range: this.state.range
       });
-    }
-  }, {
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps(nextProps) {
-      if (nextProps.duration !== this.props.duration) {
-        this._state_.duration = util.sanitizeDuration(nextProps.duration);
-      }
     }
   }, {
     key: 'componentWillUnmount',
