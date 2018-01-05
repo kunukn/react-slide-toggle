@@ -1,5 +1,7 @@
 import React from 'react';
-import { SlideToggle } from '../library/ReactSlideToggle';
+//import { SlideToggle } from 'library/ReactSlideToggle';
+const { SlideToggle } = require('library/ReactSlideToggle');
+//import { SlideToggle } from 'react-slide-toggle';
 
 import eases from 'eases'; // example, provide your own easing fn
 import BezierEasing from 'bezier-easing'; // example, provide your own easing fn

@@ -58,7 +58,7 @@ module.exports =
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
+/******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(__webpack_require__.s = 0);
@@ -78,20 +78,13 @@ module.exports = __webpack_require__(1);
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
+var SlideToggle = __webpack_require__(2).default;
 
-var _SlideToggle = __webpack_require__(2);
+module.exports = {
+  SlideToggle: SlideToggle
+};
 
-Object.defineProperty(exports, 'SlideToggle', {
-  enumerable: true,
-  get: function get() {
-    return _interopRequireDefault(_SlideToggle).default;
-  }
-});
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+// export { default as SlideToggle } from './SlideToggle';
 
 /***/ }),
 /* 2 */
@@ -314,7 +307,7 @@ var SlideToggle = function (_React$Component) {
       var range = util.clamp({ value: elapsedTime / duration });
 
       /* setState is called on every requestAnimationFrame, 
-      delete this if this is to expensive for re-renderings */
+      delete this if this is too expensive for re-renderings */
       _this.setState({ range: range });
 
       var progress = void 0;
@@ -374,7 +367,7 @@ var SlideToggle = function (_React$Component) {
       var range = 1 - util.clamp({ value: elapsedTime / duration });
 
       /* setState is called on every requestAnimationFrame, 
-      delete this if this is to expensive for re-renderings */
+      delete this if this is too expensive for re-renderings */
       _this.setState({ range: range });
 
       var _this$props = _this.props,
@@ -451,7 +444,7 @@ exports.default = SlideToggle;
 /* 3 */
 /***/ (function(module, exports) {
 
-module.exports = require("React");
+module.exports = require("react");
 
 /***/ })
 /******/ ]);

@@ -50,6 +50,7 @@ function createConfig(options) {
       filename: name + '.' + options.target + '.js',
       library: name,
       libraryTarget: options.target,
+      publicPath: '/',
     },
     module: {
       loaders: [
@@ -78,16 +79,21 @@ function createConfig(options) {
       extensions: ['.js', '.jsx'],
     },
     externals: {
-      "react": "React",
-      "react-dom": "ReactDOM",
-      "prop-types": "PropTypes",
-    }
+      react: {
+        root: 'React',
+        commonjs2: 'react',
+        commonjs: 'react',
+        amd: 'react',
+      },
+      //'react-dom': 'ReactDOM',
+      //'prop-types': 'PropTypes',
+    },
   };
 }
 
 module.exports = createVariants(
   {
-    target: ['commonjs2', 'umd']
+    target: ['commonjs2', 'umd'],
     //target: ['var', 'commonjs2', 'umd']
   },
   createConfig

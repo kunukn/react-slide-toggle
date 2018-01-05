@@ -198,7 +198,7 @@ export default class SlideToggle extends React.Component {
     const range = util.clamp({ value: elapsedTime / duration });
 
     /* setState is called on every requestAnimationFrame, 
-    delete this if this is to expensive for re-renderings */
+    delete this if this is too expensive for re-renderings */
     this.setState({ range });
 
     let progress;
@@ -253,7 +253,7 @@ export default class SlideToggle extends React.Component {
     const range = 1 - util.clamp({ value: elapsedTime / duration });
 
     /* setState is called on every requestAnimationFrame, 
-    delete this if this is to expensive for re-renderings */
+    delete this if this is too expensive for re-renderings */
     this.setState({ range });
 
     const {
