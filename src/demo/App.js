@@ -12,18 +12,49 @@ const easeInOutQuart = t =>
   t < 0.5 ? 8 * t * t * t * t : 1 - 8 * --t * t * t * t;
 
 const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
+const defaultEase = eases['cubicInOut'];
 
 const getRandomEase = () => {
   const index = Math.floor(Math.random() * easeNames.length);
   return eases[easeNames[index]];
 };
 
-const ToggleText = () => "Toggle";
+const ToggleText = () => 'Toggle';
+
+const Dot = ({
+  range,
+  easeCollapse = defaultEase,
+  easeExpand = defaultEase,
+  toggleState,
+}) => {
+  let value = 1;
+  if (toggleState === 'EXPANDING') {
+    value = easeExpand(range);
+  } else {
+    value = 1 - easeCollapse(1 - range);
+  }
+
+  return (
+    <span className="dot">
+      <span
+        className="dot__inner"
+        style={{
+          transform: `scaleX(${value})`,
+        }}
+      />
+    </span>
+  );
+};
 
 export default class App extends React.Component {
   state = { duration: 1000 };
 
-  generateMarkup = ({ easeCollapseName, easeExpandName } = {}) => ({
+  generateMarkup = ({
+    easeCollapseName,
+    easeExpandName,
+    easeCollapse,
+    easeExpand,
+  } = {}) => ({
     onToggle,
     setCollasibleElement,
     toggleState,
@@ -33,12 +64,21 @@ export default class App extends React.Component {
   }) => (
     <div className="slide-toggle">
       <div className="slide-toggle__header">
-        <button className="slide-toggle__button" onClick={onToggle}>
-          <ToggleText/>
+        <button className="slide-toggle__toggle" onClick={onToggle}>
+          <ToggleText />
         </button>
+        <Dot
+          range={range}
+          easeExpand={easeExpand}
+          easeCollapse={easeCollapse}
+          toggleState={toggleState}
+        />
       </div>
       <div className="slide-toggle__box" ref={setCollasibleElement}>
-        <div className="slide-toggle__box-inner" style={{ opacity: Math.max(.5, range) }}>
+        <div
+          className="slide-toggle__box-inner"
+          style={{ opacity: Math.max(0.5, range) }}
+        >
           <p>
             Default easing is cubicInOut. You can reverse the toggle before the
             movement completes. Ease in-out works best when reverse toggling is
@@ -120,6 +160,8 @@ export default class App extends React.Component {
           render={this.generateMarkup({
             easeCollapseName: 'easeIn',
             easeExpandName: 'bounceOut',
+            easeCollapse: eases['easeIn'],
+            easeExpand: eases['bounceOut'],
           })}
         />
       );
@@ -136,6 +178,8 @@ export default class App extends React.Component {
           render={this.generateMarkup({
             easeCollapseName: 'bounceOut',
             easeExpandName: 'bounceOut',
+            easeCollapse: eases['bounceOut'],
+            easeExpand: eases['bounceOut'],
           })}
         />
       );
@@ -151,6 +195,8 @@ export default class App extends React.Component {
           render={this.generateMarkup({
             easeCollapseName: this.fnName(bezierEaseInOutQuart),
             easeExpandName: this.fnName(bezierEaseInOutQuart),
+            easeCollapse: bezierEaseInOutQuart,
+            easeExpand: bezierEaseInOutQuart,
           })}
         />
       );

@@ -48,15 +48,19 @@ body {
   margin: 0 auto 1rem;
   box-sizing: border-box;
   &__header {
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
     padding: 1rem;
     outline: 1px solid black;
     background: linear-gradient(90deg, rgba($color-2, 1), rgba($color-2, 1));
   }
-  &__button {
+  &__toggle {
     font-size: 1rem;
     border: 1px solid gray;
     padding: 0.5rem;
     box-shadow: none;
+    margin-right: 1rem;
   }
   &__box {
     overflow: hidden;
@@ -98,5 +102,23 @@ body {
     font-weight: 300;
     display: inline-block;
     margin-right: 0.5em;
+  }
+}
+
+.dot {
+  height: 2px;
+  display: inline-block;
+  flex: 1 1 0%;
+  position: relative;
+
+  &__inner {
+    position: absolute;
+    width: 100%;
+    height: inherit;
+    top: 0;
+    left: 0;
+    will-change: transform;
+    background: rgba(white, 0.5);
+    transform-origin: 0 0;
   }
 }
