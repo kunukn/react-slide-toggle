@@ -1,5 +1,8 @@
 ## Changelog
 
+### 0.0.23
+* add render prop: noDisplayStyle
+
 ### 0.0.22
 * remove boxHeight and updateBoxHeight from render prop
 

@@ -1,6 +1,6 @@
 {
   "name": "react-slide-toggle",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "dependencies": {},
   "scripts": {
     "start": "npm run dev",
