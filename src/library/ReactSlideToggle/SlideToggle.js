@@ -269,9 +269,8 @@ export default class SlideToggle extends React.Component {
       progress = 1 - easeCollapse(1 - range);
     }
 
-    const currentHeightValue = Math.round(boxHeight * progress);
-
     if (elapsedTime < duration) {
+      const currentHeightValue = Math.round(boxHeight * progress);
       this._state_.collasibleElement.style.height = `${currentHeightValue}px`;
       this._state_.timeout = this.nextTick(this.collapse);
     } else {
