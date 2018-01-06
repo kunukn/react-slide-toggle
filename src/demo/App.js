@@ -29,17 +29,15 @@ const ProgressBar = ({
   easeExpand = defaultEase,
   toggleState,
 }) => {
-  let value = 1;
-  if (toggleState === 'EXPANDING') {
-    value = easeExpand(range);
-  } else {
-    value = 1 - easeCollapse(1 - range);
-  }
+  const value =
+    toggleState === 'EXPANDING'
+      ? easeExpand(range)
+      : 1 - easeCollapse(1 - range);
 
   return (
-    <span className="dot">
+    <span className="progress-bar">
       <span
-        className="dot__inner"
+        className="progress-bar__inner"
         style={{
           transform: `scaleX(${value})`,
         }}
