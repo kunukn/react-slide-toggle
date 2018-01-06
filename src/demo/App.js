@@ -23,7 +23,7 @@ const getRandomEase = () => {
 
 const ToggleText = () => 'Toggle';
 
-const Dot = ({
+const ProgressBar = ({
   range,
   easeCollapse = defaultEase,
   easeExpand = defaultEase,
@@ -69,7 +69,7 @@ export default class App extends React.Component {
         <button className="slide-toggle__toggle" onClick={onToggle}>
           <ToggleText />
         </button>
-        <Dot
+        <ProgressBar
           range={range}
           easeExpand={easeExpand}
           easeCollapse={easeCollapse}
