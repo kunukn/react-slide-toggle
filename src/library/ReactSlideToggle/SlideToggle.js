@@ -116,7 +116,7 @@ export default class SlideToggle extends React.Component {
       }
 
       const now = util.now();
-      
+
       if (hasReversed) {
         const { startTime } = this._state_;
         const duration = util.sanitizeDuration(this.props.duration);
@@ -153,7 +153,11 @@ export default class SlideToggle extends React.Component {
         toggleState: TOGGLE.COLLAPSING,
         hasReversed: true,
       });
-      if (this.props.onCollapsing) this.props.onCollapsing();
+      if (this.props.onCollapsing) {
+        this.props.onCollapsing({
+          hasReversed: this.state.hasReversed,
+        });
+      }
 
       this.collapse();
     } else if (this._state_.toggleState === TOGGLE.COLLAPSING) {
@@ -162,7 +166,11 @@ export default class SlideToggle extends React.Component {
         display: '',
         hasReversed: true,
       });
-      if (this.props.onExpanding) this.props.onExpanding();
+      if (this.props.onExpanding) {
+        this.props.onExpanding({
+          hasReversed: this.state.hasReversed,
+        });
+      }
 
       this.expand();
     }
@@ -175,7 +183,11 @@ export default class SlideToggle extends React.Component {
       toggleState: TOGGLE.EXPANDED,
       range: 1,
     });
-    if (!initialState && this.props.onExpanded) this.props.onExpanded();
+    if (!initialState && this.props.onExpanded) {
+      this.props.onExpanded({
+        hasReversed: this.state.hasReversed,
+      });
+    }
   };
 
   expand = () => {
@@ -230,7 +242,10 @@ export default class SlideToggle extends React.Component {
       toggleState: TOGGLE.COLLAPSED,
       range: 0,
     });
-    if (!initialState && this.props.onCollapsed) this.props.onCollapsed();
+    if (!initialState && this.props.onCollapsed)
+      this.props.onCollapsed({
+        hasReversed: this.state.hasReversed,
+      });
   };
 
   collapse = () => {

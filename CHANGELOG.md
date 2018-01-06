@@ -1,5 +1,11 @@
 ## Changelog
 
+### 0.0.25
+* add hasReversed to on event hooks
+
+### 0.0.24
+* update deploy files
+
 ### 0.0.23
 * add render prop: noDisplayStyle
 

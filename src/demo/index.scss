@@ -47,6 +47,9 @@ body {
   max-width: 800px;
   margin: 0 auto 1rem;
   box-sizing: border-box;
+  position: relative;
+  &.-extra-anim {
+  }
   &__header {
     justify-content: space-between;
     align-items: center;
@@ -73,6 +76,8 @@ body {
     min-height: 100px;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
+    position: relative;
 
     p {
       margin: 0;
@@ -82,6 +87,35 @@ body {
 
     button {
       margin-top: 1rem;
+    }
+  }
+
+  .bounce-anim {
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    border-radius: 50%;
+    background: $color-2;
+    animation: bounce-anim 500ms forwards;
+    @for $i from 2 through 10{
+      &:nth-of-type(#{$i}){
+        animation-delay: ($i - 1) * 100ms;
+      }
+    }
+  }
+  @keyframes bounce-anim {
+    from{
+      width: 10px;
+      height: 10px;
+      transform: scale(0);
+    }
+    to {
+      opacity: 0;
+      width: 10px;
+      height: 10px;
+      transform: scale(10);
     }
   }
 }

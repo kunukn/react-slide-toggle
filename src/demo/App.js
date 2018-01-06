@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 //import { SlideToggle } from 'library/ReactSlideToggle';
 const { SlideToggle } = require('library/ReactSlideToggle');
 //import { SlideToggle } from 'react-slide-toggle';
@@ -54,6 +55,7 @@ export default class App extends React.Component {
     easeExpandName,
     easeCollapse,
     easeExpand,
+    className = '',
   } = {}) => ({
     onToggle,
     setCollasibleElement,
@@ -62,7 +64,7 @@ export default class App extends React.Component {
     hasReversed,
     range,
   }) => (
-    <div className="slide-toggle">
+    <div className={'slide-toggle ' + className}>
       <div className="slide-toggle__header">
         <button className="slide-toggle__toggle" onClick={onToggle}>
           <ToggleText />
@@ -156,8 +158,47 @@ export default class App extends React.Component {
           duration={this.state.duration}
           easeCollapse={eases['easeIn']}
           easeExpand={eases['bounceOut']}
+          onExpanded={({ hasReversed }) => {
+            if (!hasReversed) {
+              const el = ReactDOM.findDOMNode(this).querySelector(
+                '.-extra-anim .slide-toggle__box-inner'
+              );
+              if (el) {
+                let anim = document.createElement('div');
+                let anim2 = document.createElement('div');
+                let anim3 = document.createElement('div');
+                let anim4 = document.createElement('div');
+                let anim5 = document.createElement('div');
+                const bcr = el.getBoundingClientRect();
+                anim.className = 'bounce-anim';
+                anim2.className = 'bounce-anim';
+                anim3.className = 'bounce-anim';
+                anim4.className = 'bounce-anim';
+                anim5.className = 'bounce-anim';
+                anim.style.left = Math.random() * bcr.width + 'px';
+                anim2.style.left = Math.random() * bcr.width + 'px';
+                anim3.style.left = Math.random() * bcr.width + 'px';
+                anim4.style.left = Math.random() * bcr.width + 'px';
+                anim5.style.left = Math.random() * bcr.width + 'px';
+                el.appendChild(anim);
+                el.appendChild(anim2);
+                el.appendChild(anim3);
+                el.appendChild(anim4);
+                el.appendChild(anim5);
+                setTimeout(() => {
+                  /* cleanup */
+                  anim && el.removeChild(anim);
+                  anim2 && el.removeChild(anim2);
+                  anim3 && el.removeChild(anim3);
+                  anim4 && el.removeChild(anim4);
+                  anim5 && el.removeChild(anim5);
+                }, 1000);
+              }
+            }
+          }}
           collapsed={Math.random() > 0.5 ? true : false}
           render={this.generateMarkup({
+            className: '-extra-anim',
             easeCollapseName: 'easeIn',
             easeExpandName: 'bounceOut',
             easeCollapse: eases['easeIn'],

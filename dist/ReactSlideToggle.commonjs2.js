@@ -254,7 +254,11 @@ var SlideToggle = function (_React$Component) {
           toggleState: TOGGLE.COLLAPSING,
           hasReversed: true
         });
-        if (_this.props.onCollapsing) _this.props.onCollapsing();
+        if (_this.props.onCollapsing) {
+          _this.props.onCollapsing({
+            hasReversed: _this.state.hasReversed
+          });
+        }
 
         _this.collapse();
       } else if (_this._state_.toggleState === TOGGLE.COLLAPSING) {
@@ -263,7 +267,11 @@ var SlideToggle = function (_React$Component) {
           display: '',
           hasReversed: true
         });
-        if (_this.props.onExpanding) _this.props.onExpanding();
+        if (_this.props.onExpanding) {
+          _this.props.onExpanding({
+            hasReversed: _this.state.hasReversed
+          });
+        }
 
         _this.expand();
       }
@@ -279,7 +287,11 @@ var SlideToggle = function (_React$Component) {
         toggleState: TOGGLE.EXPANDED,
         range: 1
       });
-      if (!initialState && _this.props.onExpanded) _this.props.onExpanded();
+      if (!initialState && _this.props.onExpanded) {
+        _this.props.onExpanded({
+          hasReversed: _this.state.hasReversed
+        });
+      }
     };
 
     _this.expand = function () {
@@ -317,9 +329,8 @@ var SlideToggle = function (_React$Component) {
         progress = _this.props.easeExpand(range);
       }
 
-      var currentHeightValue = Math.round(boxHeight * progress);
-
       if (elapsedTime < duration) {
+        var currentHeightValue = Math.round(boxHeight * progress);
         _this._state_.collasibleElement.style.height = currentHeightValue + 'px';
         _this.nextTick(_this.expand);
       } else {
@@ -340,7 +351,9 @@ var SlideToggle = function (_React$Component) {
         toggleState: TOGGLE.COLLAPSED,
         range: 0
       });
-      if (!initialState && _this.props.onCollapsed) _this.props.onCollapsed();
+      if (!initialState && _this.props.onCollapsed) _this.props.onCollapsed({
+        hasReversed: _this.state.hasReversed
+      });
     };
 
     _this.collapse = function () {
@@ -384,9 +397,8 @@ var SlideToggle = function (_React$Component) {
         progress = 1 - easeCollapse(1 - range);
       }
 
-      var currentHeightValue = Math.round(boxHeight * progress);
-
       if (elapsedTime < duration) {
+        var currentHeightValue = Math.round(boxHeight * progress);
         _this._state_.collasibleElement.style.height = currentHeightValue + 'px';
         _this._state_.timeout = _this.nextTick(_this.collapse);
       } else {
