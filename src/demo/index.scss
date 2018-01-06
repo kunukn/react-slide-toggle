@@ -48,9 +48,18 @@ body {
   margin: 0 auto 1rem;
   box-sizing: border-box;
   position: relative;
-  &.-extra-anim {
+  &.-first {
+    transition: 200ms;
+    &.expanded {
+      .slide-toggle__header {
+        padding-top: .25rem;
+        padding-bottom: .25rem;
+      }
+    }
   }
+
   &__header {
+    transition: 300ms;
     justify-content: space-between;
     align-items: center;
     display: flex;
@@ -99,14 +108,14 @@ body {
     border-radius: 50%;
     background: $color-2;
     animation: bounce-anim 500ms forwards;
-    @for $i from 2 through 10{
-      &:nth-of-type(#{$i}){
+    @for $i from 2 through 10 {
+      &:nth-of-type(#{$i}) {
         animation-delay: ($i - 1) * 100ms;
       }
     }
   }
   @keyframes bounce-anim {
-    from{
+    from {
       width: 10px;
       height: 10px;
       transform: scale(0);

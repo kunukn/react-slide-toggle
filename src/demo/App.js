@@ -64,7 +64,7 @@ export default class App extends React.Component {
     hasReversed,
     range,
   }) => (
-    <div className={'slide-toggle ' + className}>
+    <div className={'slide-toggle ' + className + ' ' + (toggleState||'').toLowerCase()}>
       <div className="slide-toggle__header">
         <button className="slide-toggle__toggle" onClick={onToggle}>
           <ToggleText />
@@ -140,13 +140,14 @@ export default class App extends React.Component {
           key={components.length}
           duration={this.state.duration}
           collapsed
-          onExpanded={() => log('onExpanded')}
           onCollapsed={() => log('onCollapsed')}
           onCollapsing={() => log('onCollapsing')}
           onExpanding={() => log('onExpanding')}
+          onExpanded={() => log('onExpanded')}
           render={this.generateMarkup({
             easeCollapseName: 'default',
             easeExpandName: 'default',
+            className: '-first',
           })}
         />
       );
