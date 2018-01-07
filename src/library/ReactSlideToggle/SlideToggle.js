@@ -52,6 +52,7 @@ export default class SlideToggle extends React.Component {
   //   irreversible: PropTypes.bool,
   //   whenReversedUseBackwardEase: PropTypes.bool,
   //   noDisplayStyle: PropTypes.bool,
+  //   interpolateOnReverse: PropTypes.bool,
   //   easeCollapse: PropTypes.func,
   //   easeExpand: PropTypes.func,
   //   collapsed: PropTypes.bool,
@@ -177,6 +178,7 @@ export default class SlideToggle extends React.Component {
   };
 
   setExpandedState = ({ initialState } = {}) => {
+    this._state_.progress = 1;
     this._state_.collasibleElement.style.height = '';
     this._state_.toggleState = TOGGLE.EXPANDED;
     this.setState({
@@ -205,30 +207,33 @@ export default class SlideToggle extends React.Component {
       return;
     }
 
-    const { startTime, startDirection, toggleState, boxHeight } = this._state_;
+    const { startTime } = this._state_;
     const elapsedTime = Math.min(duration, util.now() - startTime);
-    const range = util.clamp({ value: elapsedTime / duration });
 
-    /* setState is called on every requestAnimationFrame, 
-    delete this if this is too expensive for re-renderings */
-    this.setState({ range });
-
-    let progress;
-    if (
-      this.props.whenReversedUseBackwardEase &&
-      startDirection !== toggleState
-    ) {
-      progress = 1 - this.props.easeCollapse(1 - range);
+    if (elapsedTime >= duration) {
+      this.setExpandedState();
     } else {
-      progress = this.props.easeExpand(range);
-    }
+      const { startDirection, toggleState, boxHeight } = this._state_;
+      const range = util.clamp({ value: elapsedTime / duration });
 
-    if (elapsedTime < duration) {
+      /* setState is called on every requestAnimationFrame, 
+    delete this if this is too expensive for re-renderings */
+      this.setState({ range });
+
+      let progress;
+      if (
+        this.props.whenReversedUseBackwardEase &&
+        startDirection !== toggleState
+      ) {
+        progress = 1 - this.props.easeCollapse(1 - range);
+      } else {
+        progress = this.props.easeExpand(range);
+      }
+
       const currentHeightValue = Math.round(boxHeight * progress);
+      this._state_.progress = progress;
       this._state_.collasibleElement.style.height = `${currentHeightValue}px`;
       this.nextTick(this.expand);
-    } else {
-      this.setExpandedState();
     }
   };
 
@@ -236,6 +241,7 @@ export default class SlideToggle extends React.Component {
     if (!this.props.noDisplayStyle) {
       this._state_.collasibleElement.style.display = 'none';
     }
+    this._state_.progress = 0;
     this._state_.collasibleElement.style.height = '';
     this._state_.toggleState = TOGGLE.COLLAPSED;
     this.setState({
@@ -262,34 +268,36 @@ export default class SlideToggle extends React.Component {
       return;
     }
 
-    const { startTime, startDirection, boxHeight, toggleState } = this._state_;
+    const { startTime } = this._state_;
     const elapsedTime = Math.min(duration, util.now() - startTime);
-    const range = 1 - util.clamp({ value: elapsedTime / duration });
 
-    /* setState is called on every requestAnimationFrame, 
-    delete this if this is too expensive for re-renderings */
-    this.setState({ range });
-
-    const {
-      whenReversedUseBackwardEase,
-      easeExpand,
-      easeCollapse,
-    } = this.props;
-
-    let progress;
-
-    if (whenReversedUseBackwardEase && startDirection !== toggleState) {
-      progress = easeExpand(range);
+    if (elapsedTime >= duration) {
+      this.setCollapsedState();
     } else {
-      progress = 1 - easeCollapse(1 - range);
-    }
+      const { startDirection, boxHeight, toggleState } = this._state_;
+      const range = 1 - util.clamp({ value: elapsedTime / duration });
 
-    if (elapsedTime < duration) {
+      /* setState is called on every requestAnimationFrame, 
+      delete this if this is too expensive for re-renderings */
+      this.setState({ range });
+
+      const {
+        whenReversedUseBackwardEase,
+        easeExpand,
+        easeCollapse,
+      } = this.props;
+
+      let progress;
+      if (whenReversedUseBackwardEase && startDirection !== toggleState) {
+        progress = easeExpand(range);
+      } else {
+        progress = 1 - easeCollapse(1 - range);
+      }
+
       const currentHeightValue = Math.round(boxHeight * progress);
+      this._state_.progress = progress;
       this._state_.collasibleElement.style.height = `${currentHeightValue}px`;
       this._state_.timeout = this.nextTick(this.collapse);
-    } else {
-      this.setCollapsedState();
     }
   };
 

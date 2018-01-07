@@ -38,10 +38,10 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
   irreversible={false /* default falsy */ }
   noDisplayStyle={false /* default falsy */ }
   whenReversedUseBackwardEase={false /* default falsy */ }
-  onExpanded={()=>{ /* optional event hook */ }}
-  onExpanding={()=>{ /* optional event hook */ }}
-  onCollapsed={()=>{ /* optional event hook */ }}
-  onCollapsing={()=>{ /* optional event hook */ }}
+  onExpanded={({hasReserved}) => { /* optional event hook */ }}
+  onExpanding={({hasReserved}) => { /* optional event hook */ }}
+  onCollapsed={({hasReserved}) => { /* optional event hook */ }}
+  onCollapsing={({hasReserved}) => { /* optional event hook */ }}
   render={({ 
     onToggle, 
     setCollasibleElement, 
