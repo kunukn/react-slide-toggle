@@ -164,8 +164,8 @@ var util = {
 
     var diff = Math.abs(next - prev);
     var interpolated = next;
-    if (diff > 0.2) {
-      if (next > prev) interpolated -= diff * .5;else interpolated += diff * .5;
+    if (diff > 0.1) {
+      if (next > prev) interpolated -= diff * .75;else interpolated += diff * .75;
     }
     return interpolated;
   }
