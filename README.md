@@ -25,7 +25,7 @@ Look in App component for inspiration
 
 ```js
 import { SlideToggle } from 'react-slide-toggle';
-import BezierEasing from 'bezier-easing';
+import BezierEasing from 'bezier-easing'; // optional
 
 const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 
@@ -39,19 +39,26 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
   noDisplayStyle={false /* default falsy */ }
   whenReversedUseBackwardEase={false /* default falsy */ }
   interpolateOnReverse={false /* default falsy */ }
-  onExpanded={({hasReserved}) => { /* optional event hook */ }}
-  onExpanding={({hasReserved}) => { /* optional event hook */ }}
-  onCollapsed={({hasReserved}) => { /* optional event hook */ }}
-  onCollapsing={({hasReserved}) => { /* optional event hook */ }}
+  onExpanded={({hasReversed}) => { /* optional event hook */ }}
+  onExpanding={({hasReversed}) => { /* optional event hook */ }}
+  onCollapsed={({hasReversed}) => { /* optional event hook */ }}
+  onCollapsing={({hasReversed}) => { /* optional event hook */ }}
   render={({ 
     onToggle, 
     setCollasibleElement, 
     toggleState, 
     isMoving, 
     hasReversed,
-    range,
-  }) => (
-    <div className="slide-toggle">
+    range /* value between [0 and 1] */ ,
+  }) => {
+    
+    /* optional logic here */
+
+    /* 
+      markup example 
+      where setCollasibleElement and onToggle are used 
+    */
+    return <div className="slide-toggle">
       <div className="slide-toggle__header">
         <button className="slide-toggle__button" onClick={onToggle}>
           toggle
@@ -61,13 +68,29 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
         <div className="slide-toggle__box-inner" 
              style={{ opacity: Math.max(.5, range) }}
          >
-          Lorem Ipsum.
+          Collapsible content
         </div>
       </div>
     </div>
-  )}
+  }}
 />
 ```
+
+## properties
+
+* duration - duration for movement in milli seconds
+* easeCollapse - function which generates a value between [0 and 1]
+* easeExpand - function which generates a value between [0 and 1]
+* collapsed - start in collapsed mode
+* irreversible - you can't reverse direction during movement
+* noDisplayStyle - skip adding display:none on collapsed
+* whenReversedUseBackwardEase - play backwards on reverse toggling
+* interpolateOnReverse - avoid jumpy height changes when easeCollapse and easeExpand gives far different height position on reverse toggling.
+* onExpanded - event hook
+* onExpanding - event hook
+* onCollapsed - event hook
+* onCollapsing - event hook
+* render - render callback
 
 ## size
 

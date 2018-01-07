@@ -1,5 +1,8 @@
 ## Changelog
 
+### 0.0.27
+* update readme
+
 ### 0.0.26
 * add interpolateOnReverse
 
