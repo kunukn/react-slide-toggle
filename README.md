@@ -56,7 +56,7 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 
     /* 
       markup example 
-      where setCollasibleElement and onToggle are used 
+      where setCollasibleElement, onToggle and range are used 
     */
     return <div className="slide-toggle">
       <div className="slide-toggle__header">
