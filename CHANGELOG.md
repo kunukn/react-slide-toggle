@@ -1,5 +1,8 @@
 ## Changelog
 
+### 0.0.26
+* add interpolateOnReverse
+
 ### 0.0.25
 * add hasReversed to on event hooks
 

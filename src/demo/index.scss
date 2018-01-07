@@ -48,7 +48,7 @@ body {
   margin: 0 auto 1rem;
   box-sizing: border-box;
   position: relative;
-  &.-first {
+  &.-header-height {
     transition: 200ms;
     &.expanded {
       .slide-toggle__header {
@@ -130,9 +130,10 @@ body {
 }
 
 .state-values {
-  padding: 1rem;
+  padding: .5rem 1rem;
   border-top: 1px solid $color-2;
   font-weight: 300;
+  font-size: 80%;
   span:first-of-type {
     display: inline-block;
     min-width: 8rem;

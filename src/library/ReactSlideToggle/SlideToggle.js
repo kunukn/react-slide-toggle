@@ -37,6 +37,15 @@ const util = {
   },
   now: () => new Date().getTime(),
   sanitizeDuration: duration => Math.max(0, parseInt(+duration, 10) || 0),
+  interpolate: ({ next, prev }) => {
+    const diff = Math.abs(next - prev);
+    let interpolated = next;
+    if (diff > 0.2) {
+      if (next > prev) interpolated -= diff * .5;
+      else interpolated += diff * .5;
+    }
+    return interpolated;
+  },
 };
 
 export default class SlideToggle extends React.Component {
@@ -230,6 +239,13 @@ export default class SlideToggle extends React.Component {
         progress = this.props.easeExpand(range);
       }
 
+      if (this.props.interpolateOnReverse && this._state_.hasReversed) {
+        progress = util.interpolate({
+          next: progress,
+          prev: this._state_.progress,
+        });
+      }
+
       const currentHeightValue = Math.round(boxHeight * progress);
       this._state_.progress = progress;
       this._state_.collasibleElement.style.height = `${currentHeightValue}px`;
@@ -292,6 +308,13 @@ export default class SlideToggle extends React.Component {
         progress = easeExpand(range);
       } else {
         progress = 1 - easeCollapse(1 - range);
+      }
+
+      if (this.props.interpolateOnReverse && this._state_.hasReversed) {
+        progress = util.interpolate({
+          next: progress,
+          prev: this._state_.progress,
+        });
       }
 
       const currentHeightValue = Math.round(boxHeight * progress);

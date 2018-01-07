@@ -157,6 +157,17 @@ var util = {
   },
   sanitizeDuration: function sanitizeDuration(duration) {
     return Math.max(0, parseInt(+duration, 10) || 0);
+  },
+  interpolate: function interpolate(_ref2) {
+    var next = _ref2.next,
+        prev = _ref2.prev;
+
+    var diff = Math.abs(next - prev);
+    var interpolated = next;
+    if (diff > 0.2) {
+      if (next > prev) interpolated -= diff * .5;else interpolated += diff * .5;
+    }
+    return interpolated;
   }
 };
 
@@ -169,6 +180,7 @@ var SlideToggle = function (_React$Component) {
   //   irreversible: PropTypes.bool,
   //   whenReversedUseBackwardEase: PropTypes.bool,
   //   noDisplayStyle: PropTypes.bool,
+  //   interpolateOnReverse: PropTypes.bool,
   //   easeCollapse: PropTypes.func,
   //   easeExpand: PropTypes.func,
   //   collapsed: PropTypes.bool,
@@ -203,10 +215,10 @@ var SlideToggle = function (_React$Component) {
         return;
       }
 
-      var updateInternalState = function updateInternalState(_ref2) {
-        var toggleState = _ref2.toggleState,
-            display = _ref2.display,
-            hasReversed = _ref2.hasReversed;
+      var updateInternalState = function updateInternalState(_ref3) {
+        var toggleState = _ref3.toggleState,
+            display = _ref3.display,
+            hasReversed = _ref3.hasReversed;
 
         _this._state_.toggleState = toggleState;
         _this._state_.hasReversed = !!hasReversed;
@@ -278,9 +290,10 @@ var SlideToggle = function (_React$Component) {
     };
 
     _this.setExpandedState = function () {
-      var _ref3 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-          initialState = _ref3.initialState;
+      var _ref4 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+          initialState = _ref4.initialState;
 
+      _this._state_.progress = 1;
       _this._state_.collasibleElement.style.height = '';
       _this._state_.toggleState = TOGGLE.EXPANDED;
       _this.setState({
@@ -309,42 +322,53 @@ var SlideToggle = function (_React$Component) {
         return;
       }
 
-      var _this$_state_ = _this._state_,
-          startTime = _this$_state_.startTime,
-          startDirection = _this$_state_.startDirection,
-          toggleState = _this$_state_.toggleState,
-          boxHeight = _this$_state_.boxHeight;
+      var startTime = _this._state_.startTime;
 
       var elapsedTime = Math.min(duration, util.now() - startTime);
-      var range = util.clamp({ value: elapsedTime / duration });
 
-      /* setState is called on every requestAnimationFrame, 
-      delete this if this is too expensive for re-renderings */
-      _this.setState({ range: range });
-
-      var progress = void 0;
-      if (_this.props.whenReversedUseBackwardEase && startDirection !== toggleState) {
-        progress = 1 - _this.props.easeCollapse(1 - range);
+      if (elapsedTime >= duration) {
+        _this.setExpandedState();
       } else {
-        progress = _this.props.easeExpand(range);
-      }
+        var _this$_state_ = _this._state_,
+            startDirection = _this$_state_.startDirection,
+            toggleState = _this$_state_.toggleState,
+            boxHeight = _this$_state_.boxHeight;
 
-      if (elapsedTime < duration) {
+        var range = util.clamp({ value: elapsedTime / duration });
+
+        /* setState is called on every requestAnimationFrame, 
+        delete this if this is too expensive for re-renderings */
+        _this.setState({ range: range });
+
+        var progress = void 0;
+        if (_this.props.whenReversedUseBackwardEase && startDirection !== toggleState) {
+          progress = 1 - _this.props.easeCollapse(1 - range);
+        } else {
+          progress = _this.props.easeExpand(range);
+        }
+
+        if (_this.props.interpolateOnReverse && _this._state_.hasReversed) {
+          progress = util.interpolate({
+            next: progress,
+            prev: _this._state_.progress
+          });
+        }
+
         var currentHeightValue = Math.round(boxHeight * progress);
+        _this._state_.progress = progress;
         _this._state_.collasibleElement.style.height = currentHeightValue + 'px';
         _this.nextTick(_this.expand);
-      } else {
-        _this.setExpandedState();
       }
     };
 
     _this.setCollapsedState = function () {
-      var _ref4 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-          initialState = _ref4.initialState;
+      var _ref5 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+          initialState = _ref5.initialState;
 
       if (!_this.props.noDisplayStyle) {
         _this._state_.collasibleElement.style.display = 'none';
       }
+      _this._state_.progress = 0;
       _this._state_.collasibleElement.style.height = '';
       _this._state_.toggleState = TOGGLE.COLLAPSED;
       _this.setState({
@@ -370,39 +394,48 @@ var SlideToggle = function (_React$Component) {
         return;
       }
 
-      var _this$_state_2 = _this._state_,
-          startTime = _this$_state_2.startTime,
-          startDirection = _this$_state_2.startDirection,
-          boxHeight = _this$_state_2.boxHeight,
-          toggleState = _this$_state_2.toggleState;
+      var startTime = _this._state_.startTime;
 
       var elapsedTime = Math.min(duration, util.now() - startTime);
-      var range = 1 - util.clamp({ value: elapsedTime / duration });
 
-      /* setState is called on every requestAnimationFrame, 
-      delete this if this is too expensive for re-renderings */
-      _this.setState({ range: range });
-
-      var _this$props = _this.props,
-          whenReversedUseBackwardEase = _this$props.whenReversedUseBackwardEase,
-          easeExpand = _this$props.easeExpand,
-          easeCollapse = _this$props.easeCollapse;
-
-
-      var progress = void 0;
-
-      if (whenReversedUseBackwardEase && startDirection !== toggleState) {
-        progress = easeExpand(range);
+      if (elapsedTime >= duration) {
+        _this.setCollapsedState();
       } else {
-        progress = 1 - easeCollapse(1 - range);
-      }
+        var _this$_state_2 = _this._state_,
+            startDirection = _this$_state_2.startDirection,
+            boxHeight = _this$_state_2.boxHeight,
+            toggleState = _this$_state_2.toggleState;
 
-      if (elapsedTime < duration) {
+        var range = 1 - util.clamp({ value: elapsedTime / duration });
+
+        /* setState is called on every requestAnimationFrame, 
+        delete this if this is too expensive for re-renderings */
+        _this.setState({ range: range });
+
+        var _this$props = _this.props,
+            whenReversedUseBackwardEase = _this$props.whenReversedUseBackwardEase,
+            easeExpand = _this$props.easeExpand,
+            easeCollapse = _this$props.easeCollapse;
+
+
+        var progress = void 0;
+        if (whenReversedUseBackwardEase && startDirection !== toggleState) {
+          progress = easeExpand(range);
+        } else {
+          progress = 1 - easeCollapse(1 - range);
+        }
+
+        if (_this.props.interpolateOnReverse && _this._state_.hasReversed) {
+          progress = util.interpolate({
+            next: progress,
+            prev: _this._state_.progress
+          });
+        }
+
         var currentHeightValue = Math.round(boxHeight * progress);
+        _this._state_.progress = progress;
         _this._state_.collasibleElement.style.height = currentHeightValue + 'px';
         _this._state_.timeout = _this.nextTick(_this.collapse);
-      } else {
-        _this.setCollapsedState();
       }
     };
 
