@@ -40,7 +40,7 @@ const util = {
   interpolate: ({ next, prev }) => {
     const diff = Math.abs(next - prev);
     let interpolated = next;
-    if (diff > 0.1) {
+    if (diff > 0.15) {
       if (next > prev) interpolated -= diff * .75;
       else interpolated += diff * .75;
     }

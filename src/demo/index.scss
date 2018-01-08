@@ -106,7 +106,7 @@ body {
     left: 0;
     bottom: 0;
     border-radius: 50%;
-    background: $color-2;
+    background: rgba($color-2, .5);
     animation: bounce-anim 500ms forwards;
     @for $i from 2 through 10 {
       &:nth-of-type(#{$i}) {
@@ -116,14 +116,14 @@ body {
   }
   @keyframes bounce-anim {
     from {
-      width: 10px;
-      height: 10px;
+      width: 100px;
+      height: 100px;
       transform: scale(0);
     }
     to {
       opacity: 0;
-      width: 10px;
-      height: 10px;
+      width: 100px;
+      height: 100px;
       transform: scale(10);
     }
   }

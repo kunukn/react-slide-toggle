@@ -157,7 +157,8 @@ export default class App extends React.Component {
         <SlideToggle
           key={components.length}
           duration={this.state.duration}
-          easeCollapse={eases['easeIn']}
+          interpolateOnReverse
+          easeCollapse={eases['quartOut']}
           easeExpand={eases['bounceOut']}
           onExpanded={({ hasReversed }) => {
             if (!hasReversed) {
@@ -200,9 +201,9 @@ export default class App extends React.Component {
           collapsed={Math.random() > 0.5 ? true : false}
           render={this.generateMarkup({
             className: '-extra-anim',
-            easeCollapseName: 'easeIn',
+            easeCollapseName: 'quartOut',
             easeExpandName: 'bounceOut',
-            easeCollapse: eases['easeIn'],
+            easeCollapse: eases['quartOut'],
             easeExpand: eases['bounceOut'],
           })}
         />

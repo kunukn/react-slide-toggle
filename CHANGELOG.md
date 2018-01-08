@@ -1,5 +1,8 @@
 ## Changelog
 
+### 0.0.28
+* adjust interpolation
+
 ### 0.0.27
 * update readme
 
