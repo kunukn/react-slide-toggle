@@ -130,6 +130,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // const log = console.log.bind(console);
 var warn = console.warn.bind(console); // eslint-disable-line no-console
 
+// Support browser or node env
 var root = typeof window !== 'undefined' ? window : global;
 var rAF = root.requestAnimationFrame ? root.requestAnimationFrame.bind(root) : function (callback) {
   return root.setTimeout(callback, 16);
@@ -172,10 +173,16 @@ var util = {
     var next = _ref2.next,
         prev = _ref2.prev;
 
+    /* 
+      If the diff in the next rAF is big, it can seem jumpy when reversing the togling
+      This is heuristic approach to minimize the diff value by interpolating.
+    */
     var diff = Math.abs(next - prev);
     var interpolated = next;
     if (diff > 0.15) {
-      if (next > prev) interpolated -= diff * 0.75;else interpolated += diff * 0.75;
+      /* heuritic value */
+      if (next > prev) interpolated -= diff * 0.75; /* heuritic value */
+      else interpolated += diff * 0.75; /* heuritic value */
     }
     return interpolated;
   }
