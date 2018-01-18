@@ -9,7 +9,6 @@ const name = 'app';
 module.exports = (env = {}) => {
 
   console.log(env);
-  let doMinimize = false;
 
   const plugins = [
     new HtmlWebpackPlugin({
@@ -19,32 +18,6 @@ module.exports = (env = {}) => {
     }),
     new ExtractTextPlugin({ filename: '[name].bundle.css', allChunks: true }),
   ];
-
-  if (doMinimize) {
-    plugins.push(
-      new webpack.LoaderOptionsPlugin({ minimize: true, debug: false })
-    );
-    plugins.push(
-      new webpack.optimize.UglifyJsPlugin({
-        minimize: true,
-        compress: {
-          warnings: false,
-          screw_ie8: true,
-          conditionals: true,
-          unused: true,
-          comparisons: true,
-          sequences: true,
-          dead_code: true,
-          evaluate: true,
-          if_return: true,
-          join_vars: true
-        },
-        output: {
-          comments: false
-        }
-      })
-    );
-  }
 
   return {
     entry: {
