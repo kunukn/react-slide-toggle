@@ -78,7 +78,7 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 
 ## properties
 
-* duration - duration for movement in milli seconds
+* duration - movement duration in milli seconds
 * easeCollapse - function which generates a value between [0 and 1]
 * easeExpand - function which generates a value between [0 and 1]
 * collapsed - start in collapsed mode
