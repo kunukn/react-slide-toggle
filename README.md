@@ -56,7 +56,7 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 
     /* 
       markup example 
-      where setCollasibleElement, onToggle and range are used 
+      where setCollapsibleElement, onToggle and range are used 
     */
     return <div className="slide-toggle">
       <div className="slide-toggle__header">
@@ -101,7 +101,7 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 ## provide your own markup
 
 The component provides the functionality. 
-Minimum requirement is to bind the collapsible element with `setCollasibleElement`. 
+Minimum requirement is to bind the collapsible element with `setCollapsibleElement`. 
 Use the `onToggle` function to toggle the collapsible element.
 
 
