@@ -24,24 +24,13 @@ const getRandomEase = () => {
 
 const ToggleText = () => 'Toggle';
 
-const ProgressBar = ({
-  range,
-  progress,
-  easeCollapse = defaultEase,
-  easeExpand = defaultEase,
-  toggleState,
-}) => {
-  const value =
-    toggleState === 'EXPANDING'
-      ? progress // easeExpand(range)
-      : progress // 1 - easeCollapse(1 - range);
-
+const ProgressBar = ({ progress }) => {
   return (
     <span className="progress-bar">
       <span
         className="progress-bar__inner"
         style={{
-          transform: `scaleX(${value})`,
+          transform: `scaleX(${progress})`,
         }}
       />
     </span>
@@ -66,18 +55,16 @@ export default class App extends React.Component {
     range,
     progress,
   }) => (
-    <div className={'slide-toggle ' + className + ' ' + (toggleState||'').toLowerCase()}>
+    <div
+      className={
+        'slide-toggle ' + className + ' ' + (toggleState || '').toLowerCase()
+      }
+    >
       <div className="slide-toggle__header">
         <button className="slide-toggle__toggle" onClick={onToggle}>
           <ToggleText />
         </button>
-        <ProgressBar
-          range={range}
-          progress={progress}
-          easeExpand={easeExpand}
-          easeCollapse={easeCollapse}
-          toggleState={toggleState}
-        />
+        <ProgressBar progress={progress} />
       </div>
       <div className="slide-toggle__box" ref={setCollapsibleElement}>
         <div
@@ -100,7 +87,7 @@ export default class App extends React.Component {
             be the best option to use.
           </p>
           <button onClick={onToggle}>
-            <ToggleText/>
+            <ToggleText />
           </button>
         </div>
       </div>
@@ -216,8 +203,7 @@ export default class App extends React.Component {
         />
       );
 
-
-      1 &&
+    1 &&
       components.push(
         <SlideToggle
           key={components.length}
@@ -234,7 +220,6 @@ export default class App extends React.Component {
           })}
         />
       );
-
 
     1 &&
       components.push(
