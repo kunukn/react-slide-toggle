@@ -10,6 +10,7 @@ import React from 'react'; // eslint-disable-line import/no-extraneous-dependenc
 // const log = console.log.bind(console);
 const warn = console.warn.bind(console); // eslint-disable-line no-console
 
+// Support browser or node env
 const root = typeof window !== 'undefined' ? window : global;
 const rAF = root.requestAnimationFrame
   ? root.requestAnimationFrame.bind(root)
@@ -39,11 +40,15 @@ const util = {
   now: () => new Date().getTime(),
   sanitizeDuration: duration => Math.max(0, parseInt(+duration, 10) || 0),
   interpolate: ({ next, prev }) => {
+    /* 
+      If the diff in the next rAF is big, it can seem jumpy when reversing the togling
+      This is heuristic approach to minimize the diff value by interpolating.
+    */
     const diff = Math.abs(next - prev);
     let interpolated = next;
-    if (diff > 0.15) {
-      if (next > prev) interpolated -= diff * 0.75;
-      else interpolated += diff * 0.75;
+    if (diff > 0.15) { /* heuritic value */
+      if (next > prev) interpolated -= diff * 0.75; /* heuritic value */
+      else interpolated += diff * 0.75; /* heuritic value */
     }
     return interpolated;
   },
