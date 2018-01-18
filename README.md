@@ -50,9 +50,9 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
   whenReversedUseBackwardEase={false /* default falsy */ }
   interpolateOnReverse={false /* default falsy */ }
   onExpanded={({hasReversed}) => { /* optional event hook */ }}
-  onExpanding={({range, hasReversed}) => { /* optional event hook */ }}
+  onExpanding={({range, progress, hasReversed}) => { /* optional event hook */ }}
   onCollapsed={({hasReversed}) => { /* optional event hook */ }}
-  onCollapsing={({range, hasReversed}) => { /* optional event hook */ }}
+  onCollapsing={({range, progress, hasReversed}) => { /* optional event hook */ }}
   render={({ 
     onToggle, 
     setCollapsibleElement, 
@@ -67,7 +67,7 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 
     /* 
       markup example 
-      where setCollapsibleElement, onToggle and range are used 
+      where setCollapsibleElement, onToggle and progress are used 
     */
     return <div className="slide-toggle">
       <div className="slide-toggle__header">
@@ -77,7 +77,7 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
       </div>
       <div className="slide-toggle__box" ref={setCollapsibleElement}>
         <div className="slide-toggle__box-inner" 
-             style={{ opacity: Math.max(.5, range) }}
+             style={{ opacity: Math.max(.5, progress) }}
          >
           Collapsible content
         </div>

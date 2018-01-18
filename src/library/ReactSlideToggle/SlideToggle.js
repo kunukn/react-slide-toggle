@@ -130,6 +130,7 @@ export default class SlideToggle extends React.Component {
       if (this.props.onCollapsing) {
         this.props.onCollapsing({
           range: this.state.range,
+          progress: this.state.progress,
           hasReversed: this.state.hasReversed,
         });
       }
@@ -139,6 +140,7 @@ export default class SlideToggle extends React.Component {
       if (this.props.onExpanding) {
         this.props.onExpanding({
           range: this.state.range,
+          progress: this.state.progress,
           hasReversed: this.state.hasReversed,
         });
       }

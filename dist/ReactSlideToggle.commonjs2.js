@@ -227,6 +227,7 @@ var SlideToggle = function (_React$Component) {
         if (_this.props.onCollapsing) {
           _this.props.onCollapsing({
             range: _this.state.range,
+            progress: _this.state.progress,
             hasReversed: _this.state.hasReversed
           });
         }
@@ -236,6 +237,7 @@ var SlideToggle = function (_React$Component) {
         if (_this.props.onExpanding) {
           _this.props.onExpanding({
             range: _this.state.range,
+            progress: _this.state.progress,
             hasReversed: _this.state.hasReversed
           });
         }
