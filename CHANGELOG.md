@@ -1,5 +1,8 @@
 ## Changelog
 
+### 0.0.30
+* update readme
+
 ### 0.0.29
 * fix typo: setCollapsibleElement
 * detect window or global object
