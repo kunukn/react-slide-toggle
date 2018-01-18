@@ -1,5 +1,9 @@
 ## Changelog
 
+### 0.0.29
+* fix typo: setCollapsibleElement
+* detect window or global object
+
 ### 0.0.28
 * adjust interpolation
 

@@ -40,12 +40,12 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
   whenReversedUseBackwardEase={false /* default falsy */ }
   interpolateOnReverse={false /* default falsy */ }
   onExpanded={({hasReversed}) => { /* optional event hook */ }}
-  onExpanding={({hasReversed}) => { /* optional event hook */ }}
+  onExpanding={({range, hasReversed}) => { /* optional event hook */ }}
   onCollapsed={({hasReversed}) => { /* optional event hook */ }}
-  onCollapsing={({hasReversed}) => { /* optional event hook */ }}
+  onCollapsing={({range, hasReversed}) => { /* optional event hook */ }}
   render={({ 
     onToggle, 
-    setCollasibleElement, 
+    setCollapsibleElement, 
     toggleState, 
     isMoving, 
     hasReversed,
@@ -64,7 +64,7 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
           toggle
         </button>
       </div>
-      <div className="slide-toggle__box" ref={setCollasibleElement}>
+      <div className="slide-toggle__box" ref={setCollapsibleElement}>
         <div className="slide-toggle__box-inner" 
              style={{ opacity: Math.max(.5, range) }}
          >

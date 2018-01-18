@@ -10,12 +10,13 @@ import React from 'react'; // eslint-disable-line import/no-extraneous-dependenc
 // const log = console.log.bind(console);
 const warn = console.warn.bind(console); // eslint-disable-line no-console
 
-const rAF = window.requestAnimationFrame
-  ? window.requestAnimationFrame.bind(window)
-  : callback => window.setTimeout(callback, 16);
-const cAF = window.cancelAnimationFrame
-  ? window.cancelAnimationFrame.bind(window)
-  : window.clearInterval.bind(window);
+const root = typeof window !== 'undefined' ? window : global;
+const rAF = root.requestAnimationFrame
+  ? root.requestAnimationFrame.bind(root)
+  : callback => root.setTimeout(callback, 16);
+const cAF = root.cancelAnimationFrame
+  ? root.cancelAnimationFrame.bind(root)
+  : root.clearInterval.bind(root);
 
 const TOGGLE = {
   EXPANDED: 'EXPANDED',
@@ -41,8 +42,8 @@ const util = {
     const diff = Math.abs(next - prev);
     let interpolated = next;
     if (diff > 0.15) {
-      if (next > prev) interpolated -= diff * .75;
-      else interpolated += diff * .75;
+      if (next > prev) interpolated -= diff * 0.75;
+      else interpolated += diff * 0.75;
     }
     return interpolated;
   },
@@ -89,7 +90,7 @@ export default class SlideToggle extends React.Component {
   render() {
     return this.props.render({
       onToggle: this.onToggle,
-      setCollasibleElement: this.setCollapsibleElement,
+      setCollapsibleElement: this.setCollapsibleElement,
       toggleState: this.state.toggleState,
       hasReversed: this.state.hasReversed,
       isMoving: util.isMoving(this.state.toggleState),
@@ -116,6 +117,25 @@ export default class SlideToggle extends React.Component {
     if (this.props.irreversible && this.isMoving(this._state_.toggleState)) {
       return;
     }
+
+    const invokeCollapsing = () => {
+      if (this.props.onCollapsing) {
+        this.props.onCollapsing({
+          range: this.state.range,
+          hasReversed: this.state.hasReversed,
+        });
+      }
+      this.collapse();
+    };
+    const invokeExpanding = () => {
+      if (this.props.onExpanding) {
+        this.props.onExpanding({
+          range: this.state.range,
+          hasReversed: this.state.hasReversed,
+        });
+      }
+      this.expand();
+    };
 
     const updateInternalState = ({ toggleState, display, hasReversed }) => {
       this._state_.toggleState = toggleState;
@@ -147,42 +167,26 @@ export default class SlideToggle extends React.Component {
 
     if (this._state_.toggleState === TOGGLE.EXPANDED) {
       updateInternalState({ toggleState: TOGGLE.COLLAPSING });
-      if (this.props.onCollapsing) this.props.onCollapsing();
-
-      this.collapse();
+      invokeCollapsing();
     } else if (this._state_.toggleState === TOGGLE.COLLAPSED) {
       updateInternalState({
         toggleState: TOGGLE.EXPANDING,
         display: '',
       });
-      if (this.props.onExpanding) this.props.onExpanding();
-
-      this.expand();
+      invokeExpanding();
     } else if (this._state_.toggleState === TOGGLE.EXPANDING) {
       updateInternalState({
         toggleState: TOGGLE.COLLAPSING,
         hasReversed: true,
       });
-      if (this.props.onCollapsing) {
-        this.props.onCollapsing({
-          hasReversed: this.state.hasReversed,
-        });
-      }
-
-      this.collapse();
+      invokeCollapsing();
     } else if (this._state_.toggleState === TOGGLE.COLLAPSING) {
       updateInternalState({
         toggleState: TOGGLE.EXPANDING,
         display: '',
         hasReversed: true,
       });
-      if (this.props.onExpanding) {
-        this.props.onExpanding({
-          hasReversed: this.state.hasReversed,
-        });
-      }
-
-      this.expand();
+      invokeExpanding();
     }
   };
 

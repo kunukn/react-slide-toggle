@@ -91,7 +91,7 @@ module.exports = {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(global) {
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -99,7 +99,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(3);
+var _react = __webpack_require__(4);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -121,10 +121,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // const log = console.log.bind(console);
 var warn = console.warn.bind(console); // eslint-disable-line no-console
 
-var rAF = window.requestAnimationFrame ? window.requestAnimationFrame.bind(window) : function (callback) {
-  return window.setTimeout(callback, 16);
+var root = typeof window !== 'undefined' ? window : global;
+var rAF = root.requestAnimationFrame ? root.requestAnimationFrame.bind(root) : function (callback) {
+  return root.setTimeout(callback, 16);
 };
-var cAF = window.cancelAnimationFrame ? window.cancelAnimationFrame.bind(window) : window.clearInterval.bind(window);
+var cAF = root.cancelAnimationFrame ? root.cancelAnimationFrame.bind(root) : root.clearInterval.bind(root);
 
 var TOGGLE = {
   EXPANDED: 'EXPANDED',
@@ -165,7 +166,7 @@ var util = {
     var diff = Math.abs(next - prev);
     var interpolated = next;
     if (diff > 0.15) {
-      if (next > prev) interpolated -= diff * .75;else interpolated += diff * .75;
+      if (next > prev) interpolated -= diff * 0.75;else interpolated += diff * 0.75;
     }
     return interpolated;
   }
@@ -215,6 +216,25 @@ var SlideToggle = function (_React$Component) {
         return;
       }
 
+      var invokeCollapsing = function invokeCollapsing() {
+        if (_this.props.onCollapsing) {
+          _this.props.onCollapsing({
+            range: _this.state.range,
+            hasReversed: _this.state.hasReversed
+          });
+        }
+        _this.collapse();
+      };
+      var invokeExpanding = function invokeExpanding() {
+        if (_this.props.onExpanding) {
+          _this.props.onExpanding({
+            range: _this.state.range,
+            hasReversed: _this.state.hasReversed
+          });
+        }
+        _this.expand();
+      };
+
       var updateInternalState = function updateInternalState(_ref3) {
         var toggleState = _ref3.toggleState,
             display = _ref3.display,
@@ -250,42 +270,26 @@ var SlideToggle = function (_React$Component) {
 
       if (_this._state_.toggleState === TOGGLE.EXPANDED) {
         updateInternalState({ toggleState: TOGGLE.COLLAPSING });
-        if (_this.props.onCollapsing) _this.props.onCollapsing();
-
-        _this.collapse();
+        invokeCollapsing();
       } else if (_this._state_.toggleState === TOGGLE.COLLAPSED) {
         updateInternalState({
           toggleState: TOGGLE.EXPANDING,
           display: ''
         });
-        if (_this.props.onExpanding) _this.props.onExpanding();
-
-        _this.expand();
+        invokeExpanding();
       } else if (_this._state_.toggleState === TOGGLE.EXPANDING) {
         updateInternalState({
           toggleState: TOGGLE.COLLAPSING,
           hasReversed: true
         });
-        if (_this.props.onCollapsing) {
-          _this.props.onCollapsing({
-            hasReversed: _this.state.hasReversed
-          });
-        }
-
-        _this.collapse();
+        invokeCollapsing();
       } else if (_this._state_.toggleState === TOGGLE.COLLAPSING) {
         updateInternalState({
           toggleState: TOGGLE.EXPANDING,
           display: '',
           hasReversed: true
         });
-        if (_this.props.onExpanding) {
-          _this.props.onExpanding({
-            hasReversed: _this.state.hasReversed
-          });
-        }
-
-        _this.expand();
+        invokeExpanding();
       }
     };
 
@@ -461,7 +465,7 @@ var SlideToggle = function (_React$Component) {
     value: function render() {
       return this.props.render({
         onToggle: this.onToggle,
-        setCollasibleElement: this.setCollapsibleElement,
+        setCollapsibleElement: this.setCollapsibleElement,
         toggleState: this.state.toggleState,
         hasReversed: this.state.hasReversed,
         isMoving: util.isMoving(this.state.toggleState),
@@ -484,9 +488,37 @@ SlideToggle.defaultProps = {
   easeExpand: easeInOutCubic
 };
 exports.default = SlideToggle;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 /* 3 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports) {
 
 module.exports = require("react");

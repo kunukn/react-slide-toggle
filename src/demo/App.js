@@ -58,7 +58,7 @@ export default class App extends React.Component {
     className = '',
   } = {}) => ({
     onToggle,
-    setCollasibleElement,
+    setCollapsibleElement,
     toggleState,
     isMoving,
     hasReversed,
@@ -76,7 +76,7 @@ export default class App extends React.Component {
           toggleState={toggleState}
         />
       </div>
-      <div className="slide-toggle__box" ref={setCollasibleElement}>
+      <div className="slide-toggle__box" ref={setCollapsibleElement}>
         <div
           className="slide-toggle__box-inner"
           style={{ opacity: Math.max(0.5, range) }}
@@ -96,8 +96,8 @@ export default class App extends React.Component {
             requestAnimationFrame. If you have a very long page this might not
             be the best option to use.
           </p>
-          <button onClick={() => window.alert('test tabindex')}>
-            dummy button
+          <button onClick={onToggle}>
+            <ToggleText/>
           </button>
         </div>
       </div>
