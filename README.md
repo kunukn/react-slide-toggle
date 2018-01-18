@@ -1,4 +1,6 @@
-React version of jQuery.slideToggle. JavaScript animation where height is set on every requestAnimationFrame. The toggle direction can be reversed during the animation.
+## about
+React version of jQuery.slideToggle. JavaScript animation where height is set on every requestAnimationFrame. 
+The toggle direction can be reversed during the movement.
 
 ## demo
 
@@ -17,6 +19,14 @@ https://unpkg.com/react-slide-toggle/
 ## npm 
 
 https://www.npmjs.com/package/react-slide-toggle
+
+## info
+
+Default easing is cubicInOut. You can reverse the toggle before the movement completes. Ease in-out works best visually when reverse toggling is to be used.
+
+This should be A11Y friendly, you can test the tabindex by tabbing. The collapsed items should be skipped due to usage of display:none (inert functionality)
+
+JS animation is used for best animation control and possibility of adding interpolation or using advanged easing configuration which you can't with CSS alone. This triggers browser reflows on every requestAnimationFrame. If you have a very long page this might not be the best option to use.
 
 ## usage example
 
