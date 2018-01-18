@@ -46,7 +46,8 @@ const util = {
     */
     const diff = Math.abs(next - prev);
     let interpolated = next;
-    if (diff > 0.15) { /* heuritic value */
+    if (diff > 0.15) {
+      /* heuritic value */
       if (next > prev) interpolated -= diff * 0.75; /* heuritic value */
       else interpolated += diff * 0.75; /* heuritic value */
     }
@@ -89,6 +90,7 @@ export default class SlideToggle extends React.Component {
       toggleState: this._state_.toggleState,
       hasReversed: false,
       range: this.props.collapsed ? 0 : 1,
+      progress: this.props.collapsed ? 0 : 1,
     };
   }
 
@@ -100,6 +102,7 @@ export default class SlideToggle extends React.Component {
       hasReversed: this.state.hasReversed,
       isMoving: util.isMoving(this.state.toggleState),
       range: this.state.range,
+      progress: this.state.progress,
     });
   }
 
@@ -202,6 +205,7 @@ export default class SlideToggle extends React.Component {
     this.setState({
       toggleState: TOGGLE.EXPANDED,
       range: 1,
+      progress: this._state_.progress,
     });
     if (!initialState && this.props.onExpanded) {
       this.props.onExpanded({
@@ -234,10 +238,6 @@ export default class SlideToggle extends React.Component {
       const { startDirection, toggleState, boxHeight } = this._state_;
       const range = util.clamp({ value: elapsedTime / duration });
 
-      /* setState is called on every requestAnimationFrame, 
-    delete this if this is too expensive for re-renderings */
-      this.setState({ range });
-
       let progress;
       if (
         this.props.whenReversedUseBackwardEase &&
@@ -247,6 +247,13 @@ export default class SlideToggle extends React.Component {
       } else {
         progress = this.props.easeExpand(range);
       }
+
+      /* setState is called on every requestAnimationFrame, 
+        delete this if this is too expensive for re-renderings */
+      this.setState({
+        range,
+        progress,
+      });
 
       if (this.props.interpolateOnReverse && this._state_.hasReversed) {
         progress = util.interpolate({
@@ -272,6 +279,7 @@ export default class SlideToggle extends React.Component {
     this.setState({
       toggleState: TOGGLE.COLLAPSED,
       range: 0,
+      progress: this._state_.progress,
     });
     if (!initialState && this.props.onCollapsed)
       this.props.onCollapsed({
@@ -302,10 +310,6 @@ export default class SlideToggle extends React.Component {
       const { startDirection, boxHeight, toggleState } = this._state_;
       const range = 1 - util.clamp({ value: elapsedTime / duration });
 
-      /* setState is called on every requestAnimationFrame, 
-      delete this if this is too expensive for re-renderings */
-      this.setState({ range });
-
       const {
         whenReversedUseBackwardEase,
         easeExpand,
@@ -318,6 +322,13 @@ export default class SlideToggle extends React.Component {
       } else {
         progress = 1 - easeCollapse(1 - range);
       }
+
+      /* setState is called on every requestAnimationFrame, 
+      delete this if this is too expensive for re-renderings */
+      this.setState({
+        range,
+        progress,
+      });
 
       if (this.props.interpolateOnReverse && this._state_.hasReversed) {
         progress = util.interpolate({

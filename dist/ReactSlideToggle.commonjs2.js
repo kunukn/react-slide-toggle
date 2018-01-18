@@ -309,7 +309,8 @@ var SlideToggle = function (_React$Component) {
       _this._state_.toggleState = TOGGLE.EXPANDED;
       _this.setState({
         toggleState: TOGGLE.EXPANDED,
-        range: 1
+        range: 1,
+        progress: _this._state_.progress
       });
       if (!initialState && _this.props.onExpanded) {
         _this.props.onExpanded({
@@ -347,16 +348,19 @@ var SlideToggle = function (_React$Component) {
 
         var range = util.clamp({ value: elapsedTime / duration });
 
-        /* setState is called on every requestAnimationFrame, 
-        delete this if this is too expensive for re-renderings */
-        _this.setState({ range: range });
-
         var progress = void 0;
         if (_this.props.whenReversedUseBackwardEase && startDirection !== toggleState) {
           progress = 1 - _this.props.easeCollapse(1 - range);
         } else {
           progress = _this.props.easeExpand(range);
         }
+
+        /* setState is called on every requestAnimationFrame, 
+          delete this if this is too expensive for re-renderings */
+        _this.setState({
+          range: range,
+          progress: progress
+        });
 
         if (_this.props.interpolateOnReverse && _this._state_.hasReversed) {
           progress = util.interpolate({
@@ -384,7 +388,8 @@ var SlideToggle = function (_React$Component) {
       _this._state_.toggleState = TOGGLE.COLLAPSED;
       _this.setState({
         toggleState: TOGGLE.COLLAPSED,
-        range: 0
+        range: 0,
+        progress: _this._state_.progress
       });
       if (!initialState && _this.props.onCollapsed) _this.props.onCollapsed({
         hasReversed: _this.state.hasReversed
@@ -419,10 +424,6 @@ var SlideToggle = function (_React$Component) {
 
         var range = 1 - util.clamp({ value: elapsedTime / duration });
 
-        /* setState is called on every requestAnimationFrame, 
-        delete this if this is too expensive for re-renderings */
-        _this.setState({ range: range });
-
         var _this$props = _this.props,
             whenReversedUseBackwardEase = _this$props.whenReversedUseBackwardEase,
             easeExpand = _this$props.easeExpand,
@@ -435,6 +436,13 @@ var SlideToggle = function (_React$Component) {
         } else {
           progress = 1 - easeCollapse(1 - range);
         }
+
+        /* setState is called on every requestAnimationFrame, 
+        delete this if this is too expensive for re-renderings */
+        _this.setState({
+          range: range,
+          progress: progress
+        });
 
         if (_this.props.interpolateOnReverse && _this._state_.hasReversed) {
           progress = util.interpolate({
@@ -462,7 +470,8 @@ var SlideToggle = function (_React$Component) {
     _this.state = {
       toggleState: _this._state_.toggleState,
       hasReversed: false,
-      range: _this.props.collapsed ? 0 : 1
+      range: _this.props.collapsed ? 0 : 1,
+      progress: _this.props.collapsed ? 0 : 1
     };
     return _this;
   }
@@ -476,7 +485,8 @@ var SlideToggle = function (_React$Component) {
         toggleState: this.state.toggleState,
         hasReversed: this.state.hasReversed,
         isMoving: util.isMoving(this.state.toggleState),
-        range: this.state.range
+        range: this.state.range,
+        progress: this.state.progress
       });
     }
   }, {

@@ -59,7 +59,8 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
     toggleState, 
     isMoving, 
     hasReversed,
-    range /* value between [0 and 1] */ ,
+    range /* linear value between [0 and 1] */ ,
+    progress /* easing result value between [0 and 1] */ ,
   }) => {
     
     /* optional logic here */

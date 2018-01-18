@@ -26,14 +26,15 @@ const ToggleText = () => 'Toggle';
 
 const ProgressBar = ({
   range,
+  progress,
   easeCollapse = defaultEase,
   easeExpand = defaultEase,
   toggleState,
 }) => {
   const value =
     toggleState === 'EXPANDING'
-      ? easeExpand(range)
-      : 1 - easeCollapse(1 - range);
+      ? progress // easeExpand(range)
+      : progress // 1 - easeCollapse(1 - range);
 
   return (
     <span className="progress-bar">
@@ -63,6 +64,7 @@ export default class App extends React.Component {
     isMoving,
     hasReversed,
     range,
+    progress,
   }) => (
     <div className={'slide-toggle ' + className + ' ' + (toggleState||'').toLowerCase()}>
       <div className="slide-toggle__header">
@@ -71,6 +73,7 @@ export default class App extends React.Component {
         </button>
         <ProgressBar
           range={range}
+          progress={progress}
           easeExpand={easeExpand}
           easeCollapse={easeCollapse}
           toggleState={toggleState}
@@ -110,6 +113,10 @@ export default class App extends React.Component {
         <div>
           <span>range:</span>
           <span>{range.toFixed(2)}</span>
+        </div>
+        <div>
+          <span>progress:</span>
+          <span>{progress.toFixed(2)}</span>
         </div>
         <div>
           <span>isMoving:</span>
