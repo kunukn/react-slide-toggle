@@ -127,7 +127,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // eslint-disable-line import/no-extraneous-dependencies
 // import PropTypes from 'prop-types'; // eslint-disable-line import/no-extraneous-dependencies
 
-// const log = console.log.bind(console);
 var warn = console.warn.bind(console); // eslint-disable-line no-console
 
 // Support browser or node env
@@ -197,6 +196,7 @@ var SlideToggle = function (_React$Component) {
   //   irreversible: PropTypes.bool,
   //   whenReversedUseBackwardEase: PropTypes.bool,
   //   noDisplayStyle: PropTypes.bool,
+  //   bestPerformance: PropTypes.bool,
   //   interpolateOnReverse: PropTypes.bool,
   //   easeCollapse: PropTypes.func,
   //   easeExpand: PropTypes.func,
@@ -366,12 +366,12 @@ var SlideToggle = function (_React$Component) {
           progress = _this.props.easeExpand(range);
         }
 
-        /* setState is called on every requestAnimationFrame, 
-          delete this if this is too expensive for re-renderings */
-        _this.setState({
-          range: range,
-          progress: progress
-        });
+        if (!_this.props.bestPerformance) {
+          _this.setState({
+            range: range,
+            progress: progress
+          });
+        }
 
         if (_this.props.interpolateOnReverse && _this._state_.hasReversed) {
           progress = util.interpolate({
@@ -448,12 +448,12 @@ var SlideToggle = function (_React$Component) {
           progress = 1 - easeCollapse(1 - range);
         }
 
-        /* setState is called on every requestAnimationFrame, 
-        delete this if this is too expensive for re-renderings */
-        _this.setState({
-          range: range,
-          progress: progress
-        });
+        if (!_this.props.bestPerformance) {
+          _this.setState({
+            range: range,
+            progress: progress
+          });
+        }
 
         if (_this.props.interpolateOnReverse && _this._state_.hasReversed) {
           progress = util.interpolate({

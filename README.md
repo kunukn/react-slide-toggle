@@ -47,6 +47,7 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
   collapsed={false /* default falsy */ }
   irreversible={false /* default falsy */ }
   noDisplayStyle={false /* default falsy */ }
+  bestPerformance={false /* default falsy */ }
   whenReversedUseBackwardEase={false /* default falsy */ }
   interpolateOnReverse={false /* default falsy */ }
   onExpanded={({hasReversed}) => { /* optional event hook */ }}

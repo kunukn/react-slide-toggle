@@ -1,5 +1,8 @@
 ## Changelog
 
+### 0.0.32
+* add bestPerformance
+
 ### 0.0.31
 * add render prop: progress, the easing result value
 

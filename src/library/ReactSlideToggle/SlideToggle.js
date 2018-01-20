@@ -7,7 +7,6 @@
 import React from 'react'; // eslint-disable-line import/no-extraneous-dependencies
 // import PropTypes from 'prop-types'; // eslint-disable-line import/no-extraneous-dependencies
 
-// const log = console.log.bind(console);
 const warn = console.warn.bind(console); // eslint-disable-line no-console
 
 // Support browser or node env
@@ -68,6 +67,7 @@ export default class SlideToggle extends React.Component {
   //   irreversible: PropTypes.bool,
   //   whenReversedUseBackwardEase: PropTypes.bool,
   //   noDisplayStyle: PropTypes.bool,
+  //   bestPerformance: PropTypes.bool,
   //   interpolateOnReverse: PropTypes.bool,
   //   easeCollapse: PropTypes.func,
   //   easeExpand: PropTypes.func,
@@ -250,12 +250,12 @@ export default class SlideToggle extends React.Component {
         progress = this.props.easeExpand(range);
       }
 
-      /* setState is called on every requestAnimationFrame, 
-        delete this if this is too expensive for re-renderings */
-      this.setState({
-        range,
-        progress,
-      });
+      if (!this.props.bestPerformance) {
+        this.setState({
+          range,
+          progress,
+        });
+      }
 
       if (this.props.interpolateOnReverse && this._state_.hasReversed) {
         progress = util.interpolate({
@@ -325,12 +325,12 @@ export default class SlideToggle extends React.Component {
         progress = 1 - easeCollapse(1 - range);
       }
 
-      /* setState is called on every requestAnimationFrame, 
-      delete this if this is too expensive for re-renderings */
-      this.setState({
-        range,
-        progress,
-      });
+      if (!this.props.bestPerformance) {
+        this.setState({
+          range,
+          progress,
+        });
+      }
 
       if (this.props.interpolateOnReverse && this._state_.hasReversed) {
         progress = util.interpolate({
