@@ -96,6 +96,7 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 * collapsed - start in collapsed mode
 * irreversible - you can't reverse direction during movement
 * noDisplayStyle - skip adding display:none on collapsed
+* bestPerformance - don't apply setState for every frame update. Disables range and progress update
 * whenReversedUseBackwardEase - play backwards on reverse toggling
 * interpolateOnReverse - avoid jumpy height changes when easeCollapse and easeExpand gives far different height position on reverse toggling.
 * onExpanded - event hook
