@@ -34,9 +34,9 @@ Look in App component for inspiration. Apply the styling as needed.
 
 
 ```js
+// Component example, simple
 import { SlideToggle } from 'react-slide-toggle';
 
-// Component example, simple
 <SlideToggle
   render={({onToggle, setCollapsibleElement}) => (
     <div className="box">
@@ -51,12 +51,12 @@ import { SlideToggle } from 'react-slide-toggle';
 
 
 ```js
+// Component usage example with all options
 import { SlideToggle } from 'react-slide-toggle';
 import BezierEasing from 'bezier-easing'; // optional
 
 const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 
-// Component usage example with all options
 <SlideToggle
   duration={280 /* default 300 */}
   easeCollapse={bezierEaseInOutQuart /* default cubicInOut */ }
