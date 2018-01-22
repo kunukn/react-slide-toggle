@@ -35,6 +35,32 @@ Look in App component for inspiration
 
 ```js
 import { SlideToggle } from 'react-slide-toggle';
+
+// Component usage example
+<SlideToggle
+  render={({ 
+    onToggle, 
+    setCollapsibleElement, 
+  }) => (
+    <div className="slide-toggle">
+      <div className="slide-toggle__header">
+        <button className="slide-toggle__button" onClick={onToggle}>
+          toggle
+        </button>
+      </div>
+      <div className="slide-toggle__box" ref={setCollapsibleElement}>
+        <div className="slide-toggle__box-inner">
+          Collapsible content
+        </div>
+      </div>
+    </div>
+  )}
+/>
+```
+
+
+```js
+import { SlideToggle } from 'react-slide-toggle';
 import BezierEasing from 'bezier-easing'; // optional
 
 const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
