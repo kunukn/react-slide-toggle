@@ -30,28 +30,19 @@ JS animation is used for best animation control and possibility of adding interp
 
 ## usage example
 
-Look in App component for inspiration
+Look in App component for inspiration. Apply the styling as needed.
 
 
 ```js
 import { SlideToggle } from 'react-slide-toggle';
 
-// Component usage example
+// Component example, simple
 <SlideToggle
-  render={({ 
-    onToggle, 
-    setCollapsibleElement, 
-  }) => (
-    <div className="slide-toggle">
-      <div className="slide-toggle__header">
-        <button className="slide-toggle__button" onClick={onToggle}>
-          toggle
-        </button>
-      </div>
-      <div className="slide-toggle__box" ref={setCollapsibleElement}>
-        <div className="slide-toggle__box-inner">
+  render={({onToggle, setCollapsibleElement}) => (
+    <div className="box">
+      <button className="btn" onClick={onToggle}> toggle </button>
+      <div className="box-content" ref={setCollapsibleElement}>
           Collapsible content
-        </div>
       </div>
     </div>
   )}
@@ -65,7 +56,7 @@ import BezierEasing from 'bezier-easing'; // optional
 
 const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 
-// Component usage example
+// Component usage example with all options
 <SlideToggle
   duration={280 /* default 300 */}
   easeCollapse={bezierEaseInOutQuart /* default cubicInOut */ }
