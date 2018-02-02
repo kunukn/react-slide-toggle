@@ -28,6 +28,7 @@ This should be A11Y friendly, you can test the tabindex by tabbing. The collapse
 
 JS animation is used for best animation control and possibility of adding interpolation or using advanged easing configuration which you can't with CSS alone. This triggers browser reflows on every requestAnimationFrame. If you have a very long page this might not be the best option to use.
 
+
 ## usage example
 
 Look in App component for inspiration. Apply the styling as needed.
@@ -127,6 +128,16 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 * minified file ~7Kb
 * gzip-size ~2Kb
 
+
+## design goals
+
+* flexible - provide your own markup, styling and easing
+* interruptible - can be reversed during movement
+* simple api with event hooks
+* inert - when collapsed you should tab over the collapsed component
+* minimal in size
+* availability - from cdn or npm install
+* generate range and progress [0;1] values which can be used for further custom animation
 
 ## provide your own markup
 
