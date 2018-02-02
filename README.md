@@ -138,6 +138,7 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 * minimal in size
 * availability - from cdn or npm install
 * generate range and progress [0;1] values which can be used for further custom animation
+* JS is used over CSS transition on purpose to enable possible interpolation or other custom math calculations
 
 ## provide your own markup
 
