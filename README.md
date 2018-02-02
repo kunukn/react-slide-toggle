@@ -129,17 +129,6 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 * gzip-size ~2Kb
 
 
-## design goals
-
-* flexible - provide your own markup, styling and easing
-* interruptible - can be reversed during movement
-* simple api with event hooks
-* inert - when collapsed you should tab over the collapsed component
-* minimal in size
-* availability - from cdn or npm install
-* generate range and progress [0;1] values which can be used for further custom animation
-* JS is used over CSS transition on purpose to enable possible interpolation or other custom math calculations
-
 ## provide your own markup
 
 The component provides the functionality. 
@@ -162,3 +151,15 @@ You can see examples of JS-easing library usage here
 
 * eases        https://codepen.io/kunukn/full/mpVJOm/
 * BezierEasing https://codepen.io/kunukn/full/YYNqyj/
+
+
+## design goals
+
+* flexible - provide your own markup, styling and easing
+* interruptible - can be reversed during movement
+* simple api with event hooks
+* inert - when collapsed you should tab over the collapsed component
+* minimal in size
+* availability - from cdn or npm install
+* generate range and progress [0;1] values which can be used for further custom animation
+* JS is used over CSS transition on purpose to enable possible interpolation or other custom math calculations
