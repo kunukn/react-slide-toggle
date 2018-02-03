@@ -143,8 +143,8 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 
 ## size
 
-* minified file ~7Kb
-* gzip-size ~2Kb
+* minified file ~8Kb
+* gzip-size ~3Kb
 
 
 ## provide your own markup
