@@ -140,6 +140,7 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 * onCollapsed - event hook
 * onCollapsing - event hook
 * render - render callback
+* children - render callback
 
 ## size
 
