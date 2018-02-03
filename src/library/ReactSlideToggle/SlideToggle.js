@@ -24,6 +24,7 @@ const TOGGLE = {
   EXPANDING: 'EXPANDING',
   COLLAPSING: 'COLLAPSING',
 };
+const GET_HEIGHT = 'offsetHeight';
 
 const easeInOutCubic = t =>
   t < 0.5 ? 4.0 * t * t * t : 0.5 * Math.pow(2.0 * t - 2.0, 3.0) + 1.0;
@@ -112,7 +113,7 @@ export default class SlideToggle extends React.Component {
       return;
     }
     this._state_.collasibleElement = element;
-    this._state_.boxHeight = element.clientHeight;
+    this._state_.boxHeight = element[GET_HEIGHT];
 
     if (this._state_.toggleState === TOGGLE.COLLAPSED) {
       this.setCollapsedState({ initialState: true });
@@ -164,7 +165,7 @@ export default class SlideToggle extends React.Component {
         const subtract = Math.max(0, duration - elapsedTime);
         this._state_.startTime = now - subtract;
       } else {
-        this._state_.boxHeight = this._state_.collasibleElement.clientHeight;
+        this._state_.boxHeight = this._state_.collasibleElement[GET_HEIGHT];
         this._state_.startTime = now;
         this._state_.startDirection = toggleState;
       }
@@ -202,7 +203,7 @@ export default class SlideToggle extends React.Component {
 
   setExpandedState = ({ initialState } = {}) => {
     this._state_.progress = 1;
-    this._state_.collasibleElement.style.height = '';
+    this._state_.collasibleElement.style.height = null;
     this._state_.toggleState = TOGGLE.EXPANDED;
     this.setState({
       toggleState: TOGGLE.EXPANDED,
@@ -276,7 +277,7 @@ export default class SlideToggle extends React.Component {
       this._state_.collasibleElement.style.display = 'none';
     }
     this._state_.progress = 0;
-    this._state_.collasibleElement.style.height = '';
+    this._state_.collasibleElement.style.height = null;
     this._state_.toggleState = TOGGLE.COLLAPSED;
     this.setState({
       toggleState: TOGGLE.COLLAPSED,
