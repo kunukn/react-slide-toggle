@@ -35,7 +35,7 @@ Look in App component for inspiration. Apply the styling as needed.
 
 
 ```js
-// Component example, simple
+// Component example, simple - render prop
 import { SlideToggle } from 'react-slide-toggle';
 
 // add CSS: .my-collapsible-content { overflow: hidden;}
@@ -51,6 +51,21 @@ import { SlideToggle } from 'react-slide-toggle';
 />
 ```
 
+```js
+// Component example, simple - function as child
+import { SlideToggle } from 'react-slide-toggle';
+
+<SlideToggle>
+  {({onToggle, setCollapsibleElement}) => (
+    <div className="my-collapsible-component">
+      <button className="btn" onClick={onToggle}> toggle</button>
+      <div className="my-collapsible-content" ref={setCollapsibleElement}>
+          Collapsible content
+      </div>
+    </div>
+  )}
+</SlideToggle>
+```
 
 ```js
 // Component usage example with all options
@@ -119,6 +134,7 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 * bestPerformance - don't apply setState for every frame update. Disables range and progress update
 * whenReversedUseBackwardEase - play backwards on reverse toggling
 * interpolateOnReverse - avoid jumpy height changes when easeCollapse and easeExpand gives far different height position on reverse toggling.
+* disableWarnings - disable warnings if something is wrongly setup
 * onExpanded - event hook
 * onExpanding - event hook
 * onCollapsed - event hook
