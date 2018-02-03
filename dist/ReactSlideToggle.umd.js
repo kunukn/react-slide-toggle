@@ -197,6 +197,7 @@ var SlideToggle = function (_React$Component) {
   //   irreversible: PropTypes.bool,
   //   whenReversedUseBackwardEase: PropTypes.bool,
   //   noDisplayStyle: PropTypes.bool,
+  //   disableWarnings: PropTypes.bool,
   //   bestPerformance: PropTypes.bool,
   //   interpolateOnReverse: PropTypes.bool,
   //   easeCollapse: PropTypes.func,
@@ -215,7 +216,8 @@ var SlideToggle = function (_React$Component) {
 
     _this.setCollapsibleElement = function (element) {
       if (!element) {
-        warn('no element in setCollapsibleElement');
+        if (!_this.props.disableWarnings) warn('no element in setCollapsibleElement');
+
         return;
       }
       _this._state_.collasibleElement = element;
@@ -491,7 +493,7 @@ var SlideToggle = function (_React$Component) {
   _createClass(SlideToggle, [{
     key: 'render',
     value: function render() {
-      return this.props.render({
+      var data = {
         onToggle: this.onToggle,
         setCollapsibleElement: this.setCollapsibleElement,
         toggleState: this.state.toggleState,
@@ -499,7 +501,14 @@ var SlideToggle = function (_React$Component) {
         isMoving: util.isMoving(this.state.toggleState),
         range: this.state.range,
         progress: this.state.progress
-      });
+      };
+
+      if (this.props.children) return this.props.children(data);
+      if (this.props.render) return this.props.render(data);
+
+      if (!this.props.disableWarnings) warn('no render defined');
+
+      return null;
     }
   }, {
     key: 'componentWillUnmount',

@@ -68,6 +68,7 @@ export default class SlideToggle extends React.Component {
   //   irreversible: PropTypes.bool,
   //   whenReversedUseBackwardEase: PropTypes.bool,
   //   noDisplayStyle: PropTypes.bool,
+  //   disableWarnings: PropTypes.bool,
   //   bestPerformance: PropTypes.bool,
   //   interpolateOnReverse: PropTypes.bool,
   //   easeCollapse: PropTypes.func,
@@ -96,7 +97,7 @@ export default class SlideToggle extends React.Component {
   }
 
   render() {
-    return this.props.render({
+    const data = {
       onToggle: this.onToggle,
       setCollapsibleElement: this.setCollapsibleElement,
       toggleState: this.state.toggleState,
@@ -104,12 +105,21 @@ export default class SlideToggle extends React.Component {
       isMoving: util.isMoving(this.state.toggleState),
       range: this.state.range,
       progress: this.state.progress,
-    });
+    };
+
+    if (this.props.children) return this.props.children(data);
+    if (this.props.render) return this.props.render(data);
+
+    if (!this.props.disableWarnings) warn('no render defined');
+
+    return null;
   }
 
   setCollapsibleElement = element => {
     if (!element) {
-      warn('no element in setCollapsibleElement');
+      if (!this.props.disableWarnings)
+        warn('no element in setCollapsibleElement');
+
       return;
     }
     this._state_.collasibleElement = element;

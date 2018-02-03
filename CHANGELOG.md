@@ -1,5 +1,9 @@
 ## Changelog
 
+### 0.1.4
+* add props disableWarnings
+* add ability to use function as child
+
 ### 0.1.3
 * fix irreversible not working
 

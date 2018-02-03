@@ -38,11 +38,12 @@ Look in App component for inspiration. Apply the styling as needed.
 // Component example, simple
 import { SlideToggle } from 'react-slide-toggle';
 
+// add CSS: .my-collapsible-content { overflow: hidden;}
 <SlideToggle
   render={({onToggle, setCollapsibleElement}) => (
-    <div className="box">
-      <button className="btn" onClick={onToggle}> toggle </button>
-      <div className="box-content" ref={setCollapsibleElement}>
+    <div className="my-collapsible-component">
+      <button className="btn" onClick={onToggle}> toggle</button>
+      <div className="my-collapsible-content" ref={setCollapsibleElement}>
           Collapsible content
       </div>
     </div>
@@ -62,12 +63,13 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
   duration={280 /* default 300 */}
   easeCollapse={bezierEaseInOutQuart /* default cubicInOut */ }
   easeExpand={bezierEaseInOutQuart /* default cubicInOut */ }
-  collapsed={false /* default falsy */ }
-  irreversible={false /* default falsy */ }
-  noDisplayStyle={false /* default falsy */ }
-  bestPerformance={false /* default falsy */ }
-  whenReversedUseBackwardEase={false /* default falsy */ }
-  interpolateOnReverse={false /* default falsy */ }
+  collapsed={true /* default falsy */ }
+  irreversible={true /* default falsy */ }
+  noDisplayStyle={true /* default falsy */ }
+  bestPerformance={true /* default falsy */ }
+  whenReversedUseBackwardEase={true /* default falsy */ }
+  interpolateOnReverse={true /* default falsy */ }
+  disableWarnings={true /* default falsy */ }
   onExpanded={({hasReversed}) => { /* optional event hook */ }}
   onExpanding={({range, progress, hasReversed}) => { /* optional event hook */ }}
   onCollapsed={({hasReversed}) => { /* optional event hook */ }}

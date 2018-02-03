@@ -135,16 +135,16 @@ export default class App extends React.Component {
           duration={this.state.duration}
           collapsed
           interpolateOnReverse
-          irreversible
           onCollapsed={() => log('onCollapsed')}
           onCollapsing={() => log('onCollapsing')}
           onExpanding={() => log('onExpanding')}
           onExpanded={() => log('onExpanded')}
-          render={this.generateMarkup({
+        >
+          {this.generateMarkup({
             easeCollapseName: 'default',
             easeExpandName: 'default',
           })}
-        />
+        </SlideToggle>
       );
 
     1 &&
