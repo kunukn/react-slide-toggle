@@ -184,6 +184,7 @@ var SlideToggle = function (_React$Component) {
 
   // static propTypes = {
   //   render: PropTypes.func,
+  //   children: PropTypes.func,
   //   duration: PropTypes.number,
   //   irreversible: PropTypes.bool,
   //   whenReversedUseBackwardEase: PropTypes.bool,
