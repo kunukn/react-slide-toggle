@@ -135,6 +135,7 @@ export default class App extends React.Component {
           duration={this.state.duration}
           collapsed
           interpolateOnReverse
+          irreversible
           onCollapsed={() => log('onCollapsed')}
           onCollapsing={() => log('onCollapsing')}
           onExpanding={() => log('onExpanding')}

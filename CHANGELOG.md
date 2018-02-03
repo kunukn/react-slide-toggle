@@ -1,5 +1,8 @@
 ## Changelog
 
+### 0.1.3
+* fix irreversible not working
+
 ### 0.1.2
 * use offsetHeight instead of clientHeight
 

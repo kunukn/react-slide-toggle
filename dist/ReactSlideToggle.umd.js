@@ -229,7 +229,7 @@ var SlideToggle = function (_React$Component) {
     };
 
     _this.onToggle = function () {
-      if (_this.props.irreversible && _this.isMoving(_this._state_.toggleState)) {
+      if (_this.props.irreversible && util.isMoving(_this._state_.toggleState)) {
         return;
       }
 

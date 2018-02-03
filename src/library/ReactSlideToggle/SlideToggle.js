@@ -123,7 +123,7 @@ export default class SlideToggle extends React.Component {
   };
 
   onToggle = () => {
-    if (this.props.irreversible && this.isMoving(this._state_.toggleState)) {
+    if (this.props.irreversible && util.isMoving(this._state_.toggleState)) {
       return;
     }
 
