@@ -25,13 +25,12 @@ const TOGGLE = {
 const GET_HEIGHT = 'offsetHeight';
 
 const easeInOutCubic = t =>
-  t < 0.5 ? 4.0 * t * t * t : 0.5 * Math.pow(2.0 * t - 2.0, 3.0) + 1.0;
+  t < 0.5 ? 4 * t * t * t : 0.5 * Math.pow(2 * t - 2, 3) + 1;
 
 const util = {
   isMoving: toggleState =>
     toggleState === TOGGLE.EXPANDING || toggleState === TOGGLE.COLLAPSING,
   now: () => new Date().getTime(),
-  sanitizeDuration: duration => Math.max(0, parseInt(+duration, 10) || 0),
 };
 
 class SlideToggle extends React.Component {
@@ -43,7 +42,6 @@ class SlideToggle extends React.Component {
 
   // static propTypes = {
   //   render: PropTypes.func,
-  //   children: PropTypes.func,
   //   duration: PropTypes.number,
   //   irreversible: PropTypes.bool,
   //   whenReversedUseBackwardEase: PropTypes.bool,
@@ -63,9 +61,6 @@ class SlideToggle extends React.Component {
 
     this.state = {
       toggleState: this._state_.toggleState,
-      hasReversed: false,
-      range: this.props.collapsed ? 0 : 1,
-      progress: this.props.collapsed ? 0 : 1,
     };
   }
 
@@ -74,15 +69,10 @@ class SlideToggle extends React.Component {
       onToggle: this.onToggle,
       setCollapsibleElement: this.setCollapsibleElement,
       toggleState: this.state.toggleState,
-      hasReversed: this.state.hasReversed,
       isMoving: util.isMoving(this.state.toggleState),
-      range: this.state.range,
-      progress: this.state.progress,
     };
 
-    if (this.props.render) return this.props.render(data);
-
-    return null;
+    return this.props.render ? this.props.render(data) : null;
   }
 
   setCollapsibleElement = element => {
@@ -123,7 +113,7 @@ class SlideToggle extends React.Component {
 
       if (hasReversed) {
         const { startTime } = this._state_;
-        const duration = util.sanitizeDuration(this.props.duration);
+        const duration = +this.props.duration;
         const elapsedTime = Math.min(duration, now - startTime);
         const subtract = Math.max(0, duration - elapsedTime);
         this._state_.startTime = now - subtract;
@@ -183,7 +173,7 @@ class SlideToggle extends React.Component {
       return;
     }
 
-    const duration = util.sanitizeDuration(this.props.duration);
+    const duration = +this.props.duration;
     if (duration <= 0) {
       this.setExpandedState();
       return;
@@ -234,7 +224,7 @@ class SlideToggle extends React.Component {
     if (this._state_.toggleState !== TOGGLE.COLLAPSING) {
       return;
     }
-    const duration = util.sanitizeDuration(this.props.duration);
+    const duration = +this.props.duration;
     if (duration <= 0) {
       this.setCollapsedState();
       return;
