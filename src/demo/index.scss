@@ -32,7 +32,6 @@ body {
   margin: 0;
   padding: 1rem;
   font-family: sans-serif;
-  min-height: 102vh;
 }
 
 .app {
@@ -47,127 +46,10 @@ body {
   }
 }
 
-.slide-toggle {
-  outline: 1px solid black;
-  max-width: 800px;
-  margin: 0 auto 1rem;
-  box-sizing: border-box;
-  position: relative;
-  &.-header-height {
-    transition: 200ms;
-    &.expanded {
-      .slide-toggle__header {
-        padding-top: .25rem;
-        padding-bottom: .25rem;
-      }
-    }
-  }
-
-  &__header {
-    transition: 300ms;
-    justify-content: space-between;
-    align-items: center;
-    display: flex;
-    padding: 1rem;
-    outline: 1px solid black;
-    background: linear-gradient(90deg, rgba($color-2, 1), rgba($color-2, 1));
-  }
-  &__toggle {
-    font-size: 1rem;
-    border: 1px solid gray;
-    padding: 0.5rem;
-    box-shadow: none;
-    margin-right: 1rem;
-  }
-  &__box {
-    overflow: hidden;
-  }
-  &__box-inner {
-    line-height: 1.5;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    min-height: 100px;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    position: relative;
-
-    p {
-      margin: 0;
-      padding: 0;
-      margin-bottom: 1rem;
-    }
-
-    button {
-      margin-top: 1rem;
-    }
-  }
-
-  .bounce-anim {
-    width: 0px;
-    height: 0px;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    border-radius: 50%;
-    background: rgba($color-2, .5);
-    animation: bounce-anim 500ms forwards;
-    @for $i from 2 through 10 {
-      &:nth-of-type(#{$i}) {
-        animation-delay: ($i - 1) * 100ms;
-      }
-    }
-  }
-  @keyframes bounce-anim {
-    from {
-      width: 100px;
-      height: 100px;
-      transform: scale(0);
-    }
-    to {
-      opacity: 0;
-      width: 100px;
-      height: 100px;
-      transform: scale(10);
-    }
-  }
-}
-
-.state-values {
-  padding: .5rem 1rem;
-  border-top: 1px solid $color-2;
-  font-weight: 300;
-  font-size: 80%;
-  span:first-of-type {
-    display: inline-block;
-    min-width: 8rem;
-  }
-}
-
-.ease-names {
-  padding: 1rem 0;
-  span {
-    font-weight: 300;
-    display: inline-block;
-    margin-right: 0.5em;
-  }
-}
-
-.progress-bar {
-  height: 2px;
-  display: inline-block;
-  flex: 1 1 0%;
-  position: relative;
-
-  &__inner {
-    position: absolute;
-    width: 100%;
-    height: inherit;
-    top: 0;
-    left: 0;
-    will-change: transform;
-    background: rgba(white, 0.5);
-    transform-origin: 0 0;
+.my-collapsible-content {
+  overflow: hidden;
+  background: pink;
+  > * {
+    padding: 2rem 1rem;
   }
 }
