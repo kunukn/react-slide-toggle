@@ -1,6 +1,6 @@
 {
   "name": "react-slide-toggle",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "dependencies": {},
   "scripts": {
     "start": "npm run dev",
@@ -60,7 +60,7 @@
     "type": "git",
     "url": "git+https://github.com/kunukn/react-slide-toggle.git"
   },
-  "keywords": ["slide", "toggle"],
+  "keywords": ["slide", "toggle", "collapsible"],
   "bugs": {
     "url": "https://github.com/kunukn/react-slide-toggle/issues"
   },

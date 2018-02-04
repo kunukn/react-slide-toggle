@@ -118,8 +118,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // eslint-disable-line import/no-extraneous-dependencies
 // import PropTypes from 'prop-types'; // eslint-disable-line import/no-extraneous-dependencies
 
-var warn = console.warn.bind(console); // eslint-disable-line no-console
-
 // Support browser or node env
 var root = typeof window !== 'undefined' ? window : global;
 var rAF = root.requestAnimationFrame ? root.requestAnimationFrame.bind(root) : function (callback) {
@@ -136,7 +134,7 @@ var TOGGLE = {
 var GET_HEIGHT = 'offsetHeight';
 
 var easeInOutCubic = function easeInOutCubic(t) {
-  return t < 0.5 ? 4.0 * t * t * t : 0.5 * Math.pow(2.0 * t - 2.0, 3.0) + 1.0;
+  return t < .5 ? 4 * t * t * t : .5 * Math.pow(2 * t - 2, 3) + 1;
 };
 
 var util = {
@@ -189,7 +187,6 @@ var SlideToggle = function (_React$Component) {
   //   irreversible: PropTypes.bool,
   //   whenReversedUseBackwardEase: PropTypes.bool,
   //   noDisplayStyle: PropTypes.bool,
-  //   disableWarnings: PropTypes.bool,
   //   bestPerformance: PropTypes.bool,
   //   interpolateOnReverse: PropTypes.bool,
   //   easeCollapse: PropTypes.func,
@@ -207,11 +204,6 @@ var SlideToggle = function (_React$Component) {
     var _this = _possibleConstructorReturn(this, (SlideToggle.__proto__ || Object.getPrototypeOf(SlideToggle)).call(this, props));
 
     _this.setCollapsibleElement = function (element) {
-      if (!element) {
-        if (!_this.props.disableWarnings) warn('no element in setCollapsibleElement');
-
-        return;
-      }
       _this._state_.collasibleElement = element;
       _this._state_.boxHeight = element[GET_HEIGHT];
 
@@ -326,10 +318,6 @@ var SlideToggle = function (_React$Component) {
     };
 
     _this.expand = function () {
-      if (!_this._state_.collasibleElement) {
-        warn('no collapsibleElement');
-        return;
-      }
       if (_this._state_.toggleState !== TOGGLE.EXPANDING) {
         return;
       }
@@ -403,10 +391,6 @@ var SlideToggle = function (_React$Component) {
     };
 
     _this.collapse = function () {
-      if (!_this._state_.collasibleElement) {
-        warn('no collapsibleElement');
-        return;
-      }
       if (_this._state_.toggleState !== TOGGLE.COLLAPSING) {
         return;
       }
@@ -497,8 +481,6 @@ var SlideToggle = function (_React$Component) {
 
       if (this.props.children) return this.props.children(data);
       if (this.props.render) return this.props.render(data);
-
-      if (!this.props.disableWarnings) warn('no render defined');
 
       return null;
     }

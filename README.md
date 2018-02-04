@@ -41,7 +41,7 @@ import { SlideToggle } from 'react-slide-toggle';
 // add CSS: .my-collapsible-content { overflow: hidden;}
 <SlideToggle
   render={({onToggle, setCollapsibleElement}) => (
-    <div className="my-collapsible-component">
+    <div className="my-collapsible">
       <button className="btn" onClick={onToggle}> toggle</button>
       <div className="my-collapsible-content" ref={setCollapsibleElement}>
           Collapsible content
@@ -57,7 +57,7 @@ import { SlideToggle } from 'react-slide-toggle';
 
 <SlideToggle>
   {({onToggle, setCollapsibleElement}) => (
-    <div className="my-collapsible-component">
+    <div className="my-collapsible">
       <button className="btn" onClick={onToggle}> toggle</button>
       <div className="my-collapsible-content" ref={setCollapsibleElement}>
           Collapsible content
@@ -84,7 +84,6 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
   bestPerformance={true /* default falsy */ }
   whenReversedUseBackwardEase={true /* default falsy */ }
   interpolateOnReverse={true /* default falsy */ }
-  disableWarnings={true /* default falsy */ }
   onExpanded={({hasReversed}) => { /* optional event hook */ }}
   onExpanding={({range, progress, hasReversed}) => { /* optional event hook */ }}
   onCollapsed={({hasReversed}) => { /* optional event hook */ }}
@@ -134,7 +133,6 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 * bestPerformance - don't apply setState for every frame update. Disables range and progress update
 * whenReversedUseBackwardEase - play backwards on reverse toggling
 * interpolateOnReverse - avoid jumpy height changes when easeCollapse and easeExpand gives far different height position on reverse toggling.
-* disableWarnings - disable warnings if something is wrongly setup
 * onExpanded - event hook
 * onExpanding - event hook
 * onCollapsed - event hook
@@ -144,8 +142,8 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 
 ## size
 
-* minified file ~8Kb
-* gzip-size ~3Kb
+* minified file ~7Kb
+* gzip-size ~2Kb
 
 
 ## provide your own markup

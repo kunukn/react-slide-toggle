@@ -7,8 +7,6 @@
 import React from 'react'; // eslint-disable-line import/no-extraneous-dependencies
 // import PropTypes from 'prop-types'; // eslint-disable-line import/no-extraneous-dependencies
 
-const warn = console.warn.bind(console); // eslint-disable-line no-console
-
 // Support browser or node env
 const root = typeof window !== 'undefined' ? window : global;
 const rAF = root.requestAnimationFrame
@@ -27,7 +25,7 @@ const TOGGLE = {
 const GET_HEIGHT = 'offsetHeight';
 
 const easeInOutCubic = t =>
-  t < 0.5 ? 4.0 * t * t * t : 0.5 * Math.pow(2.0 * t - 2.0, 3.0) + 1.0;
+  t < .5 ? 4 * t * t * t : .5 * Math.pow(2 * t - 2, 3) + 1;
 
 const util = {
   isMoving: toggleState =>
@@ -69,7 +67,6 @@ export default class SlideToggle extends React.Component {
   //   irreversible: PropTypes.bool,
   //   whenReversedUseBackwardEase: PropTypes.bool,
   //   noDisplayStyle: PropTypes.bool,
-  //   disableWarnings: PropTypes.bool,
   //   bestPerformance: PropTypes.bool,
   //   interpolateOnReverse: PropTypes.bool,
   //   easeCollapse: PropTypes.func,
@@ -111,18 +108,10 @@ export default class SlideToggle extends React.Component {
     if (this.props.children) return this.props.children(data);
     if (this.props.render) return this.props.render(data);
 
-    if (!this.props.disableWarnings) warn('no render defined');
-
     return null;
   }
 
   setCollapsibleElement = element => {
-    if (!element) {
-      if (!this.props.disableWarnings)
-        warn('no element in setCollapsibleElement');
-
-      return;
-    }
     this._state_.collasibleElement = element;
     this._state_.boxHeight = element[GET_HEIGHT];
 
@@ -229,10 +218,6 @@ export default class SlideToggle extends React.Component {
   };
 
   expand = () => {
-    if (!this._state_.collasibleElement) {
-      warn('no collapsibleElement');
-      return;
-    }
     if (this._state_.toggleState !== TOGGLE.EXPANDING) {
       return;
     }
@@ -302,10 +287,6 @@ export default class SlideToggle extends React.Component {
   };
 
   collapse = () => {
-    if (!this._state_.collasibleElement) {
-      warn('no collapsibleElement');
-      return;
-    }
     if (this._state_.toggleState !== TOGGLE.COLLAPSING) {
       return;
     }
