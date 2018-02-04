@@ -1,5 +1,8 @@
 ## Changelog
 
+### 0.1.6
+* add npmignore file
+
 ### 0.1.5
 * remove console.warn
 * don't error silently if wrongly setup
