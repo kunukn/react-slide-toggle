@@ -142,8 +142,6 @@ var SlideToggle = function (_React$Component) {
   // static propTypes = {
   //   render: PropTypes.func,
   //   duration: PropTypes.number,
-  //   irreversible: PropTypes.bool,
-  //   whenReversedUseBackwardEase: PropTypes.bool,
   //   noDisplayStyle: PropTypes.bool,
   //   easeCollapse: PropTypes.func,
   //   easeExpand: PropTypes.func,
@@ -176,7 +174,6 @@ var SlideToggle = function (_React$Component) {
             hasReversed = _ref.hasReversed;
 
         _this._state_.toggleState = toggleState;
-        _this._state_.hasReversed = !!hasReversed;
 
         if (display !== undefined && !_this.props.noDisplayStyle) {
           _this._state_.collasibleElement.style.display = display;

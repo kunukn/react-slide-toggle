@@ -31,7 +31,7 @@ export default class App extends React.Component {
 
         <SlideToggle
           collapsed
-          duration={'500'}
+          duration={500}
           render={({ onToggle, setCollapsibleElement }) => (
             <div className="my-collapsible">
               <button className="btn" onClick={onToggle}>

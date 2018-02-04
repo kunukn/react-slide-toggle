@@ -43,7 +43,6 @@ class SlideToggle extends React.Component {
   // static propTypes = {
   //   render: PropTypes.func,
   //   duration: PropTypes.number,
-  //   irreversible: PropTypes.bool,
   //   noDisplayStyle: PropTypes.bool,
   //   easeCollapse: PropTypes.func,
   //   easeExpand: PropTypes.func,
@@ -91,7 +90,6 @@ class SlideToggle extends React.Component {
   onToggle = () => {
     const updateInternalState = ({ toggleState, display, hasReversed }) => {
       this._state_.toggleState = toggleState;
-      this._state_.hasReversed = !!hasReversed;
 
       if (display !== undefined && !this.props.noDisplayStyle) {
         this._state_.collasibleElement.style.display = display;
