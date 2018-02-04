@@ -16,7 +16,7 @@
     "deploy": "npm run clean && npm run build && npm run minify"
   },
   "description": "React component version of jQuery.slideToggle",
-  "main": "dist/ReactSlideToggle.commonjs2.js",
+  "main": "dist/ReactSlideToggle.umd.min.js",
   "umd": "dist/ReactSlideToggle.umd.js",
   "unpkg": "dist/ReactSlideToggle.umd.min.js",
   "author": "kunukn",

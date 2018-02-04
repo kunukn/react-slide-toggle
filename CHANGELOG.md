@@ -3,6 +3,7 @@
 ### 0.1.5
 * remove console.warn
 * don't error silently if wrongly setup
+* use umd as default main in dist bundle
 
 ### 0.1.4
 * add props disableWarnings

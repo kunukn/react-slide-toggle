@@ -8,12 +8,12 @@ const entry = './src/library/ReactSlideToggle';
 const name = 'ReactSlideToggle';
 
 const plugins = [
-  new HtmlWebpackPlugin({
-    template: './src/demo/index.html',
-    filename: 'index.html',
-    inject: 'body',
-  }),
-  new ExtractTextPlugin({ filename: '[name].bundle.css', allChunks: true }),
+  // new HtmlWebpackPlugin({
+  //   template: './src/demo/index.html',
+  //   filename: 'index.html',
+  //   inject: 'body',
+  // }),
+  // new ExtractTextPlugin({ filename: '[name].bundle.css', allChunks: true }),
 ];
 
 // plugins.push(
@@ -93,7 +93,7 @@ function createConfig(options) {
 
 module.exports = createVariants(
   {
-    target: ['commonjs2', 'umd'],
+    target: ['umd'],
     //target: ['var', 'commonjs2', 'umd']
   },
   createConfig
