@@ -48,15 +48,9 @@ class SlideToggle extends React.Component {
   //   irreversible: PropTypes.bool,
   //   whenReversedUseBackwardEase: PropTypes.bool,
   //   noDisplayStyle: PropTypes.bool,
-  //   disableWarnings: PropTypes.bool,
-  //   bestPerformance: PropTypes.bool,
   //   easeCollapse: PropTypes.func,
   //   easeExpand: PropTypes.func,
   //   collapsed: PropTypes.bool,
-  //   onExpanded: PropTypes.func,
-  //   onExpanding: PropTypes.func,
-  //   onCollapsed: PropTypes.func,
-  //   onCollapsing: PropTypes.func,
   // };
 
   constructor(props) {
@@ -86,19 +80,13 @@ class SlideToggle extends React.Component {
       progress: this.state.progress,
     };
 
-    if (this.props.children) return this.props.children(data);
     if (this.props.render) return this.props.render(data);
-
-    if (!this.props.disableWarnings) warn('no render defined');
 
     return null;
   }
 
   setCollapsibleElement = element => {
     if (!element) {
-      if (!this.props.disableWarnings)
-        warn('no element in setCollapsibleElement');
-
       return;
     }
     this._state_.collasibleElement = element;
@@ -117,23 +105,9 @@ class SlideToggle extends React.Component {
     }
 
     const invokeCollapsing = () => {
-      if (this.props.onCollapsing) {
-        this.props.onCollapsing({
-          range: this.state.range,
-          progress: this.state.progress,
-          hasReversed: this.state.hasReversed,
-        });
-      }
       this.collapse();
     };
     const invokeExpanding = () => {
-      if (this.props.onExpanding) {
-        this.props.onExpanding({
-          range: this.state.range,
-          progress: this.state.progress,
-          hasReversed: this.state.hasReversed,
-        });
-      }
       this.expand();
     };
 
@@ -199,16 +173,10 @@ class SlideToggle extends React.Component {
       range: 1,
       progress: this._state_.progress,
     });
-    if (!initialState && this.props.onExpanded) {
-      this.props.onExpanded({
-        hasReversed: this.state.hasReversed,
-      });
-    }
   };
 
   expand = () => {
     if (!this._state_.collasibleElement) {
-      warn('no collapsibleElement');
       return;
     }
     if (this._state_.toggleState !== TOGGLE.EXPANDING) {
@@ -240,13 +208,6 @@ class SlideToggle extends React.Component {
         progress = this.props.easeExpand(range);
       }
 
-      if (!this.props.bestPerformance) {
-        this.setState({
-          range,
-          progress,
-        });
-      }
-
       const currentHeightValue = Math.round(boxHeight * progress);
       this._state_.progress = progress;
       this._state_.collasibleElement.style.height = `${currentHeightValue}px`;
@@ -254,7 +215,7 @@ class SlideToggle extends React.Component {
     }
   };
 
-  setCollapsedState = ({ initialState } = {}) => {
+  setCollapsedState = () => {
     if (!this.props.noDisplayStyle) {
       this._state_.collasibleElement.style.display = 'none';
     }
@@ -263,18 +224,11 @@ class SlideToggle extends React.Component {
     this._state_.toggleState = TOGGLE.COLLAPSED;
     this.setState({
       toggleState: TOGGLE.COLLAPSED,
-      range: 0,
-      progress: this._state_.progress,
     });
-    if (!initialState && this.props.onCollapsed)
-      this.props.onCollapsed({
-        hasReversed: this.state.hasReversed,
-      });
   };
 
   collapse = () => {
     if (!this._state_.collasibleElement) {
-      warn('no collapsibleElement');
       return;
     }
     if (this._state_.toggleState !== TOGGLE.COLLAPSING) {
@@ -306,13 +260,6 @@ class SlideToggle extends React.Component {
         progress = easeExpand(range);
       } else {
         progress = 1 - easeCollapse(1 - range);
-      }
-
-      if (!this.props.bestPerformance) {
-        this.setState({
-          range,
-          progress,
-        });
       }
 
       const currentHeightValue = Math.round(boxHeight * progress);
