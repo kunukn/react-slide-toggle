@@ -44,7 +44,6 @@ class SlideToggle extends React.Component {
   //   render: PropTypes.func,
   //   duration: PropTypes.number,
   //   irreversible: PropTypes.bool,
-  //   whenReversedUseBackwardEase: PropTypes.bool,
   //   noDisplayStyle: PropTypes.bool,
   //   easeCollapse: PropTypes.func,
   //   easeExpand: PropTypes.func,

@@ -7,7 +7,7 @@
 		exports["ReactSlideToggle"] = factory(require("react"));
 	else
 		root["ReactSlideToggle"] = factory(root["React"]);
-})(typeof self !== 'undefined' ? self : this, function(__WEBPACK_EXTERNAL_MODULE_4__) {
+})(typeof self !== 'undefined' ? self : this, function(__WEBPACK_EXTERNAL_MODULE_3__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -85,30 +85,11 @@ module.exports = __webpack_require__(1);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
-
-var SlideToggle = __webpack_require__(2).default;
-
-module.exports = {
-  SlideToggle: SlideToggle
-};
-
-// export { default as SlideToggle } from './SlideToggle';
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
 /* WEBPACK VAR INJECTION */(function(global) {
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(4);
+var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -127,8 +108,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // eslint-disable-line import/no-extraneous-dependencies
 // import PropTypes from 'prop-types'; // eslint-disable-line import/no-extraneous-dependencies
 
-var warn = console.warn.bind(console); // eslint-disable-line no-console
-
 // Support browser or node env
 var root = typeof window !== 'undefined' ? window : global;
 var rAF = root.requestAnimationFrame ? root.requestAnimationFrame.bind(root) : function (callback) {
@@ -145,46 +124,15 @@ var TOGGLE = {
 var GET_HEIGHT = 'offsetHeight';
 
 var easeInOutCubic = function easeInOutCubic(t) {
-  return t < 0.5 ? 4.0 * t * t * t : 0.5 * Math.pow(2.0 * t - 2.0, 3.0) + 1.0;
+  return t < 0.5 ? 4 * t * t * t : 0.5 * Math.pow(2 * t - 2, 3) + 1;
 };
 
 var util = {
   isMoving: function isMoving(toggleState) {
     return toggleState === TOGGLE.EXPANDING || toggleState === TOGGLE.COLLAPSING;
   },
-  clamp: function clamp(_ref) {
-    var value = _ref.value,
-        _ref$max = _ref.max,
-        max = _ref$max === undefined ? 1 : _ref$max,
-        _ref$min = _ref.min,
-        min = _ref$min === undefined ? 0 : _ref$min;
-
-    if (value > max) return max;
-    if (value < min) return min;
-    return value;
-  },
   now: function now() {
     return new Date().getTime();
-  },
-  sanitizeDuration: function sanitizeDuration(duration) {
-    return Math.max(0, parseInt(+duration, 10) || 0);
-  },
-  interpolate: function interpolate(_ref2) {
-    var next = _ref2.next,
-        prev = _ref2.prev;
-
-    /* 
-      If the diff in the next rAF is big, it can seem jumpy when reversing the togling
-      This is heuristic approach to minimize the diff value by interpolating.
-    */
-    var diff = Math.abs(next - prev);
-    var interpolated = next;
-    if (diff > 0.15) {
-      /* heuritic value */
-      if (next > prev) interpolated -= diff * 0.75; /* heuritic value */
-      else interpolated += diff * 0.75; /* heuritic value */
-    }
-    return interpolated;
   }
 };
 
@@ -193,21 +141,13 @@ var SlideToggle = function (_React$Component) {
 
   // static propTypes = {
   //   render: PropTypes.func,
-  //   children: PropTypes.func,
   //   duration: PropTypes.number,
   //   irreversible: PropTypes.bool,
   //   whenReversedUseBackwardEase: PropTypes.bool,
   //   noDisplayStyle: PropTypes.bool,
-  //   disableWarnings: PropTypes.bool,
-  //   bestPerformance: PropTypes.bool,
-  //   interpolateOnReverse: PropTypes.bool,
   //   easeCollapse: PropTypes.func,
   //   easeExpand: PropTypes.func,
   //   collapsed: PropTypes.bool,
-  //   onExpanded: PropTypes.func,
-  //   onExpanding: PropTypes.func,
-  //   onCollapsed: PropTypes.func,
-  //   onCollapsing: PropTypes.func,
   // };
 
   function SlideToggle(props) {
@@ -217,8 +157,6 @@ var SlideToggle = function (_React$Component) {
 
     _this.setCollapsibleElement = function (element) {
       if (!element) {
-        if (!_this.props.disableWarnings) warn('no element in setCollapsibleElement');
-
         return;
       }
       _this._state_.collasibleElement = element;
@@ -232,35 +170,10 @@ var SlideToggle = function (_React$Component) {
     };
 
     _this.onToggle = function () {
-      if (_this.props.irreversible && util.isMoving(_this._state_.toggleState)) {
-        return;
-      }
-
-      var invokeCollapsing = function invokeCollapsing() {
-        if (_this.props.onCollapsing) {
-          _this.props.onCollapsing({
-            range: _this.state.range,
-            progress: _this.state.progress,
-            hasReversed: _this.state.hasReversed
-          });
-        }
-        _this.collapse();
-      };
-      var invokeExpanding = function invokeExpanding() {
-        if (_this.props.onExpanding) {
-          _this.props.onExpanding({
-            range: _this.state.range,
-            progress: _this.state.progress,
-            hasReversed: _this.state.hasReversed
-          });
-        }
-        _this.expand();
-      };
-
-      var updateInternalState = function updateInternalState(_ref3) {
-        var toggleState = _ref3.toggleState,
-            display = _ref3.display,
-            hasReversed = _ref3.hasReversed;
+      var updateInternalState = function updateInternalState(_ref) {
+        var toggleState = _ref.toggleState,
+            display = _ref.display,
+            hasReversed = _ref.hasReversed;
 
         _this._state_.toggleState = toggleState;
         _this._state_.hasReversed = !!hasReversed;
@@ -274,7 +187,7 @@ var SlideToggle = function (_React$Component) {
         if (hasReversed) {
           var startTime = _this._state_.startTime;
 
-          var duration = util.sanitizeDuration(_this.props.duration);
+          var duration = +_this.props.duration;
           var elapsedTime = Math.min(duration, now - startTime);
           var subtract = Math.max(0, duration - elapsedTime);
           _this._state_.startTime = now - subtract;
@@ -285,65 +198,49 @@ var SlideToggle = function (_React$Component) {
         }
 
         _this.setState({
-          toggleState: _this._state_.toggleState,
-          hasReversed: _this._state_.hasReversed
+          toggleState: _this._state_.toggleState
         });
       };
 
       if (_this._state_.toggleState === TOGGLE.EXPANDED) {
         updateInternalState({ toggleState: TOGGLE.COLLAPSING });
-        invokeCollapsing();
+        _this.collapse();
       } else if (_this._state_.toggleState === TOGGLE.COLLAPSED) {
         updateInternalState({
           toggleState: TOGGLE.EXPANDING,
           display: ''
         });
-        invokeExpanding();
+        _this.expand();
       } else if (_this._state_.toggleState === TOGGLE.EXPANDING) {
         updateInternalState({
           toggleState: TOGGLE.COLLAPSING,
           hasReversed: true
         });
-        invokeCollapsing();
+        _this.collapse();
       } else if (_this._state_.toggleState === TOGGLE.COLLAPSING) {
         updateInternalState({
           toggleState: TOGGLE.EXPANDING,
           display: '',
           hasReversed: true
         });
-        invokeExpanding();
+        _this.expand();
       }
     };
 
     _this.setExpandedState = function () {
-      var _ref4 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-          initialState = _ref4.initialState;
-
-      _this._state_.progress = 1;
       _this._state_.collasibleElement.style.height = null;
       _this._state_.toggleState = TOGGLE.EXPANDED;
       _this.setState({
-        toggleState: TOGGLE.EXPANDED,
-        range: 1,
-        progress: _this._state_.progress
+        toggleState: TOGGLE.EXPANDED
       });
-      if (!initialState && _this.props.onExpanded) {
-        _this.props.onExpanded({
-          hasReversed: _this.state.hasReversed
-        });
-      }
     };
 
     _this.expand = function () {
-      if (!_this._state_.collasibleElement) {
-        warn('no collapsibleElement');
-        return;
-      }
       if (_this._state_.toggleState !== TOGGLE.EXPANDING) {
         return;
       }
 
-      var duration = util.sanitizeDuration(_this.props.duration);
+      var duration = +_this.props.duration;
       if (duration <= 0) {
         _this.setExpandedState();
         return;
@@ -356,70 +253,32 @@ var SlideToggle = function (_React$Component) {
       if (elapsedTime >= duration) {
         _this.setExpandedState();
       } else {
-        var _this$_state_ = _this._state_,
-            startDirection = _this$_state_.startDirection,
-            toggleState = _this$_state_.toggleState,
-            boxHeight = _this$_state_.boxHeight;
+        var boxHeight = _this._state_.boxHeight;
 
-        var range = util.clamp({ value: elapsedTime / duration });
-
-        var progress = void 0;
-        if (_this.props.whenReversedUseBackwardEase && startDirection !== toggleState) {
-          progress = 1 - _this.props.easeCollapse(1 - range);
-        } else {
-          progress = _this.props.easeExpand(range);
-        }
-
-        if (!_this.props.bestPerformance) {
-          _this.setState({
-            range: range,
-            progress: progress
-          });
-        }
-
-        if (_this.props.interpolateOnReverse && _this._state_.hasReversed) {
-          progress = util.interpolate({
-            next: progress,
-            prev: _this._state_.progress
-          });
-        }
-
+        var range = elapsedTime / duration;
+        var progress = _this.props.easeExpand(range);
         var currentHeightValue = Math.round(boxHeight * progress);
-        _this._state_.progress = progress;
         _this._state_.collasibleElement.style.height = currentHeightValue + 'px';
         _this.nextTick(_this.expand);
       }
     };
 
     _this.setCollapsedState = function () {
-      var _ref5 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-          initialState = _ref5.initialState;
-
       if (!_this.props.noDisplayStyle) {
         _this._state_.collasibleElement.style.display = 'none';
       }
-      _this._state_.progress = 0;
       _this._state_.collasibleElement.style.height = null;
       _this._state_.toggleState = TOGGLE.COLLAPSED;
       _this.setState({
-        toggleState: TOGGLE.COLLAPSED,
-        range: 0,
-        progress: _this._state_.progress
-      });
-      if (!initialState && _this.props.onCollapsed) _this.props.onCollapsed({
-        hasReversed: _this.state.hasReversed
+        toggleState: TOGGLE.COLLAPSED
       });
     };
 
     _this.collapse = function () {
-      if (!_this._state_.collasibleElement) {
-        warn('no collapsibleElement');
-        return;
-      }
       if (_this._state_.toggleState !== TOGGLE.COLLAPSING) {
         return;
       }
-      var duration = util.sanitizeDuration(_this.props.duration);
+      var duration = +_this.props.duration;
       if (duration <= 0) {
         _this.setCollapsedState();
         return;
@@ -432,42 +291,13 @@ var SlideToggle = function (_React$Component) {
       if (elapsedTime >= duration) {
         _this.setCollapsedState();
       } else {
-        var _this$_state_2 = _this._state_,
-            startDirection = _this$_state_2.startDirection,
-            boxHeight = _this$_state_2.boxHeight,
-            toggleState = _this$_state_2.toggleState;
+        var boxHeight = _this._state_.boxHeight;
 
-        var range = 1 - util.clamp({ value: elapsedTime / duration });
+        var range = 1 - elapsedTime / duration;
+        var easeCollapse = _this.props.easeCollapse;
 
-        var _this$props = _this.props,
-            whenReversedUseBackwardEase = _this$props.whenReversedUseBackwardEase,
-            easeExpand = _this$props.easeExpand,
-            easeCollapse = _this$props.easeCollapse;
-
-
-        var progress = void 0;
-        if (whenReversedUseBackwardEase && startDirection !== toggleState) {
-          progress = easeExpand(range);
-        } else {
-          progress = 1 - easeCollapse(1 - range);
-        }
-
-        if (!_this.props.bestPerformance) {
-          _this.setState({
-            range: range,
-            progress: progress
-          });
-        }
-
-        if (_this.props.interpolateOnReverse && _this._state_.hasReversed) {
-          progress = util.interpolate({
-            next: progress,
-            prev: _this._state_.progress
-          });
-        }
-
+        var progress = 1 - easeCollapse(1 - range);
         var currentHeightValue = Math.round(boxHeight * progress);
-        _this._state_.progress = progress;
         _this._state_.collasibleElement.style.height = currentHeightValue + 'px';
         _this._state_.timeout = _this.nextTick(_this.collapse);
       }
@@ -483,10 +313,7 @@ var SlideToggle = function (_React$Component) {
     };
 
     _this.state = {
-      toggleState: _this._state_.toggleState,
-      hasReversed: false,
-      range: _this.props.collapsed ? 0 : 1,
-      progress: _this.props.collapsed ? 0 : 1
+      toggleState: _this._state_.toggleState
     };
     return _this;
   }
@@ -498,18 +325,10 @@ var SlideToggle = function (_React$Component) {
         onToggle: this.onToggle,
         setCollapsibleElement: this.setCollapsibleElement,
         toggleState: this.state.toggleState,
-        hasReversed: this.state.hasReversed,
-        isMoving: util.isMoving(this.state.toggleState),
-        range: this.state.range,
-        progress: this.state.progress
+        isMoving: util.isMoving(this.state.toggleState)
       };
 
-      if (this.props.children) return this.props.children(data);
-      if (this.props.render) return this.props.render(data);
-
-      if (!this.props.disableWarnings) warn('no render defined');
-
-      return null;
+      return this.props.render ? this.props.render(data) : null;
     }
   }, {
     key: 'componentWillUnmount',
@@ -526,11 +345,13 @@ SlideToggle.defaultProps = {
   easeCollapse: easeInOutCubic,
   easeExpand: easeInOutCubic
 };
-exports.default = SlideToggle;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+
+module.exports = SlideToggle;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 3 */
+/* 2 */
 /***/ (function(module, exports) {
 
 var g;
@@ -557,10 +378,10 @@ module.exports = g;
 
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, exports) {
 
-module.exports = __WEBPACK_EXTERNAL_MODULE_4__;
+module.exports = __WEBPACK_EXTERNAL_MODULE_3__;
 
 /***/ })
 /******/ ]);

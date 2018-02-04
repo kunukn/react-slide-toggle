@@ -32,23 +32,24 @@ body {
   margin: 0;
   padding: 1rem;
   font-family: sans-serif;
+  min-height: 102vh;
 }
 
 .app {
   padding-bottom: 20rem;
-
-  &__header {
-    margin-bottom: 1rem;
-  }
-
-  &__button {
-    margin-right: 1rem;
-  }
 }
 
+.my-collapsible {
+  border: 1px solid;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  .btn {
+    margin: 0.5rem;
+  }
+}
 .my-collapsible-content {
   overflow: hidden;
-  background: pink;
+  background: #eee;
   > * {
     padding: 2rem 1rem;
   }

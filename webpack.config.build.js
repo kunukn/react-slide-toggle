@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const createVariants = require('parallel-webpack').createVariants;
 
-const entry = './src/library/ReactSlideToggle';
+const entry = './src/library/SlideToggle';
 const name = 'ReactSlideToggle';
 
 const plugins = [
