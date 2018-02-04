@@ -39,16 +39,24 @@ class SlideToggle extends React.Component {
     duration: 300,
     easeCollapse: easeInOutCubic,
     easeExpand: easeInOutCubic,
-    ease: easeInOutCubic,
   };
 
   // static propTypes = {
   //   render: PropTypes.func,
+  //   children: PropTypes.func,
   //   duration: PropTypes.number,
+  //   irreversible: PropTypes.bool,
+  //   whenReversedUseBackwardEase: PropTypes.bool,
   //   noDisplayStyle: PropTypes.bool,
+  //   disableWarnings: PropTypes.bool,
+  //   bestPerformance: PropTypes.bool,
   //   easeCollapse: PropTypes.func,
   //   easeExpand: PropTypes.func,
   //   collapsed: PropTypes.bool,
+  //   onExpanded: PropTypes.func,
+  //   onExpanding: PropTypes.func,
+  //   onCollapsed: PropTypes.func,
+  //   onCollapsing: PropTypes.func,
   // };
 
   constructor(props) {
@@ -61,6 +69,9 @@ class SlideToggle extends React.Component {
 
     this.state = {
       toggleState: this._state_.toggleState,
+      hasReversed: false,
+      range: this.props.collapsed ? 0 : 1,
+      progress: this.props.collapsed ? 0 : 1,
     };
   }
 
@@ -69,13 +80,27 @@ class SlideToggle extends React.Component {
       onToggle: this.onToggle,
       setCollapsibleElement: this.setCollapsibleElement,
       toggleState: this.state.toggleState,
+      hasReversed: this.state.hasReversed,
       isMoving: util.isMoving(this.state.toggleState),
+      range: this.state.range,
+      progress: this.state.progress,
     };
 
-    return this.props.render ? this.props.render(data) : null;
+    if (this.props.children) return this.props.children(data);
+    if (this.props.render) return this.props.render(data);
+
+    if (!this.props.disableWarnings) warn('no render defined');
+
+    return null;
   }
 
   setCollapsibleElement = element => {
+    if (!element) {
+      if (!this.props.disableWarnings)
+        warn('no element in setCollapsibleElement');
+
+      return;
+    }
     this._state_.collasibleElement = element;
     this._state_.boxHeight = element[GET_HEIGHT];
 
@@ -87,26 +112,56 @@ class SlideToggle extends React.Component {
   };
 
   onToggle = () => {
+    if (this.props.irreversible && util.isMoving(this._state_.toggleState)) {
+      return;
+    }
+
     const invokeCollapsing = () => {
+      if (this.props.onCollapsing) {
+        this.props.onCollapsing({
+          range: this.state.range,
+          progress: this.state.progress,
+          hasReversed: this.state.hasReversed,
+        });
+      }
       this.collapse();
     };
     const invokeExpanding = () => {
+      if (this.props.onExpanding) {
+        this.props.onExpanding({
+          range: this.state.range,
+          progress: this.state.progress,
+          hasReversed: this.state.hasReversed,
+        });
+      }
       this.expand();
     };
 
-    const updateInternalState = ({ toggleState, display }) => {
+    const updateInternalState = ({ toggleState, display, hasReversed }) => {
       this._state_.toggleState = toggleState;
+      this._state_.hasReversed = !!hasReversed;
 
       if (display !== undefined && !this.props.noDisplayStyle) {
         this._state_.collasibleElement.style.display = display;
       }
 
-      this._state_.boxHeight = this._state_.collasibleElement[GET_HEIGHT];
-      this._state_.startTime = util.now();
-      this._state_.startDirection = toggleState;
+      const now = util.now();
+
+      if (hasReversed) {
+        const { startTime } = this._state_;
+        const duration = util.sanitizeDuration(this.props.duration);
+        const elapsedTime = Math.min(duration, now - startTime);
+        const subtract = Math.max(0, duration - elapsedTime);
+        this._state_.startTime = now - subtract;
+      } else {
+        this._state_.boxHeight = this._state_.collasibleElement[GET_HEIGHT];
+        this._state_.startTime = now;
+        this._state_.startDirection = toggleState;
+      }
 
       this.setState({
         toggleState: this._state_.toggleState,
+        hasReversed: this._state_.hasReversed,
       });
     };
 
@@ -122,26 +177,40 @@ class SlideToggle extends React.Component {
     } else if (this._state_.toggleState === TOGGLE.EXPANDING) {
       updateInternalState({
         toggleState: TOGGLE.COLLAPSING,
+        hasReversed: true,
       });
       invokeCollapsing();
     } else if (this._state_.toggleState === TOGGLE.COLLAPSING) {
       updateInternalState({
         toggleState: TOGGLE.EXPANDING,
         display: '',
+        hasReversed: true,
       });
       invokeExpanding();
     }
   };
 
-  setExpandedState = () => {
+  setExpandedState = ({ initialState } = {}) => {
+    this._state_.progress = 1;
     this._state_.collasibleElement.style.height = null;
     this._state_.toggleState = TOGGLE.EXPANDED;
     this.setState({
       toggleState: TOGGLE.EXPANDED,
+      range: 1,
+      progress: this._state_.progress,
     });
+    if (!initialState && this.props.onExpanded) {
+      this.props.onExpanded({
+        hasReversed: this.state.hasReversed,
+      });
+    }
   };
 
   expand = () => {
+    if (!this._state_.collasibleElement) {
+      warn('no collapsibleElement');
+      return;
+    }
     if (this._state_.toggleState !== TOGGLE.EXPANDING) {
       return;
     }
@@ -158,28 +227,56 @@ class SlideToggle extends React.Component {
     if (elapsedTime >= duration) {
       this.setExpandedState();
     } else {
-      const { boxHeight } = this._state_;
+      const { startDirection, toggleState, boxHeight } = this._state_;
       const range = elapsedTime / duration;
 
-      const progress = this.props.easeExpand(range);
+      let progress;
+      if (
+        this.props.whenReversedUseBackwardEase &&
+        startDirection !== toggleState
+      ) {
+        progress = 1 - this.props.easeCollapse(1 - range);
+      } else {
+        progress = this.props.easeExpand(range);
+      }
+
+      if (!this.props.bestPerformance) {
+        this.setState({
+          range,
+          progress,
+        });
+      }
+
       const currentHeightValue = Math.round(boxHeight * progress);
+      this._state_.progress = progress;
       this._state_.collasibleElement.style.height = `${currentHeightValue}px`;
       this.nextTick(this.expand);
     }
   };
 
-  setCollapsedState = () => {
+  setCollapsedState = ({ initialState } = {}) => {
     if (!this.props.noDisplayStyle) {
       this._state_.collasibleElement.style.display = 'none';
     }
+    this._state_.progress = 0;
     this._state_.collasibleElement.style.height = null;
     this._state_.toggleState = TOGGLE.COLLAPSED;
     this.setState({
       toggleState: TOGGLE.COLLAPSED,
+      range: 0,
+      progress: this._state_.progress,
     });
+    if (!initialState && this.props.onCollapsed)
+      this.props.onCollapsed({
+        hasReversed: this.state.hasReversed,
+      });
   };
 
   collapse = () => {
+    if (!this._state_.collasibleElement) {
+      warn('no collapsibleElement');
+      return;
+    }
     if (this._state_.toggleState !== TOGGLE.COLLAPSING) {
       return;
     }
@@ -195,14 +292,31 @@ class SlideToggle extends React.Component {
     if (elapsedTime >= duration) {
       this.setCollapsedState();
     } else {
-      const { boxHeight } = this._state_;
+      const { startDirection, boxHeight, toggleState } = this._state_;
       const range = 1 - elapsedTime / duration;
 
-      const { easeCollapse } = this.props;
+      const {
+        whenReversedUseBackwardEase,
+        easeExpand,
+        easeCollapse,
+      } = this.props;
 
-      const progress = 1 - easeCollapse(1 - range);
+      let progress;
+      if (whenReversedUseBackwardEase && startDirection !== toggleState) {
+        progress = easeExpand(range);
+      } else {
+        progress = 1 - easeCollapse(1 - range);
+      }
+
+      if (!this.props.bestPerformance) {
+        this.setState({
+          range,
+          progress,
+        });
+      }
 
       const currentHeightValue = Math.round(boxHeight * progress);
+      this._state_.progress = progress;
       this._state_.collasibleElement.style.height = `${currentHeightValue}px`;
       this._state_.timeout = this.nextTick(this.collapse);
     }
