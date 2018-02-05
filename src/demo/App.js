@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-//import { SlideToggle } from 'library/ReactSlideToggle';
 const { SlideToggle } = require('library/ReactSlideToggle');
-//import { SlideToggle } from 'react-slide-toggle';
 
 import eases from 'eases'; // example, provide your own easing fn
 import BezierEasing from 'bezier-easing'; // example, provide your own easing fn
@@ -46,6 +44,7 @@ export default class App extends React.Component {
     easeCollapse,
     easeExpand,
     className = '',
+    customText,
   } = {}) => ({
     onToggle,
     setCollapsibleElement,
@@ -121,6 +120,12 @@ export default class App extends React.Component {
           <span>hasReversed:</span>
           <span>{hasReversed + ''}</span>
         </div>
+        {customText && (
+          <div>
+            <span>custom:</span>
+            <span>{customText}</span>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -134,7 +139,6 @@ export default class App extends React.Component {
           key={components.length}
           duration={this.state.duration}
           collapsed
-          interpolateOnReverse
           onCollapsed={() => log('onCollapsed')}
           onCollapsing={() => log('onCollapsing')}
           onExpanding={() => log('onExpanding')}
@@ -146,6 +150,83 @@ export default class App extends React.Component {
           })}
         </SlideToggle>
       );
+
+    1 &&
+      components.push(
+        <SlideToggle
+          key={components.length}
+          duration={this.state.duration * 2}
+          easeCollapse={eases['expoOut']}
+          easeExpand={eases['expoOut']}
+          collapsed
+          interpolateOnReverse
+          render={this.generateMarkup({
+            easeCollapseName: 'expoOut interpolate',
+            easeExpandName: 'expoOut interpolate',
+            easeCollapse: eases['expoOut'],
+            easeExpand: eases['expoOut'],
+            customText: 'interpolateOnReverse',
+          })}
+        />
+      );
+
+    1 &&
+      components.push(
+        <SlideToggle
+          key={components.length}
+          duration={this.state.duration * 2}
+          easeCollapse={eases['bounceOut']}
+          easeExpand={eases['bounceOut']}
+          collapsed
+          whenReversedUseBackwardEase
+          render={this.generateMarkup({
+            easeCollapseName: 'bounceOut',
+            easeExpandName: 'bounceOut',
+            easeCollapse: eases['bounceOut'],
+            easeExpand: eases['bounceOut'],
+            customText: 'whenReversedUseBackwardEase',
+          })}
+        />
+      );
+
+    1 &&
+      components.push(
+        <SlideToggle
+          key={components.length}
+          duration={this.state.duration}
+          easeCollapse={bezierEaseInOutQuart}
+          easeExpand={bezierEaseInOutQuart}
+          collapsed={Math.random() > 0.5 ? true : false}
+          render={this.generateMarkup({
+            easeCollapseName: this.fnName(bezierEaseInOutQuart),
+            easeExpandName: this.fnName(bezierEaseInOutQuart),
+            easeCollapse: bezierEaseInOutQuart,
+            easeExpand: bezierEaseInOutQuart,
+            className: '-header-height',
+          })}
+        />
+      );
+
+    if (1)
+      for (let i = 0; i < 4; i++) {
+        const ease = getRandomEase();
+        const name = this.fnName(ease);
+        components.push(
+          <SlideToggle
+            key={components.length}
+            collapsed
+            whenReversedUseBackwardEase
+            duration={this.state.duration}
+            easeCollapse={ease}
+            easeExpand={ease}
+            render={this.generateMarkup({
+              easeCollapseName: name,
+              easeExpandName: name,
+              customText: 'whenReversedUseBackwardEase',
+            })}
+          />
+        );
+      }
 
     1 &&
       components.push(
@@ -200,83 +281,10 @@ export default class App extends React.Component {
             easeExpandName: 'bounceOut',
             easeCollapse: eases['quartOut'],
             easeExpand: eases['bounceOut'],
+            customText: 'interpolateOnReverse',
           })}
         />
       );
-
-    1 &&
-      components.push(
-        <SlideToggle
-          key={components.length}
-          duration={this.state.duration * 2}
-          easeCollapse={eases['expoOut']}
-          easeExpand={eases['expoOut']}
-          collapsed
-          interpolateOnReverse
-          render={this.generateMarkup({
-            easeCollapseName: 'expoOut interpolate',
-            easeExpandName: 'expoOut interpolate',
-            easeCollapse: eases['expoOut'],
-            easeExpand: eases['expoOut'],
-          })}
-        />
-      );
-
-    1 &&
-      components.push(
-        <SlideToggle
-          key={components.length}
-          duration={this.state.duration * 2}
-          easeCollapse={eases['bounceOut']}
-          easeExpand={eases['bounceOut']}
-          collapsed
-          whenReversedUseBackwardEase
-          render={this.generateMarkup({
-            easeCollapseName: 'bounceOut',
-            easeExpandName: 'bounceOut',
-            easeCollapse: eases['bounceOut'],
-            easeExpand: eases['bounceOut'],
-          })}
-        />
-      );
-
-    1 &&
-      components.push(
-        <SlideToggle
-          key={components.length}
-          duration={this.state.duration}
-          easeCollapse={bezierEaseInOutQuart}
-          easeExpand={bezierEaseInOutQuart}
-          collapsed={Math.random() > 0.5 ? true : false}
-          render={this.generateMarkup({
-            easeCollapseName: this.fnName(bezierEaseInOutQuart),
-            easeExpandName: this.fnName(bezierEaseInOutQuart),
-            easeCollapse: bezierEaseInOutQuart,
-            easeExpand: bezierEaseInOutQuart,
-            className: '-header-height',
-          })}
-        />
-      );
-
-    if (1)
-      for (let i = 0; i < 4; i++) {
-        const ease = getRandomEase();
-        const name = this.fnName(ease);
-        components.push(
-          <SlideToggle
-            key={components.length}
-            collapsed
-            whenReversedUseBackwardEase
-            duration={this.state.duration}
-            easeCollapse={ease}
-            easeExpand={ease}
-            render={this.generateMarkup({
-              easeCollapseName: name,
-              easeExpandName: name,
-            })}
-          />
-        );
-      }
 
     return (
       <div className="app">

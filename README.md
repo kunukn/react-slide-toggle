@@ -179,4 +179,4 @@ You can see examples of JS-easing library usage here
 * minimal in size
 * availability - from cdn or npm install
 * generate range and progress [0;1] values which can be used for further custom animation
-* JS is used over CSS transition on purpose to enable possible interpolation or other custom math calculations. Testing this compared to CSS transition didn't show CSS as much better. I implemented a CSS transition version and tested that on iPad Safari and was disappointed that it lagged. Maybe the devices has gotten more powerfull to make JS animation on height value good enough. Anyway there are already CSS transition version available out there if this should not suit your needs.
+* JS is used over CSS transition on purpose to enable possible interpolation or other custom math calculations

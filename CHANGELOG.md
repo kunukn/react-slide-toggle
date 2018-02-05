@@ -1,5 +1,8 @@
 ## Changelog
 
+### 0.1.7
+* update demo
+
 ### 0.1.6
 * add npmignore file
 
