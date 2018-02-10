@@ -1,5 +1,8 @@
 ## Changelog
 
+### 0.1.9
+* fix misspelling and minor refactorings
+
 ### 0.1.8
 * fix minor bug with noDisplayStyle usage
 
