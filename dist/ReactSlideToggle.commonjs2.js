@@ -90,21 +90,18 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 _state_ is internal state for sync and rendering control.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 setState is async and I need sync control because timing is important 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 and because I need to control what is to be re-rendered.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               */
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 // eslint-disable-line import/no-extraneous-dependencies
-// import PropTypes from 'prop-types'; // eslint-disable-line import/no-extraneous-dependencies
 
 // Support browser or node env
 var root = typeof window !== 'undefined' ? window : global;
 var rAF = root.requestAnimationFrame ? root.requestAnimationFrame.bind(root) : function (callback) {
   return root.setTimeout(callback, 16);
 };
-var cAF = root.cancelAnimationFrame ? root.cancelAnimationFrame.bind(root) : root.clearInterval.bind(root);
+// const cAF = root.cancelAnimationFrame
+//   ? root.cancelAnimationFrame.bind(root)
+//   : root.clearInterval.bind(root);
 
 var TOGGLE = {
   EXPANDED: 'EXPANDED',
@@ -112,11 +109,11 @@ var TOGGLE = {
   EXPANDING: 'EXPANDING',
   COLLAPSING: 'COLLAPSING'
 };
-var GET_HEIGHT = 'offsetHeight';
-
-var easeInOutCubic = function easeInOutCubic(t) {
-  return t < 0.5 ? 4 * t * t * t : 0.5 * Math.pow(2 * t - 2, 3) + 1;
-};
+// const GET_HEIGHT = 'offsetHeight';
+var TRANSITION_END = 'transitionend';
+var AEL = 'addEventListener';
+var REL = 'removeEventListener';
+var BCR = 'getBoundingClientRect';
 
 var util = {
   isMoving: function isMoving(toggleState) {
@@ -130,15 +127,6 @@ var util = {
 var SlideToggle = function (_React$Component) {
   _inherits(SlideToggle, _React$Component);
 
-  // static propTypes = {
-  //   render: PropTypes.func,
-  //   duration: PropTypes.number,
-  //   noDisplayStyle: PropTypes.bool,
-  //   easeCollapse: PropTypes.func,
-  //   easeExpand: PropTypes.func,
-  //   collapsed: PropTypes.bool,
-  // };
-
   function SlideToggle(props) {
     _classCallCheck(this, SlideToggle);
 
@@ -149,7 +137,6 @@ var SlideToggle = function (_React$Component) {
         return;
       }
       _this._state_.collasibleElement = element;
-      _this._state_.boxHeight = element[GET_HEIGHT];
 
       if (_this._state_.toggleState === TOGGLE.COLLAPSED) {
         _this.setCollapsedState({ initialState: true });
@@ -159,30 +146,19 @@ var SlideToggle = function (_React$Component) {
     };
 
     _this.onToggle = function () {
+
+      if (util.isMoving(_this._state_.toggleState)) {
+        return;
+      }
+
       var updateInternalState = function updateInternalState(_ref) {
         var toggleState = _ref.toggleState,
-            display = _ref.display,
-            hasReversed = _ref.hasReversed;
+            display = _ref.display;
 
         _this._state_.toggleState = toggleState;
 
         if (display !== undefined && !_this.props.noDisplayStyle) {
           _this._state_.collasibleElement.style.display = display;
-        }
-
-        var now = util.now();
-
-        if (hasReversed) {
-          var startTime = _this._state_.startTime;
-
-          var duration = +_this.props.duration;
-          var elapsedTime = Math.min(duration, now - startTime);
-          var subtract = Math.max(0, duration - elapsedTime);
-          _this._state_.startTime = now - subtract;
-        } else {
-          _this._state_.boxHeight = _this._state_.collasibleElement[GET_HEIGHT];
-          _this._state_.startTime = now;
-          _this._state_.startDirection = toggleState;
         }
 
         _this.setState({
@@ -196,28 +172,16 @@ var SlideToggle = function (_React$Component) {
       } else if (_this._state_.toggleState === TOGGLE.COLLAPSED) {
         updateInternalState({
           toggleState: TOGGLE.EXPANDING,
-          display: ''
-        });
-        _this.expand();
-      } else if (_this._state_.toggleState === TOGGLE.EXPANDING) {
-        updateInternalState({
-          toggleState: TOGGLE.COLLAPSING,
-          hasReversed: true
-        });
-        _this.collapse();
-      } else if (_this._state_.toggleState === TOGGLE.COLLAPSING) {
-        updateInternalState({
-          toggleState: TOGGLE.EXPANDING,
-          display: '',
-          hasReversed: true
+          display: null
         });
         _this.expand();
       }
     };
 
     _this.setExpandedState = function () {
-      _this._state_.collasibleElement.style.height = null;
       _this._state_.toggleState = TOGGLE.EXPANDED;
+      _this._state_.collasibleElement.style.maxHeight = null;
+
       _this.setState({
         toggleState: TOGGLE.EXPANDED
       });
@@ -228,34 +192,47 @@ var SlideToggle = function (_React$Component) {
         return;
       }
 
-      var duration = +_this.props.duration;
-      if (duration <= 0) {
-        _this.setExpandedState();
-        return;
-      }
+      var element = _this._state_.collasibleElement;
 
-      var startTime = _this._state_.startTime;
+      var transitionEvent = function transitionEvent(event) {
+        if (event.propertyName === 'max-height') {
+          element[REL](TRANSITION_END, transitionEvent);
+          _this.setExpandedState();
+        }
+      };
 
-      var elapsedTime = Math.min(duration, util.now() - startTime);
+      var elTransitionBackup = element.style.transition;
+      element.style.transition = 'max-height 0s !important';
 
-      if (elapsedTime >= duration) {
-        _this.setExpandedState();
-      } else {
-        var boxHeight = _this._state_.boxHeight;
+      rAF(function () {
+        /*
+          Same level of nested rAF as collapse to synchronize timing of animation.
+        */
 
-        var range = elapsedTime / duration;
-        var progress = _this.props.easeExpand(range);
-        var currentHeightValue = Math.round(boxHeight * progress);
-        _this._state_.collasibleElement.style.height = currentHeightValue + 'px';
-        _this.nextTick(_this.expand);
-      }
+        element.style.maxHeight = null;
+
+        var _element$BCR = element[BCR](),
+            height = _element$BCR.height; // trigger reflow
+        // const height = element.scrollHeight;
+
+        element.style.maxHeight = '0px';
+
+        element.style.transition = elTransitionBackup;
+        element[AEL](TRANSITION_END, transitionEvent);
+
+        rAF(function () {
+          element.style.maxHeight = height + 'px';
+        });
+      });
     };
 
     _this.setCollapsedState = function () {
       if (!_this.props.noDisplayStyle) {
         _this._state_.collasibleElement.style.display = 'none';
+        _this._state_.collasibleElement.style.maxHeight = null;
+      } else {
+        _this._state_.collasibleElement.style.maxHeight = '0px';
       }
-      _this._state_.collasibleElement.style.height = null;
       _this._state_.toggleState = TOGGLE.COLLAPSED;
       _this.setState({
         toggleState: TOGGLE.COLLAPSED
@@ -266,33 +243,32 @@ var SlideToggle = function (_React$Component) {
       if (_this._state_.toggleState !== TOGGLE.COLLAPSING) {
         return;
       }
-      var duration = +_this.props.duration;
-      if (duration <= 0) {
+      var element = _this._state_.collasibleElement;
+      var elTransitionBackup = element.style.transition;
+      element.style.transition = 'max-height 0s !important';
+
+      var _element$BCR2 = element[BCR](),
+          height = _element$BCR2.height; // trigger reflow, applies style updates
+
+      if (height === 0) {
         _this.setCollapsedState();
-        return;
       }
 
-      var startTime = _this._state_.startTime;
+      var transitionEvent = function transitionEvent(event) {
+        if (event.propertyName === 'max-height') {
+          element[REL](TRANSITION_END, transitionEvent);
+          _this.setCollapsedState();
+        }
+      };
 
-      var elapsedTime = Math.min(duration, util.now() - startTime);
-
-      if (elapsedTime >= duration) {
-        _this.setCollapsedState();
-      } else {
-        var boxHeight = _this._state_.boxHeight;
-
-        var range = 1 - elapsedTime / duration;
-        var easeCollapse = _this.props.easeCollapse;
-
-        var progress = 1 - easeCollapse(1 - range);
-        var currentHeightValue = Math.round(boxHeight * progress);
-        _this._state_.collasibleElement.style.height = currentHeightValue + 'px';
-        _this._state_.timeout = _this.nextTick(_this.collapse);
-      }
-    };
-
-    _this.nextTick = function (callback) {
-      _this._state_.timeout = rAF(callback);
+      rAF(function () {
+        element.style.maxHeight = height + 'px';
+        element.style.transition = elTransitionBackup;
+        element[AEL](TRANSITION_END, transitionEvent);
+        rAF(function () {
+          element.style.maxHeight = '0px';
+        });
+      });
     };
 
     _this._state_ = {
@@ -318,20 +294,13 @@ var SlideToggle = function (_React$Component) {
 
       return this.props.render ? this.props.render(data) : null;
     }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      cAF(this._state_.timeout);
-    }
   }]);
 
   return SlideToggle;
 }(_react2.default.Component);
 
 SlideToggle.defaultProps = {
-  duration: 300,
-  easeCollapse: easeInOutCubic,
-  easeExpand: easeInOutCubic
+  duration: 300
 };
 
 
