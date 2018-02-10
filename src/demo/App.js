@@ -139,7 +139,6 @@ export default class App extends React.Component {
           key={components.length}
           duration={this.state.duration}
           collapsed
-          noDisplayStyle
           onCollapsed={() => log('onCollapsed')}
           onCollapsing={() => log('onCollapsing')}
           onExpanding={() => log('onExpanding')}
@@ -194,6 +193,7 @@ export default class App extends React.Component {
       components.push(
         <SlideToggle
           key={components.length}
+          noDisplayStyle          
           duration={this.state.duration}
           easeCollapse={bezierEaseInOutQuart}
           easeExpand={bezierEaseInOutQuart}
@@ -204,6 +204,7 @@ export default class App extends React.Component {
             easeCollapse: bezierEaseInOutQuart,
             easeExpand: bezierEaseInOutQuart,
             className: '-header-height',
+            customText: 'noDisplayStyle',
           })}
         />
       );
