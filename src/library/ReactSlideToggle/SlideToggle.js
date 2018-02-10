@@ -25,7 +25,7 @@ const TOGGLE = {
 const GET_HEIGHT = 'offsetHeight';
 
 const easeInOutCubic = t =>
-  t < .5 ? 4 * t * t * t : .5 * Math.pow(2 * t - 2, 3) + 1;
+  t < 0.5 ? 4 * t * t * t : 0.5 * Math.pow(2 * t - 2, 3) + 1;
 
 const util = {
   isMoving: toggleState =>
@@ -165,6 +165,9 @@ export default class SlideToggle extends React.Component {
         const subtract = Math.max(0, duration - elapsedTime);
         this._state_.startTime = now - subtract;
       } else {
+        if (this._state_.collasibleElement.style.height) {
+          this._state_.collasibleElement.style.height = null;
+        }
         this._state_.boxHeight = this._state_.collasibleElement[GET_HEIGHT];
         this._state_.startTime = now;
         this._state_.startDirection = toggleState;
@@ -271,9 +274,11 @@ export default class SlideToggle extends React.Component {
   setCollapsedState = ({ initialState } = {}) => {
     if (!this.props.noDisplayStyle) {
       this._state_.collasibleElement.style.display = 'none';
+      this._state_.collasibleElement.style.height = null;
+    } else {
+      this._state_.collasibleElement.style.height = '0px';
     }
     this._state_.progress = 0;
-    this._state_.collasibleElement.style.height = null;
     this._state_.toggleState = TOGGLE.COLLAPSED;
     this.setState({
       toggleState: TOGGLE.COLLAPSED,

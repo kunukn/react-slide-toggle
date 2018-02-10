@@ -143,7 +143,7 @@ var TOGGLE = {
 var GET_HEIGHT = 'offsetHeight';
 
 var easeInOutCubic = function easeInOutCubic(t) {
-  return t < .5 ? 4 * t * t * t : .5 * Math.pow(2 * t - 2, 3) + 1;
+  return t < 0.5 ? 4 * t * t * t : 0.5 * Math.pow(2 * t - 2, 3) + 1;
 };
 
 var util = {
@@ -271,6 +271,9 @@ var SlideToggle = function (_React$Component) {
           var subtract = Math.max(0, duration - elapsedTime);
           _this._state_.startTime = now - subtract;
         } else {
+          if (_this._state_.collasibleElement.style.height) {
+            _this._state_.collasibleElement.style.height = null;
+          }
           _this._state_.boxHeight = _this._state_.collasibleElement[GET_HEIGHT];
           _this._state_.startTime = now;
           _this._state_.startDirection = toggleState;
@@ -385,9 +388,11 @@ var SlideToggle = function (_React$Component) {
 
       if (!_this.props.noDisplayStyle) {
         _this._state_.collasibleElement.style.display = 'none';
+        _this._state_.collasibleElement.style.height = null;
+      } else {
+        _this._state_.collasibleElement.style.height = '0px';
       }
       _this._state_.progress = 0;
-      _this._state_.collasibleElement.style.height = null;
       _this._state_.toggleState = TOGGLE.COLLAPSED;
       _this.setState({
         toggleState: TOGGLE.COLLAPSED,

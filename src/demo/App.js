@@ -139,6 +139,7 @@ export default class App extends React.Component {
           key={components.length}
           duration={this.state.duration}
           collapsed
+          noDisplayStyle
           onCollapsed={() => log('onCollapsed')}
           onCollapsing={() => log('onCollapsing')}
           onExpanding={() => log('onExpanding')}
@@ -156,25 +157,6 @@ export default class App extends React.Component {
         <SlideToggle
           key={components.length}
           duration={this.state.duration * 2}
-          easeCollapse={eases['expoOut']}
-          easeExpand={eases['expoOut']}
-          collapsed
-          interpolateOnReverse
-          render={this.generateMarkup({
-            easeCollapseName: 'expoOut interpolate',
-            easeExpandName: 'expoOut interpolate',
-            easeCollapse: eases['expoOut'],
-            easeExpand: eases['expoOut'],
-            customText: 'interpolateOnReverse',
-          })}
-        />
-      );
-
-    1 &&
-      components.push(
-        <SlideToggle
-          key={components.length}
-          duration={this.state.duration * 2}
           easeCollapse={eases['bounceOut']}
           easeExpand={eases['bounceOut']}
           collapsed
@@ -185,6 +167,25 @@ export default class App extends React.Component {
             easeCollapse: eases['bounceOut'],
             easeExpand: eases['bounceOut'],
             customText: 'whenReversedUseBackwardEase',
+          })}
+        />
+      );
+
+    1 &&
+      components.push(
+        <SlideToggle
+          key={components.length}
+          duration={this.state.duration * 2}
+          easeCollapse={eases['expoOut']}
+          easeExpand={eases['expoOut']}
+          collapsed
+          interpolateOnReverse
+          render={this.generateMarkup({
+            easeCollapseName: 'expoOut interpolate',
+            easeExpandName: 'expoOut interpolate',
+            easeCollapse: eases['expoOut'],
+            easeExpand: eases['expoOut'],
+            customText: 'interpolateOnReverse',
           })}
         />
       );
