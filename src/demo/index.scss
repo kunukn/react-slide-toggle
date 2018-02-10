@@ -49,8 +49,13 @@ body {
 }
 .my-collapsible-content {
   overflow: hidden;
+  transition: max-height 500ms;
   background: #eee;
   > * {
     padding: 2rem 1rem;
   }
+}
+
+.is-inert{
+  display: none;
 }

@@ -1,20 +1,13 @@
-/*
-  _state_ is internal state for sync and rendering control.
-  setState is async and I need sync control because timing is important 
-  and because I need to control what is to be re-rendered.
-*/
-
 import React from 'react'; // eslint-disable-line import/no-extraneous-dependencies
-// import PropTypes from 'prop-types'; // eslint-disable-line import/no-extraneous-dependencies
 
 // Support browser or node env
 const root = typeof window !== 'undefined' ? window : global;
 const rAF = root.requestAnimationFrame
   ? root.requestAnimationFrame.bind(root)
   : callback => root.setTimeout(callback, 16);
-const cAF = root.cancelAnimationFrame
-  ? root.cancelAnimationFrame.bind(root)
-  : root.clearInterval.bind(root);
+// const cAF = root.cancelAnimationFrame
+//   ? root.cancelAnimationFrame.bind(root)
+//   : root.clearInterval.bind(root);
 
 const TOGGLE = {
   EXPANDED: 'EXPANDED',
@@ -22,10 +15,11 @@ const TOGGLE = {
   EXPANDING: 'EXPANDING',
   COLLAPSING: 'COLLAPSING',
 };
-const GET_HEIGHT = 'offsetHeight';
-
-const easeInOutCubic = t =>
-  t < 0.5 ? 4 * t * t * t : 0.5 * Math.pow(2 * t - 2, 3) + 1;
+// const GET_HEIGHT = 'offsetHeight';
+const TRANSITION_END = 'transitionend';
+const AEL = 'addEventListener';
+const REL = 'removeEventListener';
+const BCR = 'getBoundingClientRect';
 
 const util = {
   isMoving: toggleState =>
@@ -36,18 +30,7 @@ const util = {
 class SlideToggle extends React.Component {
   static defaultProps = {
     duration: 300,
-    easeCollapse: easeInOutCubic,
-    easeExpand: easeInOutCubic,
   };
-
-  // static propTypes = {
-  //   render: PropTypes.func,
-  //   duration: PropTypes.number,
-  //   noDisplayStyle: PropTypes.bool,
-  //   easeCollapse: PropTypes.func,
-  //   easeExpand: PropTypes.func,
-  //   collapsed: PropTypes.bool,
-  // };
 
   constructor(props) {
     super(props);
@@ -78,7 +61,6 @@ class SlideToggle extends React.Component {
       return;
     }
     this._state_.collasibleElement = element;
-    this._state_.boxHeight = element[GET_HEIGHT];
 
     if (this._state_.toggleState === TOGGLE.COLLAPSED) {
       this.setCollapsedState({ initialState: true });
@@ -88,25 +70,16 @@ class SlideToggle extends React.Component {
   };
 
   onToggle = () => {
-    const updateInternalState = ({ toggleState, display, hasReversed }) => {
+    
+    if(util.isMoving(this._state_.toggleState)){
+      return;
+    }
+
+    const updateInternalState = ({ toggleState, display }) => {
       this._state_.toggleState = toggleState;
 
       if (display !== undefined && !this.props.noDisplayStyle) {
         this._state_.collasibleElement.style.display = display;
-      }
-
-      const now = util.now();
-
-      if (hasReversed) {
-        const { startTime } = this._state_;
-        const duration = +this.props.duration;
-        const elapsedTime = Math.min(duration, now - startTime);
-        const subtract = Math.max(0, duration - elapsedTime);
-        this._state_.startTime = now - subtract;
-      } else {
-        this._state_.boxHeight = this._state_.collasibleElement[GET_HEIGHT];
-        this._state_.startTime = now;
-        this._state_.startDirection = toggleState;
       }
 
       this.setState({
@@ -120,28 +93,16 @@ class SlideToggle extends React.Component {
     } else if (this._state_.toggleState === TOGGLE.COLLAPSED) {
       updateInternalState({
         toggleState: TOGGLE.EXPANDING,
-        display: '',
-      });
-      this.expand();
-    } else if (this._state_.toggleState === TOGGLE.EXPANDING) {
-      updateInternalState({
-        toggleState: TOGGLE.COLLAPSING,
-        hasReversed: true,
-      });
-      this.collapse();
-    } else if (this._state_.toggleState === TOGGLE.COLLAPSING) {
-      updateInternalState({
-        toggleState: TOGGLE.EXPANDING,
-        display: '',
-        hasReversed: true,
+        display: null,
       });
       this.expand();
     }
   };
 
   setExpandedState = () => {
-    this._state_.collasibleElement.style.height = null;
     this._state_.toggleState = TOGGLE.EXPANDED;
+    this._state_.collasibleElement.style.maxHeight = null;
+
     this.setState({
       toggleState: TOGGLE.EXPANDED,
     });
@@ -152,32 +113,45 @@ class SlideToggle extends React.Component {
       return;
     }
 
-    const duration = +this.props.duration;
-    if (duration <= 0) {
-      this.setExpandedState();
-      return;
-    }
+    const element = this._state_.collasibleElement;
 
-    const { startTime } = this._state_;
-    const elapsedTime = Math.min(duration, util.now() - startTime);
-
-    if (elapsedTime >= duration) {
-      this.setExpandedState();
-    } else {
-      const { boxHeight } = this._state_;
-      const range = elapsedTime / duration;
-      const progress = this.props.easeExpand(range);
-      const currentHeightValue = Math.round(boxHeight * progress);
-      this._state_.collasibleElement.style.height = `${currentHeightValue}px`;
-      this.nextTick(this.expand);
-    }
+    const transitionEvent = event => {
+      if (event.propertyName === 'max-height') {
+        element[REL](TRANSITION_END, transitionEvent);
+        this.setExpandedState();
+      }
+    };
+  
+    const elTransitionBackup = element.style.transition;
+    element.style.transition = 'max-height 0s !important';
+  
+    rAF(() => {
+      /*
+        Same level of nested rAF as collapse to synchronize timing of animation.
+      */
+  
+      element.style.maxHeight = null;
+      const { height } = element[BCR](); // trigger reflow
+      // const height = element.scrollHeight;
+  
+      element.style.maxHeight = '0px';
+  
+      element.style.transition = elTransitionBackup;
+      element[AEL](TRANSITION_END, transitionEvent);
+  
+      rAF(() => {
+        element.style.maxHeight = `${height}px`;
+      });
+    });
   };
 
   setCollapsedState = () => {
     if (!this.props.noDisplayStyle) {
       this._state_.collasibleElement.style.display = 'none';
+      this._state_.collasibleElement.style.maxHeight = null;
+    }else{
+      this._state_.collasibleElement.style.maxHeight = '0px';
     }
-    this._state_.collasibleElement.style.height = null;
     this._state_.toggleState = TOGGLE.COLLAPSED;
     this.setState({
       toggleState: TOGGLE.COLLAPSED,
@@ -188,35 +162,33 @@ class SlideToggle extends React.Component {
     if (this._state_.toggleState !== TOGGLE.COLLAPSING) {
       return;
     }
-    const duration = +this.props.duration;
-    if (duration <= 0) {
+    const element = this._state_.collasibleElement;
+    const elTransitionBackup = element.style.transition;
+    element.style.transition = 'max-height 0s !important';
+  
+    const { height } = element[BCR](); // trigger reflow, applies style updates
+  
+    if (height === 0) {
       this.setCollapsedState();
-      return;
     }
+  
+    const transitionEvent = event => {
+      if (event.propertyName === 'max-height') {
+        element[REL](TRANSITION_END, transitionEvent);
+        this.setCollapsedState();
+      }
+    };
+  
+    rAF(() => {
+      element.style.maxHeight = `${height}px`;
+      element.style.transition = elTransitionBackup;
+      element[AEL](TRANSITION_END, transitionEvent);
+      rAF(() => {
+        element.style.maxHeight = '0px';
+      });
+    });
+ };
 
-    const { startTime } = this._state_;
-    const elapsedTime = Math.min(duration, util.now() - startTime);
-
-    if (elapsedTime >= duration) {
-      this.setCollapsedState();
-    } else {
-      const { boxHeight } = this._state_;
-      const range = 1 - elapsedTime / duration;
-      const { easeCollapse } = this.props;
-      const progress = 1 - easeCollapse(1 - range);
-      const currentHeightValue = Math.round(boxHeight * progress);
-      this._state_.collasibleElement.style.height = `${currentHeightValue}px`;
-      this._state_.timeout = this.nextTick(this.collapse);
-    }
-  };
-
-  nextTick = callback => {
-    this._state_.timeout = rAF(callback);
-  };
-
-  componentWillUnmount() {
-    cAF(this._state_.timeout);
-  }
 }
 
 module.exports = SlideToggle;
