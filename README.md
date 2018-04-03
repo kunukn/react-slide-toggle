@@ -4,7 +4,8 @@ The toggle direction can be reversed during the movement.
 
 ## demo
 
-https://codepen.io/kunukn/full/wpepGz/
+* https://codepen.io/kunukn/full/wpepGz/
+* https://codesandbox.io/s/4x01lklqm7
 
 ## setup
 
@@ -38,13 +39,16 @@ Look in App component for inspiration. Apply the styling as needed.
 // Component example, simple - render prop
 import { SlideToggle } from 'react-slide-toggle';
 
-// add CSS: .my-collapsible-content { overflow: hidden;}
+// Add CSS: .my-collapsible-content { overflow: hidden;}
+// Apply optional padding to .my-collapsible-content-inner
 <SlideToggle
   render={({onToggle, setCollapsibleElement}) => (
     <div className="my-collapsible">
       <button className="btn" onClick={onToggle}> toggle</button>
       <div className="my-collapsible-content" ref={setCollapsibleElement}>
+        <div className="my-collapsible-content-inner">
           Collapsible content
+        </div>
       </div>
     </div>
   )}
@@ -59,8 +63,10 @@ import { SlideToggle } from 'react-slide-toggle';
   {({onToggle, setCollapsibleElement}) => (
     <div className="my-collapsible">
       <button className="btn" onClick={onToggle}> toggle</button>
-      <div className="my-collapsible-content" ref={setCollapsibleElement}>
+      <div className="my-collapsible-content" ref={setCollapsibleElement}>          
+        <div className="my-collapsible-content-inner">
           Collapsible content
+        </div>
       </div>
     </div>
   )}
@@ -180,3 +186,10 @@ You can see examples of JS-easing library usage here
 * availability - from cdn or npm install
 * generate range and progress [0;1] values which can be used for further custom animation
 * JS is used over CSS transition on purpose to enable possible interpolation or other custom math calculations
+
+
+## library implementation details
+
+* Only used life-cycle is `componentWillUnmount`
+* Extends React.Component
+* Uses `setState`

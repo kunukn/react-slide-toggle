@@ -9,10 +9,8 @@
     "clean": "rimraf dist/*",
     "minify": "npm run minify-umd",
     "minify-all": "npm run minify-umd & npm run minify-var",
-    "minify-umd":
-      "uglifyjs dist/ReactSlideToggle.umd.js --config-file uglify.config.json --output dist/ReactSlideToggle.umd.min.js",
-    "minify-var":
-      "uglifyjs dist/ReactSlideToggle.var.js --config-file uglify.config.json --output dist/ReactSlideToggle.var.min.js",
+    "minify-umd": "uglifyjs dist/ReactSlideToggle.umd.js --config-file uglify.config.json --output dist/ReactSlideToggle.umd.min.js",
+    "minify-var": "uglifyjs dist/ReactSlideToggle.var.js --config-file uglify.config.json --output dist/ReactSlideToggle.var.min.js",
     "deploy": "npm run clean && npm run build && npm run minify"
   },
   "description": "React component version of jQuery.slideToggle",
@@ -21,10 +19,16 @@
   "unpkg": "dist/ReactSlideToggle.umd.min.js",
   "author": "kunukn",
   "license": "MIT",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "browserslist": "last 2 versions, ie 11",
   "babel": {
-    "presets": ["env", "stage-2", "react"]
+    "presets": [
+      "env",
+      "stage-2",
+      "react"
+    ]
   },
   "devDependencies": {
     "babel-core": "*",
@@ -60,7 +64,11 @@
     "type": "git",
     "url": "git+https://github.com/kunukn/react-slide-toggle.git"
   },
-  "keywords": ["slide", "toggle", "collapsible"],
+  "keywords": [
+    "slide",
+    "toggle",
+    "collapsible"
+  ],
   "bugs": {
     "url": "https://github.com/kunukn/react-slide-toggle/issues"
   },
