@@ -179,8 +179,7 @@ var util = {
     var interpolated = next;
     if (diff > 0.15) {
       /* heuritic value */
-      if (next > prev) interpolated -= diff * 0.75;
-      /* heuritic value */
+      if (next > prev) interpolated -= diff * 0.75; /* heuritic value */
       else interpolated += diff * 0.75; /* heuritic value */
     }
     return interpolated;

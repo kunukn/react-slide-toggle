@@ -1,5 +1,11 @@
 ## Changelog
 
+### 0.1.11
+* apply guard clause around usage of collapsible element styles
+
+### 0.1.10
+* update readme
+
 ### 0.1.9
 * fix misspelling and minor refactorings
 
