@@ -191,5 +191,12 @@ You can see examples of JS-easing library usage here
 ## library implementation details
 
 * Only used life-cycle is `componentWillUnmount`
-* Extends React.Component
+* Extends `React.Component`
 * Uses `setState`
+
+## local development
+
+* git clone or download
+* npm install
+* npm run deploy
+* The umd build is now in the dist folder
