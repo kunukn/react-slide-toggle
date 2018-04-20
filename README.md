@@ -7,7 +7,7 @@ The toggle direction can be reversed during the movement.
 * https://codepen.io/kunukn/full/wpepGz/
 * https://codesandbox.io/s/4x01lklqm7
 
-## setup
+## setup / local demo
 
 * git clone or download
 * npm install

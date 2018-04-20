@@ -1,5 +1,8 @@
 ## Changelog
 
+### 0.1.12
+* add react and react-dom as npm peerDependencies
+
 ### 0.1.11
 * apply guard clause around usage of collapsible element styles
 
