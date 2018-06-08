@@ -1,10 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-const { SlideToggle } = require('library/ReactSlideToggle');
-//const { SlideToggle } = require('dist/ReactSlideToggle.umd.min');
+import React from "react";
+import ReactDOM from "react-dom";
 
-import eases from 'eases'; // example, provide your own easing fn
-import BezierEasing from 'bezier-easing'; // example, provide your own easing fn
+
+import eases from "eases"; // example, provide your own easing fn
+import BezierEasing from "bezier-easing";
+
+const { SlideToggle } = require("library/ReactSlideToggle"); // example, provide your own easing fn
+//const { SlideToggle } = require('dist/ReactSlideToggle.umd.min');
 
 const log = console.log.bind(console);
 
@@ -14,27 +16,25 @@ const easeInOutQuart = t =>
   t < 0.5 ? 8 * t * t * t * t : 1 - 8 * --t * t * t * t;
 
 const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
-const defaultEase = eases['cubicInOut'];
+const defaultEase = eases.cubicInOut;
 
 const getRandomEase = () => {
   const index = Math.floor(Math.random() * easeNames.length);
   return eases[easeNames[index]];
 };
 
-const ToggleText = () => 'Toggle';
+const ToggleText = () => "Toggle";
 
-const ProgressBar = ({ progress }) => {
-  return (
-    <span className="progress-bar">
-      <span
-        className="progress-bar__inner"
-        style={{
-          transform: `scaleX(${progress})`,
-        }}
-      />
-    </span>
-  );
-};
+const ProgressBar = ({ progress }) => (
+  <span className="progress-bar">
+    <span
+      className="progress-bar__inner"
+      style={{
+        transform: `scaleX(${progress})`
+      }}
+    />
+  </span>
+);
 
 export default class App extends React.Component {
   state = { duration: 1000 };
@@ -44,8 +44,8 @@ export default class App extends React.Component {
     easeExpandName,
     easeCollapse,
     easeExpand,
-    className = '',
-    customText,
+    className = "",
+    customText
   } = {}) => ({
     onToggle,
     setCollapsibleElement,
@@ -53,12 +53,12 @@ export default class App extends React.Component {
     isMoving,
     hasReversed,
     range,
-    progress,
+    progress
   }) => (
     <div
-      className={
-        'slide-toggle ' + className + ' ' + (toggleState || '').toLowerCase()
-      }
+      className={`slide-toggle ${className} ${(
+        toggleState || ""
+      ).toLowerCase()}`}
     >
       <div className="slide-toggle__header">
         <button className="slide-toggle__toggle" onClick={onToggle}>
@@ -107,7 +107,7 @@ export default class App extends React.Component {
         </div>
         <div>
           <span>isMoving:</span>
-          <span>{isMoving + ''}</span>
+          <span>{`${isMoving}`}</span>
         </div>
         <div>
           <span>easeCollapse:</span>
@@ -119,7 +119,7 @@ export default class App extends React.Component {
         </div>
         <div>
           <span>hasReversed:</span>
-          <span>{hasReversed + ''}</span>
+          <span>{`${hasReversed}`}</span>
         </div>
         {customText && (
           <div>
@@ -140,14 +140,14 @@ export default class App extends React.Component {
           key={components.length}
           duration={this.state.duration}
           collapsed
-          onCollapsed={() => log('onCollapsed')}
-          onCollapsing={() => log('onCollapsing')}
-          onExpanding={() => log('onExpanding')}
-          onExpanded={() => log('onExpanded')}
+          onCollapsed={() => log("onCollapsed")}
+          onCollapsing={() => log("onCollapsing")}
+          onExpanding={() => log("onExpanding")}
+          onExpanded={() => log("onExpanded")}
         >
           {this.generateMarkup({
-            easeCollapseName: 'default',
-            easeExpandName: 'default',
+            easeCollapseName: "default",
+            easeExpandName: "default"
           })}
         </SlideToggle>
       );
@@ -157,16 +157,16 @@ export default class App extends React.Component {
         <SlideToggle
           key={components.length}
           duration={this.state.duration * 2}
-          easeCollapse={eases['bounceOut']}
-          easeExpand={eases['bounceOut']}
+          easeCollapse={eases.bounceOut}
+          easeExpand={eases.bounceOut}
           collapsed
           whenReversedUseBackwardEase
           render={this.generateMarkup({
-            easeCollapseName: 'bounceOut',
-            easeExpandName: 'bounceOut',
-            easeCollapse: eases['bounceOut'],
-            easeExpand: eases['bounceOut'],
-            customText: 'whenReversedUseBackwardEase',
+            easeCollapseName: "bounceOut",
+            easeExpandName: "bounceOut",
+            easeCollapse: eases.bounceOut,
+            easeExpand: eases.bounceOut,
+            customText: "whenReversedUseBackwardEase"
           })}
         />
       );
@@ -176,16 +176,16 @@ export default class App extends React.Component {
         <SlideToggle
           key={components.length}
           duration={this.state.duration * 2}
-          easeCollapse={eases['expoOut']}
-          easeExpand={eases['expoOut']}
+          easeCollapse={eases.expoOut}
+          easeExpand={eases.expoOut}
           collapsed
           interpolateOnReverse
           render={this.generateMarkup({
-            easeCollapseName: 'expoOut interpolate',
-            easeExpandName: 'expoOut interpolate',
-            easeCollapse: eases['expoOut'],
-            easeExpand: eases['expoOut'],
-            customText: 'interpolateOnReverse',
+            easeCollapseName: "expoOut interpolate",
+            easeExpandName: "expoOut interpolate",
+            easeCollapse: eases.expoOut,
+            easeExpand: eases.expoOut,
+            customText: "interpolateOnReverse"
           })}
         />
       );
@@ -198,14 +198,14 @@ export default class App extends React.Component {
           duration={this.state.duration}
           easeCollapse={bezierEaseInOutQuart}
           easeExpand={bezierEaseInOutQuart}
-          collapsed={Math.random() > 0.5 ? true : false}
+          collapsed={Math.random() > 0.5}
           render={this.generateMarkup({
             easeCollapseName: this.fnName(bezierEaseInOutQuart),
             easeExpandName: this.fnName(bezierEaseInOutQuart),
             easeCollapse: bezierEaseInOutQuart,
             easeExpand: bezierEaseInOutQuart,
-            className: '-header-height',
-            customText: 'noDisplayStyle',
+            className: "-header-height",
+            customText: "noDisplayStyle"
           })}
         />
       );
@@ -225,7 +225,7 @@ export default class App extends React.Component {
             render={this.generateMarkup({
               easeCollapseName: name,
               easeExpandName: name,
-              customText: 'whenReversedUseBackwardEase',
+              customText: "whenReversedUseBackwardEase"
             })}
           />
         );
@@ -237,30 +237,30 @@ export default class App extends React.Component {
           key={components.length}
           duration={this.state.duration}
           interpolateOnReverse
-          easeCollapse={eases['quartOut']}
-          easeExpand={eases['bounceOut']}
+          easeCollapse={eases.quartOut}
+          easeExpand={eases.bounceOut}
           onExpanded={({ hasReversed }) => {
             if (!hasReversed) {
               const el = ReactDOM.findDOMNode(this).querySelector(
-                '.-extra-anim .slide-toggle__box-inner'
+                ".-extra-anim .slide-toggle__box-inner"
               );
               if (el) {
-                let anim = document.createElement('div');
-                let anim2 = document.createElement('div');
-                let anim3 = document.createElement('div');
-                let anim4 = document.createElement('div');
-                let anim5 = document.createElement('div');
+                const anim = document.createElement("div");
+                const anim2 = document.createElement("div");
+                const anim3 = document.createElement("div");
+                const anim4 = document.createElement("div");
+                const anim5 = document.createElement("div");
                 const bcr = el.getBoundingClientRect();
-                anim.className = 'bounce-anim';
-                anim2.className = 'bounce-anim';
-                anim3.className = 'bounce-anim';
-                anim4.className = 'bounce-anim';
-                anim5.className = 'bounce-anim';
-                anim.style.left = Math.random() * bcr.width + 'px';
-                anim2.style.left = Math.random() * bcr.width + 'px';
-                anim3.style.left = Math.random() * bcr.width + 'px';
-                anim4.style.left = Math.random() * bcr.width + 'px';
-                anim5.style.left = Math.random() * bcr.width + 'px';
+                anim.className = "bounce-anim";
+                anim2.className = "bounce-anim";
+                anim3.className = "bounce-anim";
+                anim4.className = "bounce-anim";
+                anim5.className = "bounce-anim";
+                anim.style.left = `${Math.random() * bcr.width}px`;
+                anim2.style.left = `${Math.random() * bcr.width}px`;
+                anim3.style.left = `${Math.random() * bcr.width}px`;
+                anim4.style.left = `${Math.random() * bcr.width}px`;
+                anim5.style.left = `${Math.random() * bcr.width}px`;
                 el.appendChild(anim);
                 el.appendChild(anim2);
                 el.appendChild(anim3);
@@ -277,15 +277,38 @@ export default class App extends React.Component {
               }
             }
           }}
-          collapsed={Math.random() > 0.5 ? true : false}
+          collapsed={Math.random() > 0.5}
           render={this.generateMarkup({
-            className: '-extra-anim',
-            easeCollapseName: 'quartOut',
-            easeExpandName: 'bounceOut',
-            easeCollapse: eases['quartOut'],
-            easeExpand: eases['bounceOut'],
-            customText: 'interpolateOnReverse',
+            className: "-extra-anim",
+            easeCollapseName: "quartOut",
+            easeExpandName: "bounceOut",
+            easeCollapse: eases.quartOut,
+            easeExpand: eases.bounceOut,
+            customText: "interpolateOnReverse"
           })}
+        />
+      );
+
+    0 &&
+      components.push(
+        <SlideToggle
+          key={components.length}
+          duration={this.state.duration}
+          collapsed
+          scrollHeight
+          render={({ onToggle, setCollapsibleElement }) => (
+            <div className="my-collapsible">
+              <button className="button" onClick={onToggle}>
+                toggle
+              </button>
+              <div
+                className="my-collapsible__content"
+                ref={setCollapsibleElement}
+              >
+                Collapsible content
+              </div>
+            </div>
+          )}
         />
       );
 
@@ -312,7 +335,7 @@ export default class App extends React.Component {
   }
 
   getFunctionName(fn) {
-    return /function ([^(]*)/.exec(fn + '')[1];
+    return /function ([^(]*)/.exec(`${fn}`)[1];
   }
 
   fnName = fn => this.getFunctionName(fn);

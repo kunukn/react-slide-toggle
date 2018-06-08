@@ -39,14 +39,14 @@ Look in App component for inspiration. Apply the styling as needed.
 // Component example, simple - render prop
 import { SlideToggle } from 'react-slide-toggle';
 
-// Add CSS: .my-collapsible-content { overflow: hidden;}
-// Apply optional padding to .my-collapsible-content-inner
+// Add CSS: .my-collapsible__content { overflow: hidden;}
+// Apply optional padding to .my-collapsible__content-inner
 <SlideToggle
   render={({onToggle, setCollapsibleElement}) => (
     <div className="my-collapsible">
-      <button className="btn" onClick={onToggle}> toggle</button>
-      <div className="my-collapsible-content" ref={setCollapsibleElement}>
-        <div className="my-collapsible-content-inner">
+      <button className="button" onClick={onToggle}>toggle</button>
+      <div className="my-collapsible__content" ref={setCollapsibleElement}>
+        <div className="my-collapsible__content-inner">
           Collapsible content
         </div>
       </div>
@@ -59,12 +59,14 @@ import { SlideToggle } from 'react-slide-toggle';
 // Component example, simple - function as child
 import { SlideToggle } from 'react-slide-toggle';
 
+// Add CSS: .my-collapsible__content { overflow: hidden;}
+// Apply optional padding to .my-collapsible__content-inner
 <SlideToggle>
   {({onToggle, setCollapsibleElement}) => (
     <div className="my-collapsible">
-      <button className="btn" onClick={onToggle}> toggle</button>
-      <div className="my-collapsible-content" ref={setCollapsibleElement}>
-        <div className="my-collapsible-content-inner">
+      <button className="button" onClick={onToggle}>toggle</button>
+      <div className="my-collapsible__content" ref={setCollapsibleElement}>
+        <div className="my-collapsible__content-inner">
           Collapsible content
         </div>
       </div>
@@ -84,12 +86,13 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
   duration={280 /* default 300 */}
   easeCollapse={bezierEaseInOutQuart /* default cubicInOut */ }
   easeExpand={bezierEaseInOutQuart /* default cubicInOut */ }
-  collapsed={true /* default falsy */ }
-  irreversible={true /* default falsy */ }
-  noDisplayStyle={true /* default falsy */ }
-  bestPerformance={true /* default falsy */ }
-  whenReversedUseBackwardEase={true /* default falsy */ }
-  interpolateOnReverse={true /* default falsy */ }
+  collapsed /* default falsy */
+  irreversible  /* default falsy */
+  noDisplayStyle /* default falsy */
+  bestPerformance /* default falsy */
+  whenReversedUseBackwardEase /* default falsy */
+  interpolateOnReverse /* default falsy */
+  scrollHeight /* default offsetHeight */
   onExpanded={({hasReversed}) => { /* optional event hook */ }}
   onExpanding={({range, progress, hasReversed}) => { /* optional event hook */ }}
   onCollapsed={({hasReversed}) => { /* optional event hook */ }}
@@ -145,6 +148,7 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 * onCollapsing - event hook
 * render - render callback
 * children - render callback
+* scrollHeight - use scrollHeight calculation
 
 ## size
 

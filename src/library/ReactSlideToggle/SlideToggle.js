@@ -1,6 +1,6 @@
 /*
   _state_ is internal state for sync and rendering control.
-  setState is async and I need sync control because timing is important 
+  setState is async and I need sync control because timing is important
   and because I need to control what is to be re-rendered.
 */
 
@@ -22,7 +22,6 @@ const TOGGLE = {
   EXPANDING: 'EXPANDING',
   COLLAPSING: 'COLLAPSING',
 };
-const GET_HEIGHT = 'offsetHeight'; // or scrollHeight
 
 const easeInOutCubic = t =>
   t < 0.5 ? 4 * t * t * t : 0.5 * Math.pow(2 * t - 2, 3) + 1;
@@ -38,14 +37,14 @@ const util = {
   now: () => new Date().getTime(),
   sanitizeDuration: duration => Math.max(0, parseInt(+duration, 10) || 0),
   interpolate: ({ next, prev }) => {
-    /* 
+    /*
       If the diff in the next rAF is big, it can seem jumpy when reversing the togling
       This is heuristic approach to minimize the diff value by interpolating.
     */
     const diff = Math.abs(next - prev);
     let interpolated = next;
     if (diff > 0.15) { /* heuritic value */
-      if (next > prev) interpolated -= diff * 0.75; /* heuritic value */ 
+      if (next > prev) interpolated -= diff * 0.75; /* heuritic value */
       else interpolated += diff * 0.75; /* heuritic value */
     }
     return interpolated;
@@ -75,6 +74,7 @@ export default class SlideToggle extends React.Component {
   //   onExpanding: PropTypes.func,
   //   onCollapsed: PropTypes.func,
   //   onCollapsing: PropTypes.func,
+  //   scrollHeight: PropTypes.bool,
   // };
 
   constructor(props) {
@@ -84,6 +84,8 @@ export default class SlideToggle extends React.Component {
       collapsibleElement: null,
       toggleState: this.props.collapsed ? TOGGLE.COLLAPSED : TOGGLE.EXPANDED,
     };
+
+    this.GET_HEIGHT = props.scrollHeight ? 'scrollHeight' : 'offsetHeight';
 
     this.state = {
       toggleState: this._state_.toggleState,
@@ -172,7 +174,7 @@ export default class SlideToggle extends React.Component {
         if (collapsible && collapsible.style.height) {
           this.updateCollapsible('height', null);
         }
-        this._state_.boxHeight = collapsible ? collapsible[GET_HEIGHT] : 0;
+        this._state_.boxHeight = collapsible ? collapsible[this.GET_HEIGHT] : 0;
         this._state_.startTime = now;
         this._state_.startDirection = toggleState;
       }

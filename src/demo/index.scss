@@ -1,4 +1,4 @@
-/* 
+/*
   For demo purpose, not required css for the library.
   Use this as inspiration.
 */
@@ -57,8 +57,8 @@ body {
     transition: 200ms;
     &.expanded {
       .slide-toggle__header {
-        padding-top: .25rem;
-        padding-bottom: .25rem;
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
       }
     }
   }
@@ -111,7 +111,7 @@ body {
     left: 0;
     bottom: 0;
     border-radius: 50%;
-    background: rgba($color-2, .5);
+    background: rgba($color-2, 0.5);
     animation: bounce-anim 500ms forwards;
     @for $i from 2 through 10 {
       &:nth-of-type(#{$i}) {
@@ -135,7 +135,7 @@ body {
 }
 
 .state-values {
-  padding: .5rem 1rem;
+  padding: 0.5rem 1rem;
   border-top: 1px solid $color-2;
   font-weight: 300;
   font-size: 80%;
@@ -169,5 +169,12 @@ body {
     will-change: transform;
     background: rgba(white, 0.5);
     transform-origin: 0 0;
+  }
+}
+
+.my-collapsible {
+  border: 1px solid black;
+  &__content {
+    overflow: hidden;
   }
 }

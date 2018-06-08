@@ -151,7 +151,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  _state_ is internal state for sync and rendering control.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 setState is async and I need sync control because timing is important 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 setState is async and I need sync control because timing is important
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  and because I need to control what is to be re-rendered.
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
@@ -171,7 +171,6 @@ var TOGGLE = {
   EXPANDING: 'EXPANDING',
   COLLAPSING: 'COLLAPSING'
 };
-var GET_HEIGHT = 'offsetHeight'; // or scrollHeight
 
 var easeInOutCubic = function easeInOutCubic(t) {
   return t < 0.5 ? 4 * t * t * t : 0.5 * Math.pow(2 * t - 2, 3) + 1;
@@ -202,7 +201,7 @@ var util = {
     var next = _ref2.next,
         prev = _ref2.prev;
 
-    /* 
+    /*
       If the diff in the next rAF is big, it can seem jumpy when reversing the togling
       This is heuristic approach to minimize the diff value by interpolating.
     */
@@ -236,6 +235,7 @@ var SlideToggle = function (_React$Component) {
   //   onExpanding: PropTypes.func,
   //   onCollapsed: PropTypes.func,
   //   onCollapsing: PropTypes.func,
+  //   scrollHeight: PropTypes.bool,
   // };
 
   function SlideToggle(props) {
@@ -312,7 +312,7 @@ var SlideToggle = function (_React$Component) {
           if (collapsible && collapsible.style.height) {
             _this.updateCollapsible('height', null);
           }
-          _this._state_.boxHeight = collapsible ? collapsible[GET_HEIGHT] : 0;
+          _this._state_.boxHeight = collapsible ? collapsible[_this.GET_HEIGHT] : 0;
           _this._state_.startTime = now;
           _this._state_.startDirection = toggleState;
         }
@@ -507,6 +507,8 @@ var SlideToggle = function (_React$Component) {
       collapsibleElement: null,
       toggleState: _this.props.collapsed ? TOGGLE.COLLAPSED : TOGGLE.EXPANDED
     };
+
+    _this.GET_HEIGHT = props.scrollHeight ? 'scrollHeight' : 'offsetHeight';
 
     _this.state = {
       toggleState: _this._state_.toggleState,
