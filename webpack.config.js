@@ -6,8 +6,9 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const entry = './src/demo/index.js';
 const name = 'app';
 
-module.exports = (env = {}) => {
+module.exports = (env = {}, argv = {mode: 'development'}) => {
 
+  console.log('***', argv.mode, '***');
   console.log(env);
 
   const plugins = [
@@ -16,7 +17,7 @@ module.exports = (env = {}) => {
       filename: 'index.html',
       inject: 'body',
     }),
-    new ExtractTextPlugin({ filename: '[name].bundle.css', allChunks: true }),
+    //new ExtractTextPlugin({ filename: '[name].bundle.css', allChunks: true }),
   ];
 
   return {
