@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 const { SlideToggle } = require('library/ReactSlideToggle');
+//const { SlideToggle } = require('dist/ReactSlideToggle.umd.min');
 
 import eases from 'eases'; // example, provide your own easing fn
 import BezierEasing from 'bezier-easing'; // example, provide your own easing fn
@@ -193,7 +194,7 @@ export default class App extends React.Component {
       components.push(
         <SlideToggle
           key={components.length}
-          noDisplayStyle          
+          noDisplayStyle
           duration={this.state.duration}
           easeCollapse={bezierEaseInOutQuart}
           easeExpand={bezierEaseInOutQuart}

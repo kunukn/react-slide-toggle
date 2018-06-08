@@ -1,5 +1,8 @@
 ## Changelog
 
+### 0.1.13
+* use webpack 4
+
 ### 0.1.12
 * add react and react-dom as npm peerDependencies
 

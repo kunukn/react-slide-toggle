@@ -82,7 +82,8 @@ module.exports = (env = {}, argv = { mode: "development" }) => {
       extensions: [".js", ".jsx", "scss"],
       alias: {
         library: path.resolve(__dirname, "src/library"),
-        "react-slide-toggle": path.resolve(__dirname, "src/library/index.js")
+        "react-slide-toggle": path.resolve(__dirname, "src/library/index.js"),
+        dist: path.resolve(__dirname, "dist"),
       }
     },
     externals: {}
