@@ -1,5 +1,5 @@
 ## about
-React version of jQuery.slideToggle. JavaScript animation where height is set on every requestAnimationFrame. 
+React version of jQuery.slideToggle. JavaScript animation where height is set on every requestAnimationFrame.
 The toggle direction can be reversed during the movement.
 
 ## demo
@@ -17,7 +17,7 @@ The toggle direction can be reversed during the movement.
 
 https://unpkg.com/react-slide-toggle/
 
-## npm 
+## npm
 
 https://www.npmjs.com/package/react-slide-toggle
 
@@ -63,7 +63,7 @@ import { SlideToggle } from 'react-slide-toggle';
   {({onToggle, setCollapsibleElement}) => (
     <div className="my-collapsible">
       <button className="btn" onClick={onToggle}> toggle</button>
-      <div className="my-collapsible-content" ref={setCollapsibleElement}>          
+      <div className="my-collapsible-content" ref={setCollapsibleElement}>
         <div className="my-collapsible-content-inner">
           Collapsible content
         </div>
@@ -94,21 +94,21 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
   onExpanding={({range, progress, hasReversed}) => { /* optional event hook */ }}
   onCollapsed={({hasReversed}) => { /* optional event hook */ }}
   onCollapsing={({range, progress, hasReversed}) => { /* optional event hook */ }}
-  render={({ 
-    onToggle, 
-    setCollapsibleElement, 
-    toggleState, 
-    isMoving, 
+  render={({
+    onToggle,
+    setCollapsibleElement,
+    toggleState,
+    isMoving,
     hasReversed,
     range /* linear value between [0 and 1] */ ,
     progress /* easing result value between [0 and 1] */ ,
   }) => {
-    
+
     /* optional logic here */
 
-    /* 
-      markup example 
-      where setCollapsibleElement, onToggle and progress are used 
+    /*
+      markup example
+      where setCollapsibleElement, onToggle and progress are used
     */
     return <div className="slide-toggle">
       <div className="slide-toggle__header">
@@ -117,7 +117,7 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
         </button>
       </div>
       <div className="slide-toggle__box" ref={setCollapsibleElement}>
-        <div className="slide-toggle__box-inner" 
+        <div className="slide-toggle__box-inner"
              style={{ opacity: Math.max(.5, progress) }}
          >
           Collapsible content
@@ -148,14 +148,14 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 
 ## size
 
-* minified file ~7Kb
+* minified file ~8Kb
 * gzip-size ~2Kb
 
 
 ## provide your own markup
 
-The component provides the functionality. 
-Minimum requirement is to bind the collapsible element with `setCollapsibleElement`. 
+The component provides the functionality.
+Minimum requirement is to bind the collapsible element with `setCollapsibleElement`.
 Use the `onToggle` function to toggle the collapsible element.
 
 
@@ -190,7 +190,7 @@ You can see examples of JS-easing library usage here
 
 ## library implementation details
 
-* Only used life-cycle is `componentWillUnmount`
+* Used life-cycle are `componentWillUnmount` and `render`
 * Extends `React.Component`
 * Uses `setState`
 

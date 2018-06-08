@@ -1,7 +1,6 @@
 const path = require("path");
 const webpack = require("webpack");
 // const HtmlWebpackPlugin = require("html-webpack-plugin");
-// const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const createVariants = require("parallel-webpack").createVariants;
@@ -11,41 +10,13 @@ const name = "ReactSlideToggle";
 
 const plugins = [
   new CleanWebpackPlugin("dist", {})
-
-  // new HtmlWebpackPlugin({
-  //   template: './src/demo/index.html',
-  //   filename: 'index.html',
-  //   inject: 'body',
-  // }),
-  // new ExtractTextPlugin({ filename: '[name].bundle.css', allChunks: true }),
 ];
-
-// plugins.push(
-//   new webpack.LoaderOptionsPlugin({ minimize: true, debug: false })
-// );
-// plugins.push(
-//   new webpack.optimize.UglifyJsPlugin({
-//     minimize: true,
-//     compress: {
-//       warnings: false,
-//       screw_ie8: true,
-//       conditionals: true,
-//       unused: true,
-//       comparisons: true,
-//       sequences: true,
-//       dead_code: true,
-//       evaluate: true,
-//       if_return: true,
-//       join_vars: true,
-//     },
-//     output: {
-//       comments: false,
-//     },
-//   })
-// );
 
 function createConfig(options) {
   return {
+    optimization: {
+      minimize: false
+    },
     entry: {
       app: [entry]
     },
@@ -57,11 +28,15 @@ function createConfig(options) {
       publicPath: "/"
     },
     module: {
-      loaders: [
+      rules: [
         {
           test: /\.(js|jsx)$/,
-          loader: "babel-loader",
-          exclude: /node_modules/
+          exclude: /node_modules/,
+          use: [
+            {
+              loader: "babel-loader",
+            }
+          ]
         },
         {
           test: /\.scss$/,
@@ -85,13 +60,13 @@ function createConfig(options) {
               }
             }
           ],
-          exclude: [/node_modules/]
+          exclude: [/node_modules/],
         }
       ]
     },
     plugins,
     resolve: {
-      extensions: [".js", ".jsx"]
+      extensions: [".js", ".jsx", "scss"],
     },
     externals: {
       react: {
@@ -108,7 +83,6 @@ function createConfig(options) {
 
 module.exports = (env = {}, argv = { mode: "production" }) => {
   console.log("***", argv.mode, "***");
-  console.log(env);
 
   return createVariants(
     {

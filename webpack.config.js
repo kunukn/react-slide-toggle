@@ -11,7 +11,6 @@ const IsWebpackDevServer = /webpack-dev-server/.test(
 
 module.exports = (env = {}, argv = { mode: "development" }) => {
   console.log("***", argv.mode, "***");
-  console.log(env);
 
   const plugins = [
     new HtmlWebpackPlugin({
@@ -42,11 +41,15 @@ module.exports = (env = {}, argv = { mode: "development" }) => {
       library: "app"
     },
     module: {
-      loaders: [
+      rules: [
         {
           test: /\.(js|jsx)$/,
-          loader: "babel-loader",
-          exclude: /node_modules/
+          exclude: /node_modules/,
+          use: [
+            {
+              loader: "babel-loader",
+            }
+          ]
         },
         {
           test: /\.scss$/,
