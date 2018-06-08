@@ -1,73 +1,85 @@
-const path = require('path');
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require("path");
+const webpack = require("webpack");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-const entry = './src/demo/index.js';
-const name = 'app';
+const entry = "./src/demo/index.js";
+const name = "app";
 
-module.exports = (env = {}, argv = {mode: 'development'}) => {
+const IsWebpackDevServer = /webpack-dev-server/.test(
+  process.env.npm_lifecycle_script
+);
 
-  console.log('***', argv.mode, '***');
+module.exports = (env = {}, argv = { mode: "development" }) => {
+  console.log("***", argv.mode, "***");
   console.log(env);
 
   const plugins = [
     new HtmlWebpackPlugin({
-      template: './src/demo/index.html',
-      filename: 'index.html',
-      inject: 'body',
+      template: "./src/demo/index.html",
+      filename: "index.html",
+      inject: "body"
     }),
-    //new ExtractTextPlugin({ filename: '[name].bundle.css', allChunks: true }),
   ];
 
   return {
     entry: {
-      app: [entry],
+      app: [entry]
     },
     devServer: {
       open: true,
-      contentBase: './',
+      contentBase: "./",
       noInfo: true,
       port: 3399,
       compress: false,
-      inline: true,
-      //hot: true,
+      inline: true
+      // hot: true,
     },
     output: {
-      path: path.resolve(__dirname, 'dist'),
-      filename: '[name].js',
-      chunkFilename: '[id].chunk.js',
-      libraryTarget: 'umd',
-      library: 'app'
+      path: path.resolve(__dirname, "dist"),
+      filename: "[name].js",
+      chunkFilename: "[id].chunk.js",
+      libraryTarget: "umd",
+      library: "app"
     },
     module: {
       loaders: [
         {
           test: /\.(js|jsx)$/,
-          loader: 'babel-loader',
-          exclude: /node_modules/,
+          loader: "babel-loader",
+          exclude: /node_modules/
         },
         {
-          test: /\.css$/,
-          use: ExtractTextPlugin.extract({
-            fallback: 'style-loader',
-            use: 'css-loader',
-          }),
+          test: /\.scss$/,
           exclude: [/node_modules/],
-        },
-        {
-          test: /\.(sass|scss)$/,
-          use: ['style-loader', 'css-loader', 'sass-loader'],
-          exclude: [/node_modules/],
-        },
-      ],
+          use: [
+            {
+              loader: "style-loader"
+            },
+            {
+              loader: "css-loader"
+            },
+            {
+              loader: "postcss-loader",
+              options: {
+                sourceMap: true
+              }
+            },
+            {
+              loader: "sass-loader",
+              options: {
+                sourceMap: true
+              }
+            }
+          ]
+        }
+      ]
     },
-    plugins: plugins,
+    plugins,
     resolve: {
-      extensions: ['.js','.jsx'],
+      extensions: [".js", ".jsx", "scss"],
       alias: {
-        'library': path.resolve(__dirname, 'src/library'),
-        'react-slide-toggle': path.resolve(__dirname, 'src/library/index.js'),
+        library: path.resolve(__dirname, "src/library"),
+        "react-slide-toggle": path.resolve(__dirname, "src/library/index.js")
       }
     },
     externals: {}

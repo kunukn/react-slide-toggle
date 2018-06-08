@@ -34,6 +34,7 @@
     "react-dom": "^15.x || ^16.x"
   },
   "devDependencies": {
+    "autoprefixer": "^8.6.1",
     "babel-core": "6.26.3",
     "babel-eslint": "^8.2.3",
     "babel-loader": "7.1.4",
@@ -57,9 +58,9 @@
     "mini-css-extract-plugin": "^0.4.0",
     "node-sass": "4.9.0",
     "parallel-webpack": "^2.3.0",
+    "postcss-loader": "^2.1.5",
     "react": "16.4.0",
     "react-dom": "16.4.0",
-
     "sass-loader": "^7.0.3",
     "style-loader": "^0.21.0",
     "webpack": "*",

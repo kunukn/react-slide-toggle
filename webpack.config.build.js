@@ -1,17 +1,16 @@
 const path = require("path");
 const webpack = require("webpack");
-//const HtmlWebpackPlugin = require("html-webpack-plugin");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
-//const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+// const HtmlWebpackPlugin = require("html-webpack-plugin");
+// const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CleanWebpackPlugin = require("clean-webpack-plugin");
 const createVariants = require("parallel-webpack").createVariants;
 
 const entry = "./src/library/ReactSlideToggle";
 const name = "ReactSlideToggle";
 
 const plugins = [
-  new CleanWebpackPlugin('dist', {}),
-
+  new CleanWebpackPlugin("dist", {})
 
   // new HtmlWebpackPlugin({
   //   template: './src/demo/index.html',
@@ -52,7 +51,7 @@ function createConfig(options) {
     },
     output: {
       path: path.resolve(__dirname, "dist"),
-      filename: `${name  }.${  options.target  }.js`,
+      filename: `${name}.${options.target}.js`,
       library: name,
       libraryTarget: options.target,
       publicPath: "/"
@@ -65,16 +64,27 @@ function createConfig(options) {
           exclude: /node_modules/
         },
         {
-          test: /\.css$/,
-          use: ExtractTextPlugin.extract({
-            fallback: "style-loader",
-            use: "css-loader"
-          }),
-          exclude: [/node_modules/]
-        },
-        {
-          test: /\.(sass|scss)$/,
-          use: ["style-loader", "css-loader", "sass-loader"],
+          test: /\.scss$/,
+          use: [
+            {
+              loader: MiniCssExtractPlugin.loader
+            },
+            {
+              loader: "css-loader"
+            },
+            {
+              loader: "postcss-loader",
+              options: {
+                sourceMap: false
+              }
+            },
+            {
+              loader: "sass-loader",
+              options: {
+                sourceMap: false
+              }
+            }
+          ],
           exclude: [/node_modules/]
         }
       ]
@@ -96,8 +106,7 @@ function createConfig(options) {
   };
 }
 
-module.exports = (env = {}, argv = {mode: 'production'}) => {
-
+module.exports = (env = {}, argv = { mode: "production" }) => {
   console.log("***", argv.mode, "***");
   console.log(env);
 
