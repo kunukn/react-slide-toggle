@@ -38,7 +38,7 @@ const util = {
   sanitizeDuration: duration => Math.max(0, parseInt(+duration, 10) || 0),
   interpolate: ({ next, prev }) => {
     /*
-      If the diff in the next rAF is big, it can seem jumpy when reversing the togling
+      If the diff in the next rAF is big, it can seem jumpy when reversing the toggling
       This is heuristic approach to minimize the diff value by interpolating.
     */
     const diff = Math.abs(next - prev);

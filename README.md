@@ -44,7 +44,7 @@ import { SlideToggle } from 'react-slide-toggle';
 <SlideToggle
   render={({onToggle, setCollapsibleElement}) => (
     <div className="my-collapsible">
-      <button className="button" onClick={onToggle}>toggle</button>
+      <button className="my-collapsible__toggle" onClick={onToggle}>toggle</button>
       <div className="my-collapsible__content" ref={setCollapsibleElement}>
         <div className="my-collapsible__content-inner">
           Collapsible content
@@ -64,7 +64,7 @@ import { SlideToggle } from 'react-slide-toggle';
 <SlideToggle>
   {({onToggle, setCollapsibleElement}) => (
     <div className="my-collapsible">
-      <button className="button" onClick={onToggle}>toggle</button>
+      <button className="my-collapsible__toggle" onClick={onToggle}>toggle</button>
       <div className="my-collapsible__content" ref={setCollapsibleElement}>
         <div className="my-collapsible__content-inner">
           Collapsible content
