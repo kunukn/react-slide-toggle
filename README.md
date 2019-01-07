@@ -2,6 +2,10 @@
 React version of jQuery.slideToggle. JavaScript animation where height is set on every requestAnimationFrame.
 The toggle direction can be reversed during the movement.
 
+If you are looking for a CSS transition based alternative, then use this instead
+https://github.com/kunukn/react-collapse
+
+
 ## demo
 
 * https://codepen.io/kunukn/full/wpepGz/
