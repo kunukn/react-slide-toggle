@@ -39,11 +39,11 @@
     "babel-core": "npm:@babel/core",
     "babel-eslint": "^10.0.1",
     "babel-loader": "8.0.5",
+    "babel-plugin-module-resolver": "^3.1.1",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "bezier-easing": "^2.1.0",
-    "babel-plugin-module-resolver": "^3.1.1",
     "clean-webpack-plugin": "^1.0.0",
     "cross-env": "5.2.0",
     "css-loader": "2.1.0",
@@ -64,7 +64,8 @@
     "style-loader": "^0.23.1",
     "webpack": "4.28.3",
     "webpack-cli": "^3.2.1",
-    "webpack-dev-server": "3.1.14"
+    "webpack-dev-server": "3.1.14",
+    "webpack-md5-hash": "^0.0.6"
   },
   "repository": {
     "type": "git",
