@@ -22,34 +22,33 @@
     "dist"
   ],
   "browserslist": "last 2 versions, ie 11",
-  "babel": {
-    "presets": [
-      "env",
-      "stage-2",
-      "react"
-    ]
-  },
   "peerDependencies": {
     "react": "^15.x || ^16.x || ^17.x",
     "react-dom": "^15.x || ^16.x || ^17.x"
   },
   "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.2.3",
+    "@babel/plugin-proposal-object-rest-spread": "^7.2.0",
+    "@babel/plugin-syntax-dynamic-import": "7.2.0",
+    "@babel/plugin-transform-runtime": "^7.2.0",
+    "@babel/preset-env": "^7.2.3",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/runtime": "^7.2.0",
     "autoprefixer": "^9.4.4",
-    "babel-core": "6.26.3",
+    "babel-core": "npm:@babel/core",
     "babel-eslint": "^10.0.1",
     "babel-loader": "8.0.5",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-plugin-transform-react-jsx": "^6.24.1",
-    "babel-preset-env": "1.7.0",
-    "babel-preset-react": "6.24.1",
-    "babel-preset-stage-2": "6.24.1",
     "bezier-easing": "^2.1.0",
+    "babel-plugin-module-resolver": "^3.1.1",
     "clean-webpack-plugin": "^1.0.0",
     "cross-env": "5.2.0",
     "css-loader": "2.1.0",
     "eases": "^1.0.8",
-    "eslint": "^5.11.1",
+    "eslint": "^5.12.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-config-prettier": "^3.3.0",
     "eslint-plugin-import": "^2.14.0",
@@ -64,7 +63,7 @@
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "webpack": "4.28.3",
-    "webpack-cli": "^3.2.0",
+    "webpack-cli": "^3.2.1",
     "webpack-dev-server": "3.1.14"
   },
   "repository": {

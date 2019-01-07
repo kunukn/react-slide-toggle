@@ -8,9 +8,7 @@ const createVariants = require("parallel-webpack").createVariants;
 const entry = "./src/library/ReactSlideToggle";
 const name = "ReactSlideToggle";
 
-const plugins = [
-  new CleanWebpackPlugin("dist", {})
-];
+const plugins = [new CleanWebpackPlugin("dist", {})];
 
 function createConfig(options) {
   return {
@@ -34,61 +32,62 @@ function createConfig(options) {
           exclude: /node_modules/,
           use: [
             {
-              loader: "babel-loader",
+              loader: "babel-loader"
             }
           ]
-        },
-        {
+        }, {
           test: /\.scss$/,
           use: [
             {
               loader: MiniCssExtractPlugin.loader
-            },
-            {
+            }, {
               loader: "css-loader"
-            },
-            {
+            }, {
               loader: "postcss-loader",
               options: {
                 sourceMap: false
               }
-            },
-            {
+            }, {
               loader: "sass-loader",
               options: {
                 sourceMap: false
               }
             }
           ],
-          exclude: [/node_modules/],
+          exclude: [/node_modules/]
         }
       ]
     },
     plugins,
     resolve: {
-      extensions: [".js", ".jsx", "scss"],
+      extensions: [".js", ".jsx", "scss"]
     },
     externals: {
       react: {
-        root: "React",
-        commonjs2: "react",
-        commonjs: "react",
-        amd: "react"
+        root: 'React',
+        commonjs2: 'react',
+        commonjs: 'react',
+        amd: 'react',
+        umd: 'react'
+      },
+      'react-dom': {
+        root: 'ReactDOM',
+        commonjs2: 'react-dom',
+        commonjs: 'react-dom',
+        amd: 'react-dom',
+        umd: 'react-dom',
       }
-      // 'react-dom': 'ReactDOM',
-      // 'prop-types': 'PropTypes',
     }
   };
 }
 
-module.exports = (env = {}, argv = { mode: "production" }) => {
+module.exports = (env = {}, argv = {
+  mode: "production"
+}) => {
   console.log("***", argv.mode, "***");
 
-  return createVariants(
-    {
-      target: ["umd"]
-      // target: ['var', 'commonjs2', 'umd']
-    },
-    createConfig
-  );
+  return createVariants({
+    target: ["umd"]
+    // target: ['var', 'commonjs2', 'umd']
+  }, createConfig);
 };
