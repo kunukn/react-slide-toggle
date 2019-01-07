@@ -126,7 +126,11 @@
     "webpack-hot-middleware": "^2.24.3",
     "webpack-md5-hash": "0.0.6",
     "bezier-easing": "^2.1.0",
-    "eases": "^1.0.8"
+    "eases": "^1.0.8",
+    "lodash": "4.17.11",
+    "macaddress": "0.2.9",
+    "url-parse": "1.4.4",
+    "cryptiles": "4.1.3"
   },
   "repository": {
     "type": "git",
