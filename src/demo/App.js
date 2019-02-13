@@ -1,12 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-
 import eases from "eases"; // example, provide your own easing fn
-import BezierEasing from "bezier-easing";
-
-const { SlideToggle } = require("library/ReactSlideToggle"); // example, provide your own easing fn
-//const { SlideToggle } = require('dist/ReactSlideToggle.umd.min');
+import BezierEasing from "bezier-easing"; // example, provide your own easing fn
 
 const log = console.log.bind(console);
 
@@ -133,6 +129,7 @@ export default class App extends React.Component {
 
   render() {
     const components = [];
+    let SlideToggle = this.props.SlideToggle;
 
     1 &&
       components.push(

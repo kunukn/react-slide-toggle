@@ -14,16 +14,33 @@ const webpack = require('webpack');
 // const IsWebpackDevServer = /webpack-dev-server/.test(process.env.npm_lifecycle_script);
 
 module.exports = (env = {}, argv = {}) => {
-  const isProd = argv.mode === 'production';
+  //console.log('***', 'env', env, 'argv', argv, '***');
 
-  console.log('***', isProd ? 'prod' : 'dev', '***');
+  const PRODUCTION = 'production';
+  const DEVELOPMENT = 'development';
+  const VALIDATE = 'validate';
 
-  let prodEntry = './src/production-entry';
-  let devEntry = './src/development-entry';
+  const entries = {
+    [PRODUCTION]: './src/production-entry',
+    [DEVELOPMENT]: './src/development-entry',
+    [VALIDATE]: './src/validate-entry',
+  };
+
+  let type;
+  if (env.VALIDATE) {
+    type = VALIDATE;
+  } else {
+    type = argv.mode === PRODUCTION ? PRODUCTION : DEVELOPMENT;
+  }
+
+  const isProd = argv.mode === PRODUCTION;
+  let entry = entries[type];
+
+  console.log('***', type, entry, '***');
 
   let config = {
     devtool: isProd ? 'source-map' : 'cheap-module-source-map',
-    mode: isProd ? 'production' : 'development',
+    mode: isProd ? PRODUCTION : DEVELOPMENT,
     optimization: {
       minimizer: [
         isProd &&
@@ -50,7 +67,7 @@ module.exports = (env = {}, argv = {}) => {
       ].filter(Boolean),
     },
     entry: {
-      ReactSlideToggle: isProd ? [prodEntry] : [devEntry],
+      ReactSlideToggle: entry,
     },
     output: {
       path: path.resolve(__dirname, 'dist'),
@@ -148,7 +165,7 @@ module.exports = (env = {}, argv = {}) => {
       alias: {
         root: __dirname,
         src: path.resolve(__dirname, 'src'),
-        components: path.resolve(__dirname, 'src/components'),
+        library: path.resolve(__dirname, 'src/library'),
       },
     },
     externals: {},
