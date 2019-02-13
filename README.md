@@ -2,6 +2,10 @@
 React version of jQuery.slideToggle. JavaScript animation where height is set on every requestAnimationFrame.
 The toggle direction can be reversed during the movement.
 
+[![npm version](https://img.shields.io/npm/v/react-slide-toggle.svg?style=flat-square)](https://www.npmjs.com/package/react-slide-toggle)
+[![npm downloads](https://img.shields.io/npm/dm/react-slide-toggle.svg?style=flat-square)](https://www.npmjs.com/package/react-slide-toggle)
+
+
 If you are looking for a CSS transition based alternative, then use this instead
 https://github.com/kunukn/react-collapse
 
