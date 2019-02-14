@@ -2,10 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'src/demo/index.scss';
 import App from 'src/demo/App';
-import { SlideToggle } from "root/dist/ReactSlideToggle.js";
-//const { SlideToggle } = require("root/dist/ReactSlideToggle.js");
-import { SlideToggle as S } from "library/ReactSlideToggle.js";
 
-console.log(SlideToggle, S);
+import SlideToggle from "root/dist/ReactSlideToggle.js";
+//const SlideToggle2 = require("root/dist/ReactSlideToggle").default;
 
-//ReactDOM.render(<App SlideToggle={SlideToggle} />, document.getElementById('root'));
+console.log(SlideToggle)
+
+//ReactDOM.render(<App SlideToggle={SlideToggle} SlideToggle2={SlideToggle2}/>, document.getElementById('root'));

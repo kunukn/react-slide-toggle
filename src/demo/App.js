@@ -130,6 +130,7 @@ export default class App extends React.Component {
   render() {
     const components = [];
     let SlideToggle = this.props.SlideToggle;
+    let SlideToggle2 = this.props.SlideToggle2 ? this.props.SlideToggle2 : SlideToggle;
 
     1 &&
       components.push(
@@ -151,7 +152,7 @@ export default class App extends React.Component {
 
     1 &&
       components.push(
-        <SlideToggle
+        <SlideToggle2
           key={components.length}
           duration={this.state.duration * 2}
           easeCollapse={eases.bounceOut}

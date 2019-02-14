@@ -1,6 +1,6 @@
 {
   "name": "react-slide-toggle",
-  "version": "1.0.0",
+  "version": "0.2.0",
   "engines": {
     "node": ">=8",
     "npm": ">=5"
