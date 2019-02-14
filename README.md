@@ -100,7 +100,7 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
   bestPerformance /* default falsy */
   whenReversedUseBackwardEase /* default falsy */
   interpolateOnReverse /* default falsy */
-  scrollHeight /* default offsetHeight */
+  offsetHeight /* default scrollHeight */
   onExpanded={({hasReversed}) => { /* optional event hook */ }}
   onExpanding={({range, progress, hasReversed}) => { /* optional event hook */ }}
   onCollapsed={({hasReversed}) => { /* optional event hook */ }}
@@ -156,7 +156,7 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 * onCollapsing - event hook
 * render - render callback
 * children - render callback
-* scrollHeight - use scrollHeight calculation
+* offsetHeight - use offsetHeight HTML element calculation
 
 ## size
 

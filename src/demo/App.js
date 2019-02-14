@@ -82,6 +82,11 @@ export default class App extends React.Component {
             requestAnimationFrame. If you have a very long page this might not
             be the best option to use.
           </p>
+          <img
+              className="slide-toggle__image"
+              alt="random"
+              src="https://source.unsplash.com/user/erondu/600x200"
+            />
           <button onClick={onToggle}>
             <ToggleText />
           </button>

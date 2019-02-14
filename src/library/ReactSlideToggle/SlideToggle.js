@@ -16,12 +16,12 @@ const cAF = root.cancelAnimationFrame
   ? root.cancelAnimationFrame.bind(root)
   : root.clearInterval.bind(root);
 
-const TOGGLE = {
+const TOGGLE = Object.freeze({
   EXPANDED: 'EXPANDED',
   COLLAPSED: 'COLLAPSED',
   EXPANDING: 'EXPANDING',
   COLLAPSING: 'COLLAPSING',
-};
+});
 
 const easeInOutCubic = t =>
   t < 0.5 ? 4 * t * t * t : 0.5 * Math.pow(2 * t - 2, 3) + 1;
@@ -85,8 +85,8 @@ export default class SlideToggle extends React.Component {
       toggleState: this.props.collapsed ? TOGGLE.COLLAPSED : TOGGLE.EXPANDED,
     };
 
-    this.GET_HEIGHT = props.scrollHeight ? 'scrollHeight' : 'offsetHeight';
-
+    this.GET_HEIGHT = props.offsetHeight ? 'offsetHeight' : 'scrollHeight';
+    
     this.state = {
       toggleState: this._state_.toggleState,
       hasReversed: false,

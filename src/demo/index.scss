@@ -104,6 +104,11 @@ body {
     }
   }
 
+  &__image {
+    max-width: 100%;
+    height: auto;
+  }
+
   .bounce-anim {
     width: 0px;
     height: 0px;
