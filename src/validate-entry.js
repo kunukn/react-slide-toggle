@@ -3,9 +3,8 @@ import ReactDOM from 'react-dom';
 import 'src/demo/index.scss';
 import App from 'src/demo/App';
 
-import SlideToggle from "root/dist/ReactSlideToggle.js";
-//const SlideToggle2 = require("root/dist/ReactSlideToggle").default;
 
-console.log(SlideToggle)
+import A from "root/dist/ReactSlideToggle";
+const B = require("root/dist/ReactSlideToggle").default;
 
-//ReactDOM.render(<App SlideToggle={SlideToggle} SlideToggle2={SlideToggle2}/>, document.getElementById('root'));
+ReactDOM.render(<App SlideToggle={A} SlideToggle2={B}/>, document.getElementById('root'));
