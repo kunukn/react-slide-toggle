@@ -45,7 +45,7 @@ Look in App component for inspiration. Apply the styling as needed.
 
 ```js
 // Component example, simple - render prop
-import { SlideToggle } from 'react-slide-toggle';
+import SlideToggle from 'react-slide-toggle';
 
 // Add CSS: .my-collapsible__content { overflow: hidden;}
 // Apply optional padding to .my-collapsible__content-inner
@@ -65,7 +65,7 @@ import { SlideToggle } from 'react-slide-toggle';
 
 ```js
 // Component example, simple - function as child
-import { SlideToggle } from 'react-slide-toggle';
+import SlideToggle from 'react-slide-toggle';
 
 // Add CSS: .my-collapsible__content { overflow: hidden;}
 // Apply optional padding to .my-collapsible__content-inner
@@ -85,7 +85,7 @@ import { SlideToggle } from 'react-slide-toggle';
 
 ```js
 // Component usage example with all options
-import { SlideToggle } from 'react-slide-toggle';
+import SlideToggle from 'react-slide-toggle';
 import BezierEasing from 'bezier-easing'; // optional
 
 const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
