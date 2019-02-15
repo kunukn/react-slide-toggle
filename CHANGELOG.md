@@ -1,5 +1,8 @@
 ## Changelog
 
+### 0.2.1
+* correct Readme, import path
+
 ### 0.2.0
 * simplify import
 * change props scrollHeight to offsetHeight
