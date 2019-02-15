@@ -21,21 +21,6 @@ https://github.com/kunukn/react-collapse
 * npm install
 * npm start
 
-## cdn
-
-https://unpkg.com/react-slide-toggle/
-
-```html
-<script src="//unpkg.com/react-slide-toggle/dist/ReactSlideToggle.js"><script>
-<script>
-var SlideToggle = window.ReactSlideToggle.default;
-</script>
-```
-
-## npm
-
-https://www.npmjs.com/package/react-slide-toggle
-
 ## info
 
 Default easing is cubicInOut. You can reverse the toggle before the movement completes. Ease in-out works best visually when reverse toggling is to be used.
@@ -172,6 +157,23 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 
 * minified file ~8Kb
 * gzip-size ~2Kb
+
+
+## cdn
+
+https://unpkg.com/react-slide-toggle/
+
+```html
+<script src="//unpkg.com/react-slide-toggle/dist/ReactSlideToggle.js"><script>
+<script>
+var SlideToggle = window.ReactSlideToggle.default;
+</script>
+```
+
+## npm
+
+https://www.npmjs.com/package/react-slide-toggle
+
 
 
 ## provide your own markup
