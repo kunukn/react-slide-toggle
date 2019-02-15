@@ -12,8 +12,8 @@ https://github.com/kunukn/react-collapse
 
 ## demo
 
-* https://codepen.io/kunukn/full/wpepGz/
-* https://codesandbox.io/s/4x01lklqm7
+* https://codepen.io/kunukn/full/wpepGz/ - cdn example
+* https://codesandbox.io/s/4x01lklqm7 - npm example
 
 ## setup / local demo
 
@@ -24,6 +24,13 @@ https://github.com/kunukn/react-collapse
 ## cdn
 
 https://unpkg.com/react-slide-toggle/
+
+```html
+<script src="//unpkg.com/react-slide-toggle/dist/ReactSlideToggle.js"><script>
+<script>
+var SlideToggle = window.ReactSlideToggle.default;
+</script>
+```
 
 ## npm
 
