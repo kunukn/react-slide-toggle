@@ -1,5 +1,9 @@
 ## Changelog
 
+### 0.2.2
+* smaller UMD bundle size
+* more bundler options
+
 ### 0.2.1
 * correct Readme, import path
 

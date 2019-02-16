@@ -39,7 +39,7 @@ Look in App component for inspiration. Apply the styling as needed.
 // Component example, simple - render prop
 import SlideToggle from 'react-slide-toggle';
 // or
-const SlideToggle = require('react-slide-toggle').default;
+const SlideToggle = require('react-slide-toggle');
 
 
 // Add CSS: .my-collapsible__content { overflow: hidden;}
@@ -155,7 +155,7 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 
 ## size
 
-* minified file ~8Kb
+* minified file ~7Kb
 * gzip-size ~2Kb
 
 
@@ -166,7 +166,7 @@ https://unpkg.com/react-slide-toggle/
 ```html
 <script src="//unpkg.com/react-slide-toggle/dist/ReactSlideToggle.js"><script>
 <script>
-var SlideToggle = window.ReactSlideToggle.default;
+var SlideToggle = window.ReactSlideToggle;
 </script>
 ```
 
