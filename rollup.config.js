@@ -29,7 +29,7 @@ export default {
       format: 'es',
       sourcemap: true,
     },
-    1 && {
+    0 && {
       file: pkg.iife,
       format: 'iife',
       name: name,
