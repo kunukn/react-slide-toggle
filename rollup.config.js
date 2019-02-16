@@ -9,7 +9,9 @@ import svgr from '@svgr/rollup';
 import { terser } from 'rollup-plugin-terser';
 
 import pkg from './package.json';
-let input = 'src/library/ReactSlideToggle/SlideToggle.js';
+
+const input = 'src/library/ReactSlideToggle/SlideToggle.js';
+const name = 'ReactSlideToggle';
 
 export default {
   external: ['react', 'react-dom'],
@@ -30,7 +32,7 @@ export default {
     1 && {
       file: pkg.iife,
       format: 'iife',
-      name: 'Collapse',
+      name: name,
       sourcemap: true,
       globals: {
         react: 'React',
@@ -40,7 +42,7 @@ export default {
     1 && {
       file: pkg.main,
       format: 'umd',
-      name: 'Collapse',
+      name: name,
       sourcemap: true,
       globals: {
         react: 'React',
