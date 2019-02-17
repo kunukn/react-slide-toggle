@@ -222,5 +222,5 @@ You can see examples of JS-easing library usage here
 
 * git clone or download
 * npm install
-* npm run deploy
-* The umd build is now in the dist folder
+* npm run build
+* The build files are now in the dist folder
