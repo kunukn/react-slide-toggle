@@ -1,3 +1,4 @@
+import includePaths from 'rollup-plugin-includepaths';
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
 import external from 'rollup-plugin-peer-deps-external';
@@ -12,6 +13,13 @@ import pkg from './package.json';
 
 const input = 'src/library/ReactSlideToggle/SlideToggle.js';
 const name = 'ReactSlideToggle';
+
+let includePathOptions = {
+  include: {},
+  paths: ['./', 'src'],
+  external: [],
+  extensions: ['.js', '.jsx', '.scss', '.json', '.html'],
+};
 
 export default {
   external: ['react', 'react-dom'],
@@ -74,6 +82,8 @@ export default {
       exclude: 'node_modules/**',
     }),
     commonjs(),
-    terser(),
+    terser({
+      compress: { drop_console: true },
+    }),
   ],
 };
