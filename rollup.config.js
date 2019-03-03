@@ -10,6 +10,7 @@ import svgr from '@svgr/rollup';
 import { terser } from 'rollup-plugin-terser';
 
 import pkg from './package.json';
+import sizes from './rollup-plugins/sizes-plugin';
 
 const input = 'src/library/ReactSlideToggle/SlideToggle.js';
 const name = 'ReactSlideToggle';
@@ -84,6 +85,12 @@ export default {
     commonjs(),
     terser({
       compress: { drop_console: true },
+    }),
+    sizes({
+      getSize: (size, gzip) => {
+        console.log('minified', size);
+        console.log('gzip minified', gzip);
+      },
     }),
   ],
 };
