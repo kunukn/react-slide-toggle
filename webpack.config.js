@@ -33,6 +33,13 @@ module.exports = (env = {}, argv = {}) => {
     type = argv.mode === PRODUCTION ? PRODUCTION : DEVELOPMENT;
   }
 
+  let port;
+  if (env.PORT) {
+    port = env.PORT;
+  } else {
+    port = 5555;
+  }
+
   const isProd = argv.mode === PRODUCTION;
   let entry = entries[type];
 
@@ -79,7 +86,7 @@ module.exports = (env = {}, argv = {}) => {
     },
     devServer: {
       //https: true,
-      port: 3399,
+      port,
       contentBase: path.join(__dirname, ''),
       publicPath: '/',
       open: true,

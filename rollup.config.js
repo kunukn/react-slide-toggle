@@ -3,7 +3,7 @@ import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
 import external from 'rollup-plugin-peer-deps-external';
 import postcss from 'rollup-plugin-postcss';
-import scss from 'rollup-plugin-scss';
+//import scss from 'rollup-plugin-scss';
 import resolve from 'rollup-plugin-node-resolve';
 import url from 'rollup-plugin-url';
 import svgr from '@svgr/rollup';
@@ -60,11 +60,10 @@ export default {
     },
   ].filter(Boolean),
   plugins: [
-    scss(),
+    //scss(),
     postcss({
       plugins: [],
       minimize: true,
-      //sourceMap: 'inline',
     }),
     external({
       includeDependencies: false,
@@ -75,10 +74,8 @@ export default {
     babel({
       plugins: [
         '@babel/plugin-proposal-object-rest-spread',
-        //'@babel/plugin-proposal-optional-chaining',
-        //'@babel/plugin-syntax-dynamic-import',
         '@babel/plugin-proposal-class-properties',
-        //'transform-react-remove-prop-types',
+        'transform-react-remove-prop-types',
       ],
       exclude: 'node_modules/**',
     }),
@@ -87,8 +84,8 @@ export default {
       compress: { drop_console: true },
     }),
     sizes({
-      getSize: (size, gzip) => {
-        console.log('minified', size);
+      getSize: (size, gzip, filename) => {
+        console.log('minified', size, filename);
         console.log('gzip minified', gzip);
       },
     }),
