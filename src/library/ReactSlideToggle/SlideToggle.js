@@ -4,8 +4,8 @@
   and because I need to control what is to be re-rendered.
 */
 
-import React from 'react'; // eslint-disable-line import/no-extraneous-dependencies
-//import PropTypes from 'prop-types'; // eslint-disable-line import/no-extraneous-dependencies
+import React from 'react';
+//import PropTypes from 'prop-types';
 
 // Support browser or node env
 const root = typeof window !== 'undefined' ? window : global;
@@ -61,6 +61,7 @@ export default class SlideToggle extends React.Component {
   constructor(props) {
     super(props);
 
+    // Internal state
     this._state_ = {
       collapsibleElement: null,
       toggleState: this.props.collapsed ? TOGGLE.COLLAPSED : TOGGLE.EXPANDED,
@@ -68,6 +69,7 @@ export default class SlideToggle extends React.Component {
 
     this.GET_HEIGHT = props.offsetHeight ? 'offsetHeight' : 'scrollHeight';
     
+    // React state
     this.state = {
       toggleState: this._state_.toggleState,
       hasReversed: false,
