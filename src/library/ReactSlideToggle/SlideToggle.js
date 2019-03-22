@@ -5,7 +5,7 @@
 */
 
 import React from 'react'; // eslint-disable-line import/no-extraneous-dependencies
-// import PropTypes from 'prop-types'; // eslint-disable-line import/no-extraneous-dependencies
+//import PropTypes from 'prop-types'; // eslint-disable-line import/no-extraneous-dependencies
 
 // Support browser or node env
 const root = typeof window !== 'undefined' ? window : global;
@@ -57,25 +57,6 @@ export default class SlideToggle extends React.Component {
     easeCollapse: easeInOutCubic,
     easeExpand: easeInOutCubic,
   };
-
-  // static propTypes = {
-  //   render: PropTypes.func,
-  //   children: PropTypes.func,
-  //   duration: PropTypes.number,
-  //   irreversible: PropTypes.bool,
-  //   whenReversedUseBackwardEase: PropTypes.bool,
-  //   noDisplayStyle: PropTypes.bool,
-  //   bestPerformance: PropTypes.bool,
-  //   interpolateOnReverse: PropTypes.bool,
-  //   easeCollapse: PropTypes.func,
-  //   easeExpand: PropTypes.func,
-  //   collapsed: PropTypes.bool,
-  //   onExpanded: PropTypes.func,
-  //   onExpanding: PropTypes.func,
-  //   onCollapsed: PropTypes.func,
-  //   onCollapsing: PropTypes.func,
-  //   scrollHeight: PropTypes.bool,
-  // };
 
   constructor(props) {
     super(props);
@@ -360,3 +341,23 @@ export default class SlideToggle extends React.Component {
     cAF(this._state_.timeout);
   }
 }
+
+
+// SlideToggle.propTypes = {
+//   render: PropTypes.func,
+//     children: PropTypes.func,
+//     duration: PropTypes.number,
+//     irreversible: PropTypes.bool,
+//     whenReversedUseBackwardEase: PropTypes.bool,
+//     noDisplayStyle: PropTypes.bool,
+//     bestPerformance: PropTypes.bool,
+//     interpolateOnReverse: PropTypes.bool,
+//     easeCollapse: PropTypes.func,
+//     easeExpand: PropTypes.func,
+//     collapsed: PropTypes.bool,
+//     onExpanded: PropTypes.func,
+//     onExpanding: PropTypes.func,
+//     onCollapsed: PropTypes.func,
+//     onCollapsing: PropTypes.func,
+//     scrollHeight: PropTypes.bool,
+// }

@@ -46,6 +46,7 @@ export default {
       globals: {
         react: 'React',
         'react-dom': 'ReactDOM',
+        'prop-types': 'PropTypes',
       },
     },
     1 && {
@@ -56,6 +57,7 @@ export default {
       globals: {
         react: 'React',
         'react-dom': 'ReactDOM',
+        'prop-types': 'PropTypes',
       },
     },
   ].filter(Boolean),
