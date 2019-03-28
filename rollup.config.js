@@ -77,7 +77,6 @@ export default {
       plugins: [
         '@babel/plugin-proposal-object-rest-spread',
         '@babel/plugin-proposal-class-properties',
-        'transform-react-remove-prop-types',
       ],
       exclude: 'node_modules/**',
     }),

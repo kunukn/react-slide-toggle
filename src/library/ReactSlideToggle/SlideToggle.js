@@ -4,11 +4,11 @@
   and because I need to control what is to be re-rendered.
 */
 
-import React from 'react';
+import React from "react";
 //import PropTypes from 'prop-types';
 
 // Support browser or node env
-const root = typeof window !== 'undefined' ? window : global;
+const root = typeof window !== "undefined" ? window : global;
 const rAF = root.requestAnimationFrame
   ? root.requestAnimationFrame.bind(root)
   : callback => root.setTimeout(callback, 16);
@@ -17,10 +17,10 @@ const cAF = root.cancelAnimationFrame
   : root.clearInterval.bind(root);
 
 const TOGGLE = Object.freeze({
-  EXPANDED: 'EXPANDED',
-  COLLAPSED: 'COLLAPSED',
-  EXPANDING: 'EXPANDING',
-  COLLAPSING: 'COLLAPSING',
+  EXPANDED: "EXPANDED",
+  COLLAPSED: "COLLAPSED",
+  EXPANDING: "EXPANDING",
+  COLLAPSING: "COLLAPSING"
 });
 
 const easeInOutCubic = t =>
@@ -34,7 +34,7 @@ const util = {
     if (value < min) return min;
     return value;
   },
-  now: () => new Date().getTime(),
+  now: () => Date.now(),
   sanitizeDuration: duration => Math.max(0, parseInt(+duration, 10) || 0),
   interpolate: ({ next, prev }) => {
     /*
@@ -43,40 +43,38 @@ const util = {
     */
     const diff = Math.abs(next - prev);
     let interpolated = next;
-    if (diff > 0.15) { /* heuritic value */
-      if (next > prev) interpolated -= diff * 0.75; /* heuritic value */
-      else interpolated += diff * 0.75; /* heuritic value */
+    if (diff > 0.15) {
+      /* heuristic value */
+      if (next > prev) interpolated -= diff * 0.75;
+      /* heuristic value */ else
+        interpolated += diff * 0.75; /* heuristic value */
     }
     return interpolated;
-  },
+  }
 };
 
 export default class SlideToggle extends React.Component {
   static defaultProps = {
     duration: 300,
     easeCollapse: easeInOutCubic,
-    easeExpand: easeInOutCubic,
+    easeExpand: easeInOutCubic
   };
 
-  constructor(props) {
-    super(props);
+  // Internal state
+  _state_ = {
+    collapsibleElement: null,
+    toggleState: this.props.collapsed ? TOGGLE.COLLAPSED : TOGGLE.EXPANDED
+  };
 
-    // Internal state
-    this._state_ = {
-      collapsibleElement: null,
-      toggleState: this.props.collapsed ? TOGGLE.COLLAPSED : TOGGLE.EXPANDED,
-    };
+  GET_HEIGHT = this.props.offsetHeight ? "offsetHeight" : "scrollHeight";
 
-    this.GET_HEIGHT = props.offsetHeight ? 'offsetHeight' : 'scrollHeight';
-    
-    // React state
-    this.state = {
-      toggleState: this._state_.toggleState,
-      hasReversed: false,
-      range: this.props.collapsed ? 0 : 1,
-      progress: this.props.collapsed ? 0 : 1,
-    };
-  }
+  // React state
+  state = {
+    toggleState: this._state_.toggleState,
+    hasReversed: false,
+    range: this.props.collapsed ? 0 : 1,
+    progress: this.props.collapsed ? 0 : 1
+  };
 
   render() {
     const data = {
@@ -86,7 +84,7 @@ export default class SlideToggle extends React.Component {
       hasReversed: this.state.hasReversed,
       isMoving: util.isMoving(this.state.toggleState),
       range: this.state.range,
-      progress: this.state.progress,
+      progress: this.state.progress
     };
 
     if (this.props.children) return this.props.children(data);
@@ -116,23 +114,23 @@ export default class SlideToggle extends React.Component {
     }
 
     const invokeCollapsing = () => {
-      if (this.props.onCollapsing) {
+      this.props.onCollapsing &&
         this.props.onCollapsing({
           range: this.state.range,
           progress: this.state.progress,
-          hasReversed: this.state.hasReversed,
+          hasReversed: this.state.hasReversed
         });
-      }
+
       this.collapse();
     };
     const invokeExpanding = () => {
-      if (this.props.onExpanding) {
+      this.props.onExpanding &&
         this.props.onExpanding({
           range: this.state.range,
           progress: this.state.progress,
-          hasReversed: this.state.hasReversed,
+          hasReversed: this.state.hasReversed
         });
-      }
+
       this.expand();
     };
 
@@ -141,7 +139,7 @@ export default class SlideToggle extends React.Component {
       this._state_.hasReversed = !!hasReversed;
 
       if (display !== undefined && !this.props.noDisplayStyle) {
-        this.updateCollapsible('display', display);
+        this.updateCollapsible("display", display);
       }
 
       const now = util.now();
@@ -155,7 +153,7 @@ export default class SlideToggle extends React.Component {
       } else {
         const collapsible = this.getCollapsible();
         if (collapsible && collapsible.style.height) {
-          this.updateCollapsible('height', null);
+          this.updateCollapsible("height", null);
         }
         this._state_.boxHeight = collapsible ? collapsible[this.GET_HEIGHT] : 0;
         this._state_.startTime = now;
@@ -164,47 +162,52 @@ export default class SlideToggle extends React.Component {
 
       this.setState({
         toggleState: this._state_.toggleState,
-        hasReversed: this._state_.hasReversed,
+        hasReversed: this._state_.hasReversed
       });
     };
 
-    if (this._state_.toggleState === TOGGLE.EXPANDED) {
-      updateInternalState({ toggleState: TOGGLE.COLLAPSING });
-      invokeCollapsing();
-    } else if (this._state_.toggleState === TOGGLE.COLLAPSED) {
-      updateInternalState({
-        toggleState: TOGGLE.EXPANDING,
-        display: '',
-      });
-      invokeExpanding();
-    } else if (this._state_.toggleState === TOGGLE.EXPANDING) {
-      updateInternalState({
-        toggleState: TOGGLE.COLLAPSING,
-        hasReversed: true,
-      });
-      invokeCollapsing();
-    } else if (this._state_.toggleState === TOGGLE.COLLAPSING) {
-      updateInternalState({
-        toggleState: TOGGLE.EXPANDING,
-        display: '',
-        hasReversed: true,
-      });
-      invokeExpanding();
+    switch (this._state_.toggleState) {
+      case TOGGLE.EXPANDED:
+        updateInternalState({ toggleState: TOGGLE.COLLAPSING });
+        invokeCollapsing();
+        break;
+      case TOGGLE.COLLAPSED:
+        updateInternalState({
+          toggleState: TOGGLE.EXPANDING,
+          display: ""
+        });
+        invokeExpanding();
+        break;
+      case TOGGLE.EXPANDING:
+        updateInternalState({
+          toggleState: TOGGLE.COLLAPSING,
+          hasReversed: true
+        });
+        invokeCollapsing();
+        break;
+      case TOGGLE.COLLAPSING:
+        updateInternalState({
+          toggleState: TOGGLE.EXPANDING,
+          display: "",
+          hasReversed: true
+        });
+        invokeExpanding();
+        break;
     }
   };
 
   setExpandedState = () => {
     this._state_.progress = 1;
     this._state_.toggleState = TOGGLE.EXPANDED;
-    this.updateCollapsible('height', null);
+    this.updateCollapsible("height", null);
     this.setState({
       toggleState: TOGGLE.EXPANDED,
       range: 1,
-      progress: this._state_.progress,
+      progress: this._state_.progress
     });
     if (this.props.onExpanded) {
       this.props.onExpanded({
-        hasReversed: this.state.hasReversed,
+        hasReversed: this.state.hasReversed
       });
     }
   };
@@ -242,20 +245,20 @@ export default class SlideToggle extends React.Component {
       if (!this.props.bestPerformance) {
         this.setState({
           range,
-          progress,
+          progress
         });
       }
 
       if (this.props.interpolateOnReverse && this._state_.hasReversed) {
         progress = util.interpolate({
           next: progress,
-          prev: this._state_.progress,
+          prev: this._state_.progress
         });
       }
 
       const currentHeightValue = Math.round(boxHeight * progress);
       this._state_.progress = progress;
-      this.updateCollapsible('height', `${currentHeightValue}px`);
+      this.updateCollapsible("height", `${currentHeightValue}px`);
       this.nextTick(this.expand);
     }
   };
@@ -265,20 +268,20 @@ export default class SlideToggle extends React.Component {
     this._state_.toggleState = TOGGLE.COLLAPSED;
 
     if (!this.props.noDisplayStyle) {
-      this.updateCollapsible('display', 'none');
-      this.updateCollapsible('height', null);
+      this.updateCollapsible("display", "none");
+      this.updateCollapsible("height", null);
     } else {
-      this.updateCollapsible('height', '0px');
+      this.updateCollapsible("height", "0px");
     }
 
     this.setState({
       toggleState: TOGGLE.COLLAPSED,
       range: 0,
-      progress: this._state_.progress,
+      progress: this._state_.progress
     });
     if (!initialState && this.props.onCollapsed)
       this.props.onCollapsed({
-        hasReversed: this.state.hasReversed,
+        hasReversed: this.state.hasReversed
       });
   };
 
@@ -304,7 +307,7 @@ export default class SlideToggle extends React.Component {
       const {
         whenReversedUseBackwardEase,
         easeExpand,
-        easeCollapse,
+        easeCollapse
       } = this.props;
 
       let progress;
@@ -317,21 +320,21 @@ export default class SlideToggle extends React.Component {
       if (!this.props.bestPerformance) {
         this.setState({
           range,
-          progress,
+          progress
         });
       }
 
       if (this.props.interpolateOnReverse && this._state_.hasReversed) {
         progress = util.interpolate({
           next: progress,
-          prev: this._state_.progress,
+          prev: this._state_.progress
         });
       }
 
       const currentHeightValue = Math.round(boxHeight * progress);
       this._state_.progress = progress;
       this._state_.timeout = this.nextTick(this.collapse);
-      this.updateCollapsible('height', `${currentHeightValue}px`);
+      this.updateCollapsible("height", `${currentHeightValue}px`);
     }
   };
 
@@ -340,10 +343,9 @@ export default class SlideToggle extends React.Component {
   };
 
   componentWillUnmount() {
-    cAF(this._state_.timeout);
+    this._state_.timeout && cAF(this._state_.timeout);
   }
 }
-
 
 // SlideToggle.propTypes = {
 //   render: PropTypes.func,
