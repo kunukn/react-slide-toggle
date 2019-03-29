@@ -1,4 +1,4 @@
-import includePaths from 'rollup-plugin-includepaths';
+//import includePaths from 'rollup-plugin-includepaths';
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
 import external from 'rollup-plugin-peer-deps-external';
@@ -22,18 +22,23 @@ let includePathOptions = {
   extensions: ['.js', '.jsx', '.scss', '.json', '.html'],
 };
 
+let isEs5 = process.env.ES5 === 'true';
+let isEs6 = process.env.ES6 === 'true';
+console.log('*** isEs5', isEs5, '***');
+console.log('*** isEs6', isEs6, '***');
+
 export default {
   external: ['react', 'react-dom'],
 
   input,
 
   output: [
-    1 && {
+    isEs5 && {
       file: pkg.cjs,
       format: 'cjs',
       sourcemap: true,
     },
-    1 && {
+    0 && {
       file: pkg.module,
       format: 'es',
       sourcemap: true,
@@ -49,8 +54,8 @@ export default {
         'prop-types': 'PropTypes',
       },
     },
-    1 && {
-      file: pkg.main,
+    (isEs5 || isEs6 ) && {
+      file: isEs5 ? pkg.main : pkg['main-es2015'],
       format: 'umd',
       name: name,
       sourcemap: true,
@@ -74,10 +79,18 @@ export default {
     svgr(),
     resolve(),
     babel({
-      plugins: [
-        '@babel/plugin-proposal-object-rest-spread',
-        '@babel/plugin-proposal-class-properties',
-      ],
+      babelrc: true,
+      presets: [
+        isEs6 && [
+          '@babel/preset-env',
+          {
+            modules: false,
+            targets: {
+              node: '6.5' /* ES2016 compilation target */
+            }
+          }
+        ]
+      ].filter(Boolean),
       exclude: 'node_modules/**',
     }),
     commonjs(),
