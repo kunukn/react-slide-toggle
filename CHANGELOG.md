@@ -1,5 +1,9 @@
 ## Changelog
 
+### 0.2.5
+
+- add ES2015 bundle
+
 ### 0.2.4
 
 - update readme
