@@ -8,6 +8,7 @@ import resolve from 'rollup-plugin-node-resolve';
 import url from 'rollup-plugin-url';
 import svgr from '@svgr/rollup';
 import { terser } from 'rollup-plugin-terser';
+import strip from 'rollup-plugin-strip';
 
 import pkg from './package.json';
 import sizes from './rollup-plugins/sizes-plugin';
@@ -74,6 +75,11 @@ export default {
     }),
     external({
       includeDependencies: false,
+    }),
+    strip({
+      debugger: true,
+      functions: ['console.log', 'debug.trace'],
+      sourceMap: true
     }),
     url(),
     svgr(),
