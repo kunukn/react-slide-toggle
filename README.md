@@ -18,9 +18,7 @@ https://github.com/kunukn/react-collapse
 
 ## size
 
-- UMD minified size 6.9Kb (gzipped 2.3Kb)
-
-- UMD ES2015 minified size 5.9Kb (gzipped 1.9Kb)
+- UMD minified size 6.9Kb (gzipped ~2.3Kb)
 
 ## setup / local demo
 
