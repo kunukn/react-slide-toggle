@@ -5,6 +5,8 @@ The toggle direction can be reversed during the movement.
 
 [![npm version](https://img.shields.io/npm/v/react-slide-toggle.svg?style=flat-square)](https://www.npmjs.com/package/react-slide-toggle)
 [![npm downloads](https://img.shields.io/npm/dm/react-slide-toggle.svg?style=flat-square)](https://www.npmjs.com/package/react-slide-toggle)
+[![gzip](https://img.shields.io/bundlephobia/minzip/react-slide-toggle.svg)](https://bundlephobia.com/result?p=react-slide-toggle)
+[![license](https://img.shields.io/github/license/kunukn/react-slide-toggle.svg)](https://github.com/kunukn/react-slide-toggle/blob/master/LICENSE)
 
 If you are looking for a CSS transition based alternative, then use this instead
 https://github.com/kunukn/react-collapse
