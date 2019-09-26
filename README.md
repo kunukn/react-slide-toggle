@@ -14,7 +14,7 @@ https://github.com/kunukn/react-collapse
 ## demo
 
 - https://codepen.io/kunukn/full/wpepGz/ - cdn example
-- https://codesandbox.io/s/4x01lklqm7 - npm example
+- https://codesandbox.io/s/react-slide-toggle-y3tpn - npm example
 
 ## size
 
