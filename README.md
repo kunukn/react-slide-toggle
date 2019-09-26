@@ -176,7 +176,7 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 https://unpkg.com/react-slide-toggle/
 
 ```html
-<script src="//unpkg.com/react-slide-toggle/dist/ReactSlideToggle.js">
+<script src="https://unpkg.com/react-slide-toggle/dist/ReactSlideToggle.umd.js">
   <script>
   <script>
   var SlideToggle = window.ReactSlideToggle;
