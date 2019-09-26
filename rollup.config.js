@@ -13,7 +13,7 @@ import strip from 'rollup-plugin-strip';
 import pkg from './package.json';
 import sizes from './rollup-plugins/sizes-plugin';
 
-const input = 'src/library/ReactSlideToggle/SlideToggle.js';
+const input = 'src/library/SlideToggle.js';
 const name = 'ReactSlideToggle';
 
 let includePathOptions = {

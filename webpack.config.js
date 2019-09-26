@@ -21,7 +21,7 @@ module.exports = (env = {}, argv = {}) => {
   const VALIDATE = 'validate';
 
   const entries = {
-    [PRODUCTION]: './src/library/ReactSlideToggle/SlideToggle.js',
+    [PRODUCTION]: './src/library/SlideToggle.js',
     [DEVELOPMENT]: './src/development-entry',
     [VALIDATE]: './src/validate-entry',
   };
