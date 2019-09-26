@@ -78,7 +78,8 @@ export default class SlideToggle extends React.Component {
 
   render() {
     const data = {
-      onToggle: this.onToggle,
+      onToggle: this.onToggle, // deprecated
+      toggle: this.onToggle,
       setCollapsibleElement: this.setCollapsibleElement,
       toggleState: this.state.toggleState,
       hasReversed: this.state.hasReversed,
@@ -87,10 +88,11 @@ export default class SlideToggle extends React.Component {
       progress: this.state.progress
     };
 
-    if (this.props.children) return this.props.children(data);
+    if (typeof this.props.children === "function")
+      return this.props.children(data);
     if (this.props.render) return this.props.render(data);
 
-    return null;
+    return this.props.children;
   }
 
   getCollapsible = () => this._state_.collapsibleElement;
@@ -103,6 +105,9 @@ export default class SlideToggle extends React.Component {
 
   setCollapsibleElement = element => {
     this._state_.collapsibleElement = element;
+    if(this._state_.collapsibleElement){
+      this._state_.collapsibleElement.style.overflow = 'hidden';
+    }
     if (this._state_.toggleState === TOGGLE.COLLAPSED) {
       this.setCollapsedState({ initialState: true });
     }
@@ -342,7 +347,19 @@ export default class SlideToggle extends React.Component {
     this._state_.timeout = rAF(callback);
   };
 
+  componentDidMount() {
+    this.props.onMount &&
+      this.props.onMount({
+        toggleState: this.state.toggleState,
+        toggle: this.onToggle
+      });
+  }
+
   componentWillUnmount() {
+    this.props.onUnmount &&
+      this.props.onUnmount({
+        toggleState: this.state.toggleState
+      });
     this._state_.timeout && cAF(this._state_.timeout);
   }
 }

@@ -80,7 +80,7 @@ body {
     margin-right: 1rem;
   }
   &__box {
-    overflow: hidden;
+    __overflow: hidden;
   }
   &__box-inner {
     line-height: 1.5;
@@ -90,7 +90,7 @@ body {
     min-height: 100px;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
+    __overflow: hidden;
     position: relative;
 
     p {
@@ -180,6 +180,6 @@ body {
 .my-collapsible {
   border: 1px solid black;
   &__content {
-    overflow: hidden;
+    __overflow: hidden;
   }
 }

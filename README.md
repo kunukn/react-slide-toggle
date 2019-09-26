@@ -44,12 +44,11 @@ import SlideToggle from "react-slide-toggle";
 // or
 const SlideToggle = require("react-slide-toggle");
 
-// Add CSS: .my-collapsible__content { overflow: hidden;}
 // Apply optional padding to .my-collapsible__content-inner
 <SlideToggle
-  render={({ onToggle, setCollapsibleElement }) => (
+  render={({ toggle, setCollapsibleElement }) => (
     <div className="my-collapsible">
-      <button className="my-collapsible__toggle" onClick={onToggle}>
+      <button className="my-collapsible__toggle" onClick={toggle}>
         toggle
       </button>
       <div className="my-collapsible__content" ref={setCollapsibleElement}>
@@ -64,12 +63,11 @@ const SlideToggle = require("react-slide-toggle");
 // Component example, simple - function as child
 import SlideToggle from "react-slide-toggle";
 
-// Add CSS: .my-collapsible__content { overflow: hidden;}
 // Apply optional padding to .my-collapsible__content-inner
 <SlideToggle>
-  {({ onToggle, setCollapsibleElement }) => (
+  {({ toggle, setCollapsibleElement }) => (
     <div className="my-collapsible">
-      <button className="my-collapsible__toggle" onClick={onToggle}>
+      <button className="my-collapsible__toggle" onClick={toggle}>
         toggle
       </button>
       <div className="my-collapsible__content" ref={setCollapsibleElement}>
@@ -110,8 +108,14 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
   onCollapsing={({ range, progress, hasReversed }) => {
     /* optional event hook */
   }}
+  onMount={({ toggleState, toggle }) => {
+    /* optional event hook */
+  }}
+  onUnmount={({ toggleState }) => {
+    /* optional event hook */
+  }}
   render={({
-    onToggle,
+    toggle,
     setCollapsibleElement,
     toggleState,
     isMoving,
@@ -123,12 +127,12 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 
     /*
       markup example
-      where setCollapsibleElement, onToggle and progress are used
+      where setCollapsibleElement, toggle and progress are used
     */
     return (
       <div className="slide-toggle">
         <div className="slide-toggle__header">
-          <button className="slide-toggle__button" onClick={onToggle}>
+          <button className="slide-toggle__button" onClick={toggle}>
             toggle
           </button>
         </div>
@@ -161,6 +165,8 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 - onExpanding - event hook
 - onCollapsed - event hook
 - onCollapsing - event hook
+- onMount - event hook
+- onUnmount - event hook
 - render - render callback
 - children - render callback
 - offsetHeight - use offsetHeight HTML element calculation
@@ -185,7 +191,7 @@ https://www.npmjs.com/package/react-slide-toggle
 
 The component provides the functionality.
 Minimum requirement is to bind the collapsible element with `setCollapsibleElement`.
-Use the `onToggle` function to toggle the collapsible element.
+Use the `toggle` function to toggle the collapsible element.
 
 ## provide your own easing functions
 

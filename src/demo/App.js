@@ -139,6 +139,27 @@ export default class App extends React.Component {
     let SlideToggle3 = this.props.SlideToggle3 ? this.props.SlideToggle3 : SlideToggle;
     let SlideToggle4 = this.props.SlideToggle4 ? this.props.SlideToggle4 : SlideToggle;
 
+
+    
+    1 &&
+      components.push(
+        <SlideToggle
+          key={components.length}
+          duration={this.state.duration}
+          collapsed
+          onMount={({toggle}) => {
+            log("onMount");
+            toggle()
+          }}
+        >
+          {this.generateMarkup({
+            easeCollapseName: "default",
+            easeExpandName: "default"
+          })}
+        </SlideToggle>
+      );
+
+
     1 &&
       components.push(
         <SlideToggle
@@ -318,6 +339,7 @@ export default class App extends React.Component {
       );
 
     return (
+      <>
       <div className="app">
         <header className="app__header">
           <button
@@ -336,6 +358,7 @@ export default class App extends React.Component {
         </div>
         {components}
       </div>
+      </>
     );
   }
 
