@@ -175,7 +175,7 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 - offsetHeight - use offsetHeight HTML element calculation
 - expandingEvent - update value to `Date.now()` to invoke a controlled expand
 - collapsingEvent - update value to `Date.now()` to invoke a controlled collapse
-- toggleEvent - - update value to `Date.now()` to invoke a controlled toggle
+- toggleEvent - update value to `Date.now()` to invoke a controlled toggle
 
 ## cdn
 
