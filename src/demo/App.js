@@ -33,7 +33,7 @@ const ProgressBar = ({ progress }) => (
 );
 
 export default class App extends React.Component {
-  state = { duration: 1000, toggleEvent: 0 };
+  state = { duration: 1000, event: 0 };
 
   generateMarkup = ({
     easeCollapseName,
@@ -148,13 +148,13 @@ export default class App extends React.Component {
     1 &&
       components.push(
         <div>
-          <button onClick={() => this.setState({ toggleEvent: Date.now() })}>
+          <button onClick={() => this.setState({ event: Date.now() })}>
             Toggle event
           </button>
           <SlideToggle
             key={components.length}
             duration={this.state.duration}
-            toggleEvent={this.state.toggleEvent}
+            collapsingEvent={this.state.event}
             collapsed
             onMount={({ toggle }) => {
               log('onMount');
