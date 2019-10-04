@@ -78,8 +78,8 @@ export default class SlideToggle extends React.Component {
 
   render() {
     const data = {
-      onToggle: this.onToggle, // deprecated
-      toggle: this.onToggle,
+      onToggle: this.toggle, // deprecated
+      toggle: this.toggle,
       setCollapsibleElement: this.setCollapsibleElement,
       toggleState: this.state.toggleState,
       hasReversed: this.state.hasReversed,
@@ -113,7 +113,7 @@ export default class SlideToggle extends React.Component {
     }
   };
 
-  onToggle = () => {
+  toggle = () => {
     if (this.props.irreversible && util.isMoving(this._state_.toggleState)) {
       return;
     }
@@ -351,7 +351,7 @@ export default class SlideToggle extends React.Component {
     this.props.onMount &&
       this.props.onMount({
         toggleState: this.state.toggleState,
-        toggle: this.onToggle
+        toggle: this.toggle
       });
   }
 
