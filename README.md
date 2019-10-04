@@ -40,9 +40,9 @@ Look in App component for inspiration. Apply the styling as needed.
 
 ```js
 // Component example, simple - render prop
-import SlideToggle from "react-slide-toggle";
+import SlideToggle from 'react-slide-toggle';
 // or
-const SlideToggle = require("react-slide-toggle");
+const SlideToggle = require('react-slide-toggle');
 
 // Apply optional padding to .my-collapsible__content-inner
 <SlideToggle
@@ -61,7 +61,7 @@ const SlideToggle = require("react-slide-toggle");
 
 ```js
 // Component example, simple - function as child
-import SlideToggle from "react-slide-toggle";
+import SlideToggle from 'react-slide-toggle';
 
 // Apply optional padding to .my-collapsible__content-inner
 <SlideToggle>
@@ -80,8 +80,8 @@ import SlideToggle from "react-slide-toggle";
 
 ```js
 // Component usage example with all options
-import SlideToggle from "react-slide-toggle";
-import BezierEasing from "bezier-easing"; // optional
+import SlideToggle from 'react-slide-toggle';
+import BezierEasing from 'bezier-easing'; // optional
 
 const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 
@@ -114,8 +114,9 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
   onUnmount={({ toggleState }) => {
     /* optional event hook */
   }}
-  setToExpanding /* default undefined */
-  setToCollapsing /* default undefined */
+  expandingEvent /* default undefined */
+  collapsingEvent /* default undefined */
+  toggleEvent /* default undefined */
   render={({
     toggle,
     setCollapsibleElement,
@@ -123,7 +124,7 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
     isMoving,
     hasReversed,
     range /* linear value between [0 and 1] */,
-    progress /* easing result value between [0 and 1] */
+    progress /* easing result value between [0 and 1] */,
   }) => {
     /* optional logic here */
 
@@ -172,8 +173,9 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 - render - render callback
 - children - render callback
 - offsetHeight - use offsetHeight HTML element calculation
-- setToExpanding - update to value `Date.now()` to invoke a controlled expand
-- setToCollapsing - update to value `Date.now()` to invoke a controlled collapse
+- expandingEvent - update value to `Date.now()` to invoke a controlled expand
+- collapsingEvent - update value to `Date.now()` to invoke a controlled collapse
+- toggleEvent - - update value to `Date.now()` to invoke a controlled toggle
 
 ## cdn
 
@@ -202,8 +204,8 @@ Use the `toggle` function to toggle the collapsible element.
 Look for examples in the App component
 
 ```js
-import eases from "eases";
-import BezierEasing from "bezier-easing";
+import eases from 'eases';
+import BezierEasing from 'bezier-easing';
 ```
 
 To minimize the component size, no default easing library has been added.
