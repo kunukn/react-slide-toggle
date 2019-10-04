@@ -114,8 +114,8 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
   onUnmount={({ toggleState }) => {
     /* optional event hook */
   }}
-  expandingEvent /* default undefined */
-  collapsingEvent /* default undefined */
+  expandEvent /* default undefined */
+  collapseEvent /* default undefined */
   toggleEvent /* default undefined */
   render={({
     toggle,
@@ -173,8 +173,8 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 - render - render callback
 - children - render callback
 - offsetHeight - use offsetHeight HTML element calculation
-- expandingEvent - update value to `Date.now()` to invoke a controlled expand
-- collapsingEvent - update value to `Date.now()` to invoke a controlled collapse
+- expandEvent - update value to `Date.now()` to invoke a controlled expand
+- collapseEvent - update value to `Date.now()` to invoke a controlled collapse
 - toggleEvent - update value to `Date.now()` to invoke a controlled toggle
 
 ## cdn

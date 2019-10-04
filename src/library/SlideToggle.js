@@ -357,8 +357,8 @@ export default class SlideToggle extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (
-      this.props.collapsingEvent &&
-      this.props.collapsingEvent > prevProps.collapsingEvent
+      this.props.collapseEvent &&
+      this.props.collapseEvent > prevProps.collapseEvent
     ) {
       if (
         this._state_.toggleState === TOGGLE.EXPANDED ||
@@ -368,8 +368,8 @@ export default class SlideToggle extends React.Component {
       }
     }
     if (
-      this.props.expandingEvent &&
-      this.props.expandingEvent > prevProps.expandingEvent
+      this.props.expandEvent &&
+      this.props.expandEvent > prevProps.expandEvent
     ) {
       if (
         this._state_.toggleState === TOGGLE.COLLAPSED ||

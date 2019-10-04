@@ -154,7 +154,7 @@ export default class App extends React.Component {
           <SlideToggle
             key={components.length}
             duration={this.state.duration}
-            collapsingEvent={this.state.event}
+            toggleEvent={this.state.event}
             collapsed
             onMount={({ toggle }) => {
               log('onMount');
