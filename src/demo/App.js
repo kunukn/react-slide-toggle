@@ -33,7 +33,7 @@ const ProgressBar = ({ progress }) => (
 );
 
 export default class App extends React.Component {
-  state = { duration: 1000 };
+  state = { duration: 1000, setToCollapsing: false };
 
   generateMarkup = ({
     easeCollapseName,
@@ -143,9 +143,12 @@ export default class App extends React.Component {
     
     1 &&
       components.push(
+        <div>
+          <button onClick={()=>this.setState({setToCollapsing: Date.now()})}>set to collapsing</button>
         <SlideToggle
           key={components.length}
           duration={this.state.duration}
+          setToCollapsing={this.state.setToCollapsing}
           collapsed
           onMount={({toggle}) => {
             log("onMount");
@@ -157,6 +160,7 @@ export default class App extends React.Component {
             easeExpandName: "default"
           })}
         </SlideToggle>
+        </div>
       );
 
 

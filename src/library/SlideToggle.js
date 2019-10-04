@@ -105,7 +105,7 @@ export default class SlideToggle extends React.Component {
 
   setCollapsibleElement = element => {
     this._state_.collapsibleElement = element;
-    if(this._state_.collapsibleElement){
+    if (this._state_.collapsibleElement) {
       this._state_.collapsibleElement.style.overflow = 'hidden';
     }
     if (this._state_.toggleState === TOGGLE.COLLAPSED) {
@@ -353,6 +353,19 @@ export default class SlideToggle extends React.Component {
         toggleState: this.state.toggleState,
         toggle: this.toggle
       });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.setToCollapsing && this.props.setToCollapsing > prevProps.setToCollapsing) {
+      if (this._state_.toggleState === TOGGLE.EXPANDED || this._state_.toggleState === TOGGLE.EXPANDING) {
+        this.toggle();
+      }
+    }
+    if (this.props.setToExpanding && this.props.setToExpanding > prevProps.setToExpanding) {
+      if (this._state_.toggleState === TOGGLE.COLLAPSED || this._state_.toggleState === TOGGLE.COLLAPSING) {
+        this.toggle();
+      }
+    }
   }
 
   componentWillUnmount() {

@@ -114,6 +114,8 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
   onUnmount={({ toggleState }) => {
     /* optional event hook */
   }}
+  setToExpanding /* default undefined */
+  setToCollapsing /* default undefined */
   render={({
     toggle,
     setCollapsibleElement,
@@ -170,6 +172,8 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 - render - render callback
 - children - render callback
 - offsetHeight - use offsetHeight HTML element calculation
+- setToExpanding - update to value `Date.now()` to invoke a controlled expand
+- setToCollapsing - update to value `Date.now()` to invoke a controlled collapse
 
 ## cdn
 
