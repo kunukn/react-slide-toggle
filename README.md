@@ -11,6 +11,10 @@ The toggle direction can be reversed during the movement.
 If you are looking for a CSS transition based alternative, then use this instead
 https://github.com/kunukn/react-collapse
 
+## Supported React versions
+
+- React version 16.0+
+
 ## demo
 
 - https://codepen.io/kunukn/full/wpepGz/ - cdn example
