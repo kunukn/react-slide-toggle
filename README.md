@@ -42,8 +42,9 @@ JS animation is used for best animation control and possibility of adding interp
 
 Look in App component for inspiration. Apply the styling as needed.
 
+### component example, simple - render prop
+
 ```js
-// Component example, simple - render prop
 import SlideToggle from 'react-slide-toggle';
 // or
 const SlideToggle = require('react-slide-toggle');
@@ -63,8 +64,9 @@ const SlideToggle = require('react-slide-toggle');
 />;
 ```
 
+### component example, simple - function as child
+
 ```js
-// Component example, simple - function as child
 import SlideToggle from 'react-slide-toggle';
 
 // Apply optional padding to .my-collapsible__content-inner
@@ -82,8 +84,9 @@ import SlideToggle from 'react-slide-toggle';
 </SlideToggle>;
 ```
 
+### toggle state from outside example
+
 ```js
-// Toggle state from outside example.
 import SlideToggle from 'react-slide-toggle';
 
 class MyComponent extends React.Component {
@@ -119,8 +122,9 @@ class MyComponent extends React.Component {
 }
 ```
 
+### component usage example with all options
+
 ```js
-// Component usage example with all options
 import SlideToggle from 'react-slide-toggle';
 import BezierEasing from 'bezier-easing'; // optional
 
