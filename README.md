@@ -83,6 +83,43 @@ import SlideToggle from 'react-slide-toggle';
 ```
 
 ```js
+// Toggle state from outside example.
+import SlideToggle from 'react-slide-toggle';
+
+class MyComponent extends React.Component {
+  state = { toggleEvent: 0 };
+
+  onToggle = () => {
+    this.setState({ toggleEvent: Date.now() });
+  };
+
+  render() {
+    return (
+      <div>
+        <button className="toggle" onClick={this.onToggle}>
+          Toggle
+        </button>
+        <SlideToggle toggleEvent={this.state.toggleEvent}>
+          {({ setCollapsibleElement }) => (
+            <div className="my-collapsible">
+              <div
+                className="my-collapsible__content"
+                ref={setCollapsibleElement}
+              >
+                <div className="my-collapsible__content-inner">
+                  Collapsible content
+                </div>
+              </div>
+            </div>
+          )}
+        </SlideToggle>
+      </div>
+    );
+  }
+}
+```
+
+```js
 // Component usage example with all options
 import SlideToggle from 'react-slide-toggle';
 import BezierEasing from 'bezier-easing'; // optional
