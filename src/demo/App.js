@@ -147,7 +147,7 @@ export default class App extends React.Component {
 
     1 &&
       components.push(
-        <div>
+        <div key={components.length}>
           <button onClick={() => this.setState({ event: Date.now() })}>
             Toggle event
           </button>
