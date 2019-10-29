@@ -105,7 +105,7 @@ export default class SlideToggle extends React.Component {
 
   setCollapsibleElement = element => {
     this._state_.collapsibleElement = element;
-    if (this._state_.collapsibleElement) {
+    if (this._state_.collapsibleElement && !this.props.noOverflowHidden) {
       this._state_.collapsibleElement.style.overflow = 'hidden';
     }
     if (this._state_.toggleState === TOGGLE.COLLAPSED) {
@@ -402,6 +402,7 @@ export default class SlideToggle extends React.Component {
 //     irreversible: PropTypes.bool,
 //     whenReversedUseBackwardEase: PropTypes.bool,
 //     noDisplayStyle: PropTypes.bool,
+//     noOverflowHidden: PropTypes.bool,
 //     bestPerformance: PropTypes.bool,
 //     interpolateOnReverse: PropTypes.bool,
 //     easeCollapse: PropTypes.func,

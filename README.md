@@ -45,9 +45,9 @@ Look in App component for inspiration. Apply the styling as needed.
 ### component example, simple - render prop
 
 ```js
-import SlideToggle from 'react-slide-toggle';
+import SlideToggle from "react-slide-toggle";
 // or
-const SlideToggle = require('react-slide-toggle');
+const SlideToggle = require("react-slide-toggle");
 
 // Apply optional padding to .my-collapsible__content-inner
 <SlideToggle
@@ -67,7 +67,7 @@ const SlideToggle = require('react-slide-toggle');
 ### component example, simple - function as child
 
 ```js
-import SlideToggle from 'react-slide-toggle';
+import SlideToggle from "react-slide-toggle";
 
 // Apply optional padding to .my-collapsible__content-inner
 <SlideToggle>
@@ -87,7 +87,7 @@ import SlideToggle from 'react-slide-toggle';
 ### toggle state from outside example
 
 ```js
-import SlideToggle from 'react-slide-toggle';
+import SlideToggle from "react-slide-toggle";
 
 class MyComponent extends React.Component {
   state = { toggleEvent: 0 };
@@ -125,8 +125,8 @@ class MyComponent extends React.Component {
 ### component usage example with all options
 
 ```js
-import SlideToggle from 'react-slide-toggle';
-import BezierEasing from 'bezier-easing'; // optional
+import SlideToggle from "react-slide-toggle";
+import BezierEasing from "bezier-easing"; // optional
 
 const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 
@@ -137,6 +137,7 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
   collapsed /* default falsy */
   irreversible /* default falsy */
   noDisplayStyle /* default falsy */
+  noOverflowHidden /* default falsy */
   bestPerformance /* default falsy */
   whenReversedUseBackwardEase /* default falsy */
   interpolateOnReverse /* default falsy */
@@ -169,7 +170,7 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
     isMoving,
     hasReversed,
     range /* linear value between [0 and 1] */,
-    progress /* easing result value between [0 and 1] */,
+    progress /* easing result value between [0 and 1] */
   }) => {
     /* optional logic here */
 
@@ -206,6 +207,7 @@ const bezierEaseInOutQuart = BezierEasing(0.77, 0, 0.175, 1);
 - collapsed - start in collapsed mode
 - irreversible - you can't reverse direction during movement
 - noDisplayStyle - skip adding display:none on collapsed
+- noOverflowHidden - skip adding overflow:hidden on the collapsible element
 - bestPerformance - don't apply setState for every frame update. Disables range and progress update
 - whenReversedUseBackwardEase - play backwards on reverse toggling
 - interpolateOnReverse - avoid jumpy height changes when easeCollapse and easeExpand gives far different height position on reverse toggling.
@@ -249,8 +251,8 @@ Use the `toggle` function to toggle the collapsible element.
 Look for examples in the App component
 
 ```js
-import eases from 'eases';
-import BezierEasing from 'bezier-easing';
+import eases from "eases";
+import BezierEasing from "bezier-easing";
 ```
 
 To minimize the component size, no default easing library has been added.
