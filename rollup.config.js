@@ -39,24 +39,8 @@ export default {
       format: 'cjs',
       sourcemap: true,
     },
-    0 && {
-      file: pkg.module,
-      format: 'es',
-      sourcemap: true,
-    },
-    0 && {
-      file: pkg.iife,
-      format: 'iife',
-      name: name,
-      sourcemap: true,
-      globals: {
-        react: 'React',
-        'react-dom': 'ReactDOM',
-        'prop-types': 'PropTypes',
-      },
-    },
     (isEs5 || isEs6 ) && {
-      file: isEs5 ? pkg.main : pkg['main-es2015'],
+      file: isEs5 ? pkg.main : pkg['module'],
       format: 'umd',
       name: name,
       sourcemap: true,
@@ -92,7 +76,7 @@ export default {
           {
             modules: false,
             targets: {
-              node: '6.5' /* ES2016 compilation target */
+              node: '6.5' /* ES2015 compilation target */
             }
           }
         ]
