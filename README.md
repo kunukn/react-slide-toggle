@@ -47,7 +47,7 @@ Look in App component for inspiration. Apply the styling as needed.
 ```js
 import SlideToggle from "react-slide-toggle";
 // or
-const SlideToggle = require("react-slide-toggle");
+// const SlideToggle = require("react-slide-toggle");
 
 // Apply optional padding to .my-collapsible__content-inner
 <SlideToggle
