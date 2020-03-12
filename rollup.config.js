@@ -40,8 +40,8 @@ export default {
       sourcemap: true,
     },
     (isEs5 || isEs6 ) && {
-      file: isEs5 ? pkg.main : pkg['module'],
-      format: 'umd',
+      file: isEs5 ? pkg.main : pkg.module,
+      format: isEs5 ? 'umd' : 'es',
       name: name,
       sourcemap: true,
       globals: {

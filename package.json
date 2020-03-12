@@ -21,7 +21,7 @@
   },
   "description": "React component version of jQuery.slideToggle",
   "main": "dist/ReactSlideToggle.umd.js",
-  "module": "dist/ReactSlideToggle.umd.es2015.js",
+  "module": "dist/ReactSlideToggle.esm.es2015.js",
   "cjs": "dist/ReactSlideToggle.cjs.js",
   "author": "kunukn",
   "license": "MIT",
