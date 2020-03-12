@@ -1,5 +1,12 @@
 ## Changelog
 
+### 0.3.5
+
+- bundle contains
+  - main: umd build
+  - cjs: commonjs build
+  - module: esm ES2015 build
+
 ### 0.2.5
 
 - add ES2015 bundle
