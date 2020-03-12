@@ -2,8 +2,8 @@
   "name": "react-slide-toggle",
   "version": "0.3.4",
   "engines": {
-    "node": ">=8",
-    "npm": ">=5"
+    "node": ">=10",
+    "npm": ">=6"
   },
   "scripts": {
     "clean": "rimraf dist/*.*",
